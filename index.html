@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistics Workshops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif; /* Changed to Inter */
             margin: 0;
             padding: 0;
             color: #222;
@@ -30,12 +35,90 @@
             color: #004085;
             margin-top: 35px;
             font-size: 1.8em;
+            border-bottom: 2px solid #eee; /* Added consistent bottom border */
+            padding-bottom: 5px; /* Added consistent padding */
+        }
+        h3 {
+            color: #0056b3; /* Changed to match sub-headers in guides */
+            margin-top: 25px; /* Adjusted margin-top */
+            font-size: 1.2em; /* Adjusted font size */
+            border-bottom: 1px solid #eee; /* Added consistent bottom border */
         }
         .subtitle {
             color: #444;
             font-size: 1.2em;
             margin-bottom: 25px;
         }
+        code { /* Added consistent code styling */
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre { /* Added consistent pre styling */
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold; /* Ensure bold as in guides */
+        }
+        /* New top navigation style */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky; /* Make header sticky */
+            top: 0; /* Stick to the top */
+            width: 100%; /* Ensure it spans full width */
+            z-index: 1000; /* Ensure it stays on top of other content */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        /* Existing button-group styles, slightly adapted for consistency */
         .button-group {
             display: flex;
             flex-wrap: nowrap;
@@ -68,26 +151,19 @@
             background: #e0e0e0;
             margin: 40px 0;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
     </style>
 </head>
 <body>
+
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="jamovi.html">jamovi Guides</a>
+        <a href="r.html">R Studio Guides</a>
+        <a href="spss.html">SPSS Guides</a>
+        <a href="stata.html">Stata Guides</a>
+        <a href="ai.html">AI Guides</a>
+    </div>
+
     <div class="container">
         <h1>Statistics Workshops</h1>
         <div class="subtitle">The Learning Enhancement Team</div>
@@ -95,44 +171,42 @@
         <p>Here you will find a series of guides for using software for statistical analyses. The guides are available for jamovi, R Studio, SPSS, and Stata. There are also guides for using prompts to carry out statistical analysis using AI chat engines.</p>
         <p>Each of the guides make use of a fictional dataset. The fictional dataset has 100 entries and contains the following variables:</p>
         <table>
-            <tr><th>Variable</th><th>Explanation</th><th>Type</th></tr>
-            <tr><td>participant_id</td><td>Unique identifier for each student</td><td>Nominal</td></tr>
-            <tr><td>study_hours_per_week</td><td>Average number of hours the student studies per week</td><td>Scale</td></tr>
-            <tr><td>note_taking_frequency</td><td>Frequency with which the student takes notes during study sessions</td><td>Ordinal</td></tr>
-            <tr><td>preferred_study_method</td><td>Student's preferred study method (e.g., Summarizing, Practice Tests, Flashcards)</td><td>Nominal</td></tr>
-            <tr><td>used_study_support_services</td><td>Indicates whether the student used academic support services</td><td>Nominal</td></tr>
-            <tr><td>final_exam_score</td><td>Score obtained by the student in the final exam</td><td>Scale</td></tr>
-            <tr><td>quiz_score_pre</td><td>Score on the quiz before the study intervention</td><td>Scale</td></tr>
-            <tr><td>quiz_score_post</td><td>Score on the quiz after the study intervention</td><td>Scale</td></tr>
-            <tr><td>assignment_score</td><td>Average score across all assignments</td><td>Scale</td></tr>
-            <tr><td>class_participation_score</td><td>Score reflecting participation in class activities</td><td>Scale</td></tr>
-            <tr><td>mood_day1</td><td>Self-reported mood on day 1</td><td>Ordinal</td></tr>
-            <tr><td>mood_day2</td><td>Self-reported mood on day 2</td><td>Ordinal</td></tr>
-            <tr><td>mood_day3</td><td>Self-reported mood on day 3</td><td>Ordinal</td></tr>
-            <tr><td>anxiety_score_pre</td><td>Anxiety level before the study intervention</td><td>Scale</td></tr>
-            <tr><td>anxiety_score_post</td><td>Anxiety level after the study intervention</td><td>Scale</td></tr>
-            <tr><td>stress_level</td><td>Overall stress level reported by the student</td><td>Ordinal</td></tr>
-            <tr><td>sleep_quality</td><td>Self-reported quality of sleep</td><td>Ordinal</td></tr>
-            <tr><td>attended_peer_study_group</td><td>Indicates if the student attended peer-led study groups</td><td>Nominal</td></tr>
-            <tr><td>submitted_all_assignments</td><td>Indicates if the student submitted all required assignments</td><td>Nominal</td></tr>
-            <tr><td>satisfaction_q1</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
-            <tr><td>satisfaction_q2</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
-            <tr><td>satisfaction_q3</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
-            <tr><td>satisfaction_q4</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
-            <tr><td>satisfaction_q5</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
-            <tr><td>study_session_group</td><td>Group assigned for study sessions (e.g., High, Low, Medium)</td><td>Nominal</td></tr>
-            <tr><td>study_session_score</td><td>Score or evaluation of the study session</td><td>Scale</td></tr>
+            <thead>
+                <tr><th>Variable</th><th>Explanation</th><th>Type</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>participant_id</td><td>Unique identifier for each student</td><td>Nominal</td></tr>
+                <tr><td>study_hours_per_week</td><td>Average number of hours the student studies per week</td><td>Scale</td></tr>
+                <tr><td>note_taking_frequency</td><td>Frequency with which the student takes notes during study sessions</td><td>Ordinal</td></tr>
+                <tr><td>preferred_study_method</td><td>Student's preferred study method (e.g., Summarising, Practice Tests, Flashcards)</td><td>Nominal</td></tr>
+                <tr><td>used_study_support_services</td><td>Indicates whether the student used academic support services</td><td>Nominal</td></tr>
+                <tr><td>final_exam_score</td><td>Score obtained by the student in the final exam</td><td>Scale</td></tr>
+                <tr><td>quiz_score_pre</td><td>Score on the quiz before the study intervention</td><td>Scale</td></tr>
+                <tr><td>quiz_score_post</td><td>Score on the quiz after the study intervention</td><td>Scale</td></tr>
+                <tr><td>assignment_score</td><td>Average score across all assignments</td><td>Scale</td></tr>
+                <tr><td>class_participation_score</td><td>Score reflecting participation in class activities</td><td>Scale</td></tr>
+                <tr><td>mood_day1</td><td>Self-reported mood on day 1</td><td>Ordinal</td></tr>
+                <tr><td>mood_day2</td><td>Self-reported mood on day 2</td><td>Ordinal</td></tr>
+                <tr><td>mood_day3</td><td>Self-reported mood on day 3</td><td>Ordinal</td></tr>
+                <tr><td>anxiety_score_pre</td><td>Anxiety level before the study intervention</td><td>Scale</td></tr>
+                <tr><td>anxiety_score_post</td><td>Anxiety level after the study intervention</td><td>Scale</td></tr>
+                <tr><td>stress_level</td><td>Overall stress level reported by the student</td><td>Ordinal</td></tr>
+                <tr><td>sleep_quality</td><td>Self-reported quality of sleep</td><td>Ordinal</td></tr>
+                <tr><td>attended_peer_study_group</td><td>Indicates if the student attended peer-led study groups</td><td>Nominal</td></tr>
+                <tr><td>submitted_all_assignments</td><td>Indicates if the student submitted all required assignments</td><td>Nominal</td></tr>
+                <tr><td>satisfaction_q1</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
+                <tr><td>satisfaction_q2</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
+                <tr><td>satisfaction_q3</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
+                <tr><td>satisfaction_q4</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
+                <tr><td>satisfaction_q5</td><td>Response to a satisfaction survey question</td><td>Ordinal</td></tr>
+                <tr><td>study_session_group</td><td>Group assigned for study sessions (e.g., High, Low, Medium)</td><td>Nominal</td></tr>
+                <tr><td>study_session_score</td><td>Score or evaluation of the study session</td><td>Scale</td></tr>
+            </tbody>
         </table>
-        
-<h2>Links to guides:</h2>
-<div class="button-group">
-    <a href="jamovi.html">jamovi</a>
-    <a href="r.html">R Studio</a>
-    <a href="spss.html">SPSS</a>
-    <a href="stata.html">Stata</a>
-    <a href="ai.html">AI prompts</a>
-</div>
 
+        <!-- Removed the redundant "Links to guides" section and buttons -->
+
+        <p>Use the links at the top to go to the software of your choice, where you can access the guides and the datafile for download</p>
     </div>
 </body>
 </html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introductory Statistics Guide: Reliability Analysis & Cronbach's Alpha in jamovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 25px; /* Adjusted to match other guides' h3 */
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px; /* Added consistent padding */
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        /* Top navigation style */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky; /* Make it sticky */
+            top: 0; /* Stick to the top */
+            width: 100%; /* Ensure full width when sticky */
+            z-index: 1000; /* Ensure it stays on top of other content */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        /* Reflection and Write-up boxes */
+        .reflection-box {
+            background-color: #f0f8ff; /* Light blue */
+            border-left: 5px solid #add8e6; /* Slightly darker blue vertical line */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px; /* Consistent border-radius */
+        }
+        .reflection-box h4 {
+            color: #0056b3; /* Consistent h4 color */
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .writeup-box {
+            background-color: #e9f5e9; /* Light green */
+            border-left: 5px solid #4CAF50; /* Slightly darker green vertical line */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px; /* Consistent border-radius */
+        }
+        .writeup-box h4 {
+            color: #0056b3; /* Consistent h4 color */
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+    <!-- MathJax script removed as it's not universally supported in all viewing environments -->
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
+    </div>
+
+    <div class="container">
+        <h1>Introductory Statistics Guide: Reliability Analysis & Cronbach's Alpha in jamovi</h1>
+        <p>Welcome to this guide on reliability analysis, a crucial aspect of psychological and social science research. When we measure something, like 'satisfaction' or 'anxiety', we often use multiple questions or 'items' to capture the full concept. Reliability analysis helps us understand if these items consistently measure the same thing.</p>
+
+        <h3>What is Reliability?</h3>
+        <p>Imagine using a bathroom scale. If you step on it multiple times in a row and get wildly different readings each time, you'd consider it unreliable. In research, reliability refers to the consistency of a measure. If a questionnaire is reliable, it should produce similar results under consistent conditions.</p>
+
+        <h3>Introducing Cronbach's Alpha</h3>
+        <p>One of the most common ways to assess the internal consistency reliability of a scale is through <strong>Cronbach's Alpha (&alpha;)</strong>. It's a single number that ranges from 0 to 1, indicating how closely related a set of items are as a group. Think of it as the average correlation of all possible split-halves of a test.</p>
+        <ul>
+            <li>A higher Cronbach's Alpha generally indicates greater internal consistency.</li>
+            <li><strong>Interpretation Guidelines (general):</strong>
+                <ul>
+                    <li>&alpha; &ge; 0.9: Excellent</li>
+                    <li>0.8 &le; &alpha; &lt; 0.9: Good</li>
+                    <li>0.7 &le; &alpha; &lt; 0.8: Acceptable</li>
+                    <li>0.6 &le; &alpha; &lt; 0.7: Questionable</li>
+                    <li>0.5 &le; &alpha; &lt; 0.6: Poor</li>
+                    <li>&alpha; &lt; 0.5: Unacceptable</li>
+                </ul>
+            </li>
+        </ul>
+        <p>It's important to note that while a high alpha is desirable, it doesn't necessarily mean the scale is measuring what it's supposed to measure (that's validity). It just means the items are consistent with each other.</p>
+
+        <hr>
+
+        <h3>Data Setup: The Omni Dataset</h3>
+        <p>This guide uses the omni dataset. If you need help loading this data, please refer to the loading data guides.</p>
+
+        <hr>
+
+        <h3>When Responses Might Need to be Reverse Scored</h3>
+        <p>Sometimes, not all questions in a scale are phrased in the same direction. For example, in a satisfaction survey, most questions might ask about positive aspects of satisfaction ("I am happy with...", "I am pleased with..."), but one question might be phrased negatively ("I am dissatisfied with..."). If a high score on the 'satisfied' questions indicates high satisfaction, then a high score on the 'dissatisfied' question would indicate <em>low</em> satisfaction.</p>
+        <p>To ensure all items contribute consistently to the overall score, we need to <strong>reverse score</strong> the negatively phrased items. This means transforming the response so that a high score on that item now also indicates high satisfaction.</p>
+
+        <h4>How to identify items for reverse scoring:</h4>
+        <ol>
+            <li><strong>Examine the wording:</strong> Carefully read each question. If a question is negatively phrased or indicates the opposite construct to the others, it likely needs reverse scoring.</li>
+            <li><strong>Check correlations:</strong> If an item is negatively correlated with the other items in the scale, it's a strong indicator that it needs to be reverse scored.</li>
+        </ol>
+        <p>In your dataset, the <code>satisfaction_q</code> variables all show positive correlations with each other (e.g., satisfaction_q1 and satisfaction_q2 correlate at ~0.88; satisfaction_q3 and satisfaction_q4 at ~0.91). This suggests that all satisfaction questions are phrased in a consistent direction and <strong>do not require reverse scoring</strong> for this specific dataset.</p>
+
+        <h4>Example of Reverse Scoring (if needed in jamovi):</h4>
+        <p>If your scale uses a 1-5 Likert scale (1=Strongly Disagree, 5=Strongly Agree), and an item needs reverse scoring (where 1 becomes 5, 2 becomes 4, etc. on a 1-5 scale):</p>
+        <ol>
+            <li>From the jamovi toolbar, click on <strong><code>Data</code></strong>.</li>
+            <li>Select <strong><code>Compute</code></strong>.</li>
+            <li>A new computed variable column will appear in your spreadsheet. In the "Formula" editor that appears on the right, type your formula. For a 1-5 scale, if <code>satisfaction_q3</code> needs to be reverse-scored, the formula would be:
+                <pre><code>6 - satisfaction_q3</code></pre>
+            </li>
+            <li>Press Enter or click the checkmark next to the formula editor. A new variable (e.g., <code>Computed Variable 1</code>) will appear with the reverse-scored values.</li>
+            <li>(Optional) To rename this new variable, double-click on its header in the jamovi spreadsheet (e.g., <code>Computed Variable 1</code>) and type a new name like <code>satisfaction_q3_rev</code>.</li>
+        </ol>
+
+        <hr>
+
+        <h3>jamovi How-To: Reliability Analysis (Cronbach's Alpha)</h3>
+        <p>jamovi makes performing reliability analysis very straightforward through its intuitive menu system.</p>
+        <ol>
+            <li>From the jamovi toolbar, click on <strong><code>Factor</code></strong>.</li>
+            <li>Select <strong><code>Reliability Analysis</code></strong>.</li>
+            <li>A "Reliability Analysis" panel will open on the right.</li>
+            <li>Move all the items that belong to your scale (e.g., <code>satisfaction_q1</code>, <code>satisfaction_q2</code>, <code>satisfaction_q3</code>, <code>satisfaction_q4</code>, <code>satisfaction_q5</code>) from the left list to the <strong><code>Items</code></strong> box on the right.</li>
+            <li>Under "Scale Statistics", ensure <strong><code>Cronbach's Alpha</code></strong> is checked.</li>
+            <li>(Optional, but recommended for beginners): Under "Item Statistics", check <strong><code>Cronbach's Alpha (if item dropped)</code></strong>. This will provide useful information about each item's contribution to the overall reliability.</li>
+            <li>The results will automatically appear in the jamovi output panel as you select your options.</li>
+        </ol>
+        <p>For your <code>satisfaction_q</code> items, the Cronbach's Alpha is approximately <strong>0.960</strong>, indicating excellent internal consistency. You will also see a table titled "Item Statistics" or "Item-Rest Correlation" which shows "Alpha if Item Dropped" – useful if you consider removing an item to improve reliability (though not needed for your current high alpha).</p>
+        <div class="reflection-box">
+            <h4>Reflection Question:</h4>
+            <p>If your Cronbach's Alpha was very low (e.g., 0.2), what might that suggest about the set of items you used to measure satisfaction?</p>
+        </div>
+
+        <hr>
+
+        <h3>jamovi How-To: Create a Combined Scale Score</h3>
+        <p>Once you've established the reliability of your scale, you often want to create a single 'combined' or 'total' score for each participant. This score represents their overall standing on the construct being measured (e.g., overall satisfaction).</p>
+        <p>You have two main options for creating this combined score: <strong>summing</strong> the item scores or <strong>averaging</strong> them.</p>
+        <ul>
+            <li>If you <strong>sum</strong> the five <code>satisfaction_q</code> scores (each ranging from 1 to 5), your combined score would range from 5 (1+1+1+1+1) to 25 (5+5+5+5+5).</li>
+            <li>If you <strong>average</strong> the five <code>satisfaction_q</code> scores, your combined score will remain within the same range as the original scale, which is 1 to 5. Averaging is generally recommended as it keeps the score on the original scale metric.</li>
+        </ul>
+        <p>Here's how to create a combined satisfaction score from your <code>satisfaction_q</code> variables in jamovi using the averaging method:</p>
+        <ol>
+            <li>From the jamovi toolbar, click on <strong><code>Data</code></strong>.</li>
+            <li>Select <strong><code>Compute</code></strong>.</li>
+            <li>A new computed variable column will appear in your spreadsheet. In the "Formula" editor that appears on the right, type your formula. To average the five satisfaction questions, the formula would be:
+                <pre><code>MEAN(satisfaction_q1, satisfaction_q2, satisfaction_q3, satisfaction_q4, satisfaction_q5)</code></pre>
+            </li>
+            <li>Press Enter or click the checkmark next to the formula editor. A new variable (e.g., <code>Computed Variable 1</code>) will appear with the combined satisfaction scores.</li>
+            <li>(Optional) To rename this new variable, double-click on its header (e.g., <code>Computed Variable 1</code>) and type a new name like <code>combined_satisfaction</code>.</li>
+            <li><strong>Note:</strong> The <code>MEAN()</code> function in jamovi automatically handles missing values. If a participant has some missing data for a few items but still has valid data for at least two items, jamovi will compute the mean based on the available items.</li>
+        </ol>
+        <div class="reflection-box">
+            <h4>Reflection Question:</h4>
+            <p>What would be an advantage of using the mean (average) for your combined scale score compared to using the sum?</p>
+        </div>
+
+        <hr>
+
+        <h3>jamovi How-To: Generate Summary Statistics for the Combined Satisfaction Score</h3>
+        <p>Once you have your combined scale, it's good practice for beginner students to generate some summary statistics to understand its distribution. This includes measures like the mean, median, standard deviation, and range.</p>
+        <p>Here's how to get summary statistics for your <code>combined_satisfaction</code> score in jamovi:</p>
+        <ol>
+            <li>From the jamovi toolbar, click on <strong><code>Exploration</code></strong>.</li>
+            <li>Select <strong><code>Descriptives</code></strong>.</li>
+            <li>A "Descriptives" analysis panel will open on the right.</li>
+            <li>Move your <code>combined_satisfaction</code> variable from the left list to the <strong><code>Variables</code></strong> box on the right.</li>
+            <li>Under "Statistics", ensure <strong><code>Mean</code></strong>, <strong><code>Median</code></strong>, <strong><code>Standard deviation</code></strong>, <strong><code>Minimum</code></strong>, and <strong><code>Maximum</code></strong> are checked (these are usually default). You can also check <strong><code>Quartiles</code></strong> for 25th and 75th percentiles.</li>
+            <li>The results will automatically appear in the jamovi output panel.</li>
+        </ol>
+        <p>For your <code>combined_satisfaction</code> score, the summary statistics are:</p>
+        <ul>
+            <li><strong>Count:</strong> 100</li>
+            <li><strong>Mean:</strong> 3.04</li>
+            <li><strong>Standard Deviation (Std. Dev.):</strong> 1.40</li>
+            <li><strong>Minimum:</strong> 1.00</li>
+            <li><strong>25th Percentile:</strong> 1.60</li>
+            <li><strong>Median (50th Percentile):</strong> 3.10</li>
+            <li><strong>75th Percentile:</strong> 4.45</li>
+            <li><strong>Maximum:</strong> 5.00</li>
+        </ul>
+        <p>These statistics give you a good overview of your participants' overall satisfaction levels.</p>
+
+        <hr>
+
+        <h3>How to Write-Up Reliability Results</h3>
+        <p>When you're writing up your research, it's crucial to clearly report the reliability of your measures. Here's a template for how a beginner student can write up the results for Cronbach's Alpha:</p>
+        <div class="writeup-box">
+            <h4>Example Write-Up:</h4>
+            <p>"The internal consistency reliability of the five-item satisfaction scale was assessed using Cronbach's Alpha. The analysis revealed excellent internal consistency, with a Cronbach's Alpha of &alpha; = 0.96. This indicates that the five items consistently measure the same underlying construct of satisfaction. Given the high internal consistency, the five items were averaged to create a single 'combined satisfaction' score for subsequent analyses."</p>
+        </div>
+        <h4>Key elements to include:</h4>
+        <ul>
+            <li><strong>What was assessed:</strong> Clearly state the scale or measure whose reliability was assessed.</li>
+            <li><strong>Method:</strong> Specify that Cronbach's Alpha was used.</li>
+            <li><strong>Result:</strong> Report the exact Cronbach's Alpha value.</li>
+            <li><strong>Interpretation:</strong> Briefly interpret what the alpha value means in the context of your scale (e.g., excellent, good, acceptable).</li>
+            <li><strong>Action taken:</strong> If a combined score was created, mention how it was done (e.g., averaged, summed).</li>
+        </ul>
+
+    </div>
+</body>
+</html>

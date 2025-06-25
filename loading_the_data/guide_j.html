@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Your Dataset in jamovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 25px;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+        }
+        /* Top navigation style */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        /* Reflection and Write-up boxes (kept for consistency even if not used in this specific guide) */
+        .reflection-box {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .reflection-box h4 {
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .writeup-box {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .writeup-box h4 {
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
+    </div>
+
+    <div class="container">
+        <h1>Loading Your Dataset in jamovi</h1>
+        <p>Welcome to this guide on loading your dataset into jamovi. For this guide, we will assume your data is in a jamovi file (`.omv`) named <code>omni.omv</code>. Loading your data is the first step to performing any analysis.</p>
+
+        <h3>How to Load an .omv File into jamovi</h3>
+        <p>jamovi is designed to be very intuitive, and loading data is a simple process using its graphical user interface (GUI).</p>
+
+        <ol>
+            <li>Open jamovi. You will typically see a blank spreadsheet.</li>
+            <li>Go to the top-left corner and click on the <strong>three horizontal lines menu icon</strong> (sometimes called the "hamburger menu").</li>
+            <li>From the dropdown menu, select <strong><code>Open</code></strong>.</li>
+            <li>In the "Open" dialog box that appears, you'll see options like "This PC", "Cloud", etc. Select <strong><code>This PC</code></strong> (or wherever your file is stored locally).</li>
+            <li>Click the <strong><code>Browse</code></strong> button.</li>
+            <li>Navigate to the folder on your computer where you saved your <code>omni.omv</code> file.</li>
+            <li>Select <code>omni.omv</code>.</li>
+            <li>Click <strong><code>Open</code></strong>.</li>
+        </ol>
+        <p>jamovi will now load your data. You should see your variables (columns) and observations (rows) populate the spreadsheet. jamovi is usually very good at detecting the correct data type (e.g., numeric, text) for each variable automatically, but it's always a good idea to quickly inspect your data in the jamovi spreadsheet to ensure everything looks correct.</p>
+
+        <hr>
+
+        <h3>Inspecting and Changing Variable Types in jamovi</h3>
+        <p>After loading your data, it's crucial to verify that jamovi has correctly identified the data type and measurement level for each of your variables. Incorrect variable types can lead to errors in your analysis or limit the options available to you.</p>
+
+        <h4>Understanding Variable Types in jamovi:</h4>
+        <ul>
+            <li><strong>Continuous (ruler icon):</strong> For numerical data where values can be any number within a range (e.g., height, age, test scores).</li>
+            <li><strong>Ordinal (bar chart icon):</strong> For categorical data where categories have a meaningful order (e.g., Likert scale responses like 'Disagree', 'Neutral', 'Agree').</li>
+            <li><strong>Nominal (three overlapping circles icon):</strong> For categorical data where categories have no inherent order (e.g., gender, country, hair color).</li>
+            <li><strong>ID (key icon):</strong> Unique identifiers, jamovi will treat these specially and not include them in analyses by default.</li>
+        </ul>
+
+        <h4>How to Inspect and Change Variable Settings:</h4>
+        <p>You can access the variable setup for each column directly from the Data View:</p>
+        <ol>
+            <li>In the jamovi spreadsheet (Data View), <strong>double-click on the header of the variable (column name)</strong> you wish to inspect or change. For example, double-click on <code>satisfaction_q1</code>.</li>
+            <li>A "Setup" panel will appear on the right side of your jamovi window for that specific variable.</li>
+            <li><strong>Variable Type:</strong> Under the "Data Type" section, you'll see options like "Continuous", "Integer", "Text".
+                <ul>
+                    <li>If jamovi has incorrectly identified a continuous variable as text, you can change it here.</li>
+                    <li>For categorical variables that are numbers (e.g., 1=Male, 2=Female), jamovi might default them to 'Continuous'. You will need to change them to 'Nominal' or 'Ordinal' here.</li>
+                </ul>
+            </li>
+            <li><strong>Measurement Level:</strong> Below the Data Type, you'll see "Measurement Type" with icons for Continuous (ruler), Ordinal (bar chart), and Nominal (three overlapping circles).
+                <ul>
+                    <li>For example, if your <code>satisfaction_q</code> variables are 1-5 Likert scales, they should be set to <strong>Ordinal</strong>. If they are currently 'Continuous', change them here.</li>
+                </ul>
+            </li>
+            <li><strong>Levels (for Nominal/Ordinal variables):</strong> If you set a variable to Nominal or Ordinal, a "Levels" section will appear. Here you can:
+                <ul>
+                    <li><strong>Add/Edit Levels:</strong> Define the categories and their corresponding values (e.g., Value: `1`, Label: `Strongly Disagree`). This helps jamovi display meaningful labels in your output.</li>
+                    <li><strong>Missing Values:</strong> Define specific values that represent missing data for this variable.</li>
+                </ul>
+            </li>
+            <li>After making changes, jamovi applies them immediately. You can close the "Setup" panel by clicking outside of it or selecting another variable.</li>
+        </ol>
+        <p>It's good practice to go through each variable, especially categorical ones, to ensure their types and labels are correctly set. This attention to detail at the data setup stage prevents potential issues and ensures accurate analysis later on.</p>
+
+    </div>
+</body>
+</html>

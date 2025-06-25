@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Your Dataset in SPSS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 25px;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+        }
+        /* Top navigation style */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        /* Ensure general text within container is dark, overriding any unintended inheritance */
+        .container p,
+        .container ul li,
+        .container ol li {
+            color: #222;
+        }
+
+        /* Reflection and Write-up boxes (kept for consistency as per other guides) */
+        .reflection-box {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .reflection-box h4 {
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .writeup-box {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .writeup-box h4 {
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../spss.html">SPSS Guides</a>
+    </div>
+
+    <div class="container">
+        <h1>Loading Your Dataset in SPSS</h1>
+        <p>Welcome to this guide on loading your dataset into SPSS. For this guide, we will assume your data is already saved as an SPSS Statistics file (<code>.sav</code> format) named <code>omni.sav</code>. Loading your data is the first step to performing any analysis.</p>
+
+        <h3>How to Open an SPSS Data File (.sav)</h3>
+        <ol>
+            <li>Open SPSS.</li>
+            <li>Go to the top menu bar and click on <strong><code>File</code></strong>.</li>
+            <li>Select <strong><code>Open</code></strong>, then click on <strong><code>Data...</code></strong>.</li>
+            <li>A new "Open Data" window will appear.</li>
+            <li>At the bottom of this window, next to "Files of type:", ensure it is set to <strong><code>SPSS Statistics (*.sav)</code></strong> (this is usually the default).</li>
+            <li>Navigate to the folder on your computer where you saved your <code>omni.sav</code> file.</li>
+            <li>Select <code>omni.sav</code> and click <strong><code>Open</code></strong>.</li>
+        </ol>
+        <p>Your data should now be loaded into SPSS and displayed in the Data View and Variable View tabs, ready for analysis. You can switch between these tabs at the bottom-left of the data window.</p>
+
+        <hr>
+
+        <h3>Inspecting and Changing Variable Properties in SPSS</h3>
+        <p>After loading your dataset, it's a good practice to examine your variables in SPSS's Variable View. This allows you to confirm that SPSS has correctly interpreted your data's type, measurement level, and if applicable, that value labels are properly assigned. Correct variable definitions are crucial for accurate analysis.</p>
+
+        <h4>Understanding Data View vs. Variable View:</h4>
+        <ul>
+            <li><strong>Data View:</strong> This tab displays your actual data in a spreadsheet-like format, with rows representing cases (e.g., participants) and columns representing variables.</li>
+            <li><strong>Variable View:</strong> This tab describes the characteristics of each variable in your dataset, with each row representing a variable and columns defining its properties (e.g., Name, Type, Label, Values, Measure). You will spend most of your time here for setup.</li>
+        </ul>
+
+        <h4>How to Inspect and Modify Variable Settings:</h4>
+        <p>Navigate to the <strong>Variable View</strong> tab (usually at the bottom-left of the SPSS Data Editor window) to access and modify your variable properties:</p>
+        <ol>
+            <li><strong>Name:</strong> This is the short, unique name for your variable (e.g., <code>satisfaction_q1</code>). It cannot contain spaces.</li>
+            <li><strong>Type:</strong> This column indicates the data type.
+                <ul>
+                    <li><strong>Numeric:</strong> For numbers (most common for quantitative data).</li>
+                    <li><strong>Comma, Dot, Scientific Notation:</strong> Variants of numeric.</li>
+                    <li><strong>String:</strong> For text data (e.g., open-ended responses). If a variable contains only numbers but SPSS has imported it as 'String', click the cell and change it to 'Numeric'.</li>
+                    <li><strong>Date:</strong> For date or time formats.</li>
+                </ul>
+                To change the type, click the "..." button in the `Type` cell for the variable you want to modify, select the appropriate type, and click `OK`.
+            </li>
+            <li><strong>Label:</strong> This is a longer, more descriptive name for your variable that will appear in your output (e.g., "Satisfaction Question 1"). It can contain spaces and special characters. You can type directly into this cell to add or modify a label.</li>
+            <li><strong>Values (Value Labels):</strong> This is especially important for categorical numerical variables where numbers represent categories (e.g., 1 for "Male", 2 for "Female").
+                <ul>
+                    <li>Click the "..." button in the `Values` cell for the variable you want to inspect.</li>
+                    <li>The "Value Labels" dialog box will appear, showing any existing numerical values and their associated text labels (e.g., `Value: 1`, `Label: Male`).</li>
+                    <li>You can **add new labels**, **change existing ones**, or **remove labels** if necessary.
+                        <ul>
+                            <li>To add: Type the `Value` (number) and its corresponding `Label` (text), then click `Add`.</li>
+                            <li>To change: Select an existing entry, modify the `Value` or `Label`, then click `Change`.</li>
+                            <li>To remove: Select an entry, then click `Remove`.</li>
+                        </ul>
+                    </li>
+                    <li>Click `OK` when you are done.</li>
+                </ul>
+            </li>
+            <li><strong>Missing:</strong> Allows you to define specific values that should be treated as missing data (e.g., -99 for "did not answer").</li>
+            <li><strong>Columns &amp; Align:</strong> Control display width and text alignment.</li>
+            <li><strong>Measure:</strong> This crucial column defines the measurement level, which guides SPSS on how to treat the variable in analyses.
+                <ul>
+                    <li><strong>Scale:</strong> For continuous or interval/ratio data (e.g., age, income, test scores). This is represented by a ruler icon.</li>
+                    <li><strong>Ordinal:</strong> For categorical data with a meaningful order (e.g., Likert scales, education levels). This is represented by a bar chart icon with ordered categories.</li>
+                    <li><strong>Nominal:</strong> For categorical data without any inherent order (e.g., gender, marital status). This is represented by three overlapping circles.</li>
+                </ul>
+                To change the measure, click the dropdown arrow in the `Measure` cell for the variable and select the appropriate level.
+            </li>
+        </ol>
+        <p>Since your <code>omni.sav</code> file contains numerical data where values have already been assigned (e.g., for categorical variables), it is important to ensure that these numerical values have the correct **Value Labels** associated with them (in the 'Values' column) and that the **Measure** column correctly reflects whether the variable is **Scale**, **Ordinal**, or **Nominal**.</p>
+        <p>Taking the time to review and correctly define your variables in Variable View ensures that SPSS performs analyses accurately and that your output is clearly interpretable.</p>
+
+    </div>
+</body>
+</html>

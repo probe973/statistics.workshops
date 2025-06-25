@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Your Dataset in Stata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 25px;
+            font-size: 1.2em; /* Primary sub-heading size, applied consistently */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        h4 {
+            color: #0056b3;
+            margin-top: 25px;
+            font-size: 1.1em; /* Slightly smaller for 'Method' headings */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+        }
+        /* Top navigation style */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        /* Ensure general text within container is dark, overriding any unintended inheritance */
+        .container p,
+        .container ul li,
+        .container ol li {
+            color: #222;
+        }
+
+        /* Reflection and Write-up boxes (kept for consistency as per other guides) */
+        .reflection-box {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .reflection-box h4 { /* Override specific h4 settings within these boxes if needed */
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .writeup-box {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .writeup-box h4 { /* Override specific h4 settings within these boxes if needed */
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../stata.html">Stata Guides</a>
+    </div>
+
+    <div class="container">
+        <h1>Loading Your Dataset in Stata</h1>
+        <p>Welcome to this guide on loading your dataset into Stata. For this guide, we will assume your data is already saved as a Stata data file (<code>.dta</code> format) named <code>omni.dta</code>. Loading your data is the first step to performing any analysis.</p>
+
+        <h3>Do-Files</h3>
+        <p>A "do-file" in Stata is like a script or a recipe. It's a text file where you write down all your Stata commands. Instead of typing them one by one into the command window, you can run all (or part) of a do-file at once. This makes your work reproducible, organized, and easier to debug. To open a new do-file, click on the "New Do-file Editor" icon (a notepad with a pencil) in Stata's toolbar, or go to <strong><code>File</code></strong> > <strong><code>Do-file Editor</code></strong> > <strong><code>New Do-file</code></strong>.</p>
+
+        <h3>How to Open a Stata Data File (.dta)</h3>
+        <p>Stata allows you to open `.dta` files both through its menus and by writing commands in a "do-file".</p>
+
+        <h4>Method 1: Using Stata's Menu (Point-and-Click)</h4>
+        <ol>
+            <li>Open Stata.</li>
+            <li>Go to the top menu bar and click on <strong><code>File</code></strong>.</li>
+            <li>Select <strong><code>Open...</code></strong>.</li>
+            <li>A new "Open" window will appear.</li>
+            <li>At the bottom of this window, next to "Files of type:", ensure it is set to <strong><code>Stata Data (*.dta)</code></strong> (this is usually the default).</li>
+            <li>Navigate to the folder on your computer where you saved your <code>omni.dta</code> file.</li>
+            <li>Select <code>omni.dta</code> and click <strong><code>Open</code></strong>.</li>
+        </ol>
+        <p>Your data should now be loaded into Stata, and you'll see a summary of the dataset in the Results window. You can type <code>browse</code> in the Command window and press Enter to view your data.</p>
+
+        <h4>Method 2: Using a Do-File (Code Commands)</h4>
+        <p>Open a new do-file and type the following command. Remember to replace <code>[location of file]</code> with the actual path to your <code>omni.dta</code> file. Stata uses forward slashes (<code>/</code>) for file paths.</p>
+        <pre><code>use "[location of file]/omni.dta", clear</code></pre>
+        <p><strong>Explanation of the Stata Command:</strong></p>
+        <ul>
+            <li><code>use</code>: This command is used to load an existing Stata `.dta` dataset into memory.</li>
+            <li><code>"[location of file]/omni.dta"</code>: This is the full path to your file, enclosed in double quotes.</li>
+            <li><code>clear</code>: This option tells Stata to clear any data currently in memory before loading the new dataset. This is good practice to start fresh.</li>
+        </ul>
+        <p><strong>How to Run This Command from a Do-File:</strong></p>
+        <ol>
+            <li>Type the command into your do-file editor.</li>
+            <li>Highlight the line(s) of code you want to run (or don't highlight anything to run the entire do-file).</li>
+            <li>Click the "Execute (do)" button in the do-file editor toolbar (it looks like "Do" with an arrow) or press <strong>Ctrl+D</strong> (Windows) / <strong>Cmd+D</strong> (Mac).</li>
+        </ol>
+        <p>After running, your data will be loaded and ready for analysis.</p>
+
+        <hr>
+
+        <h3>Exploring and Modifying Your Data in Stata</h3>
+        <p>Once your data is loaded, you'll often want to inspect it visually or make direct edits. Stata provides separate modes for browsing (viewing) and editing your dataset.</p>
+
+        <h3>1. Viewing Your Data (Browse Mode)</h3>
+        <p>The "Browse" mode allows you to look at your data in a spreadsheet-like format without accidentally changing anything. This is a safe way to get a quick overview of your variables and observations.</p>
+        <h4>Method 1: Using Stata's Menu (Point-and-Click)</h4>
+        <ol>
+            <li>In the main Stata window, go to the top menu bar.</li>
+            <li>Click on <strong><code>Data</code></strong>.</li>
+            <li>Hover over <strong><code>Data Editor</code></strong>.</li>
+            <li>Select <strong><code>Data Editor (Browse)</code></strong>.</li>
+        </ol>
+        <p>A new "Data Editor (Browse)" window will open, displaying your dataset. You can scroll through it, but you won't be able to type or change any values.</p>
+
+        <h4>Method 2: Using a Do-File (Code Commands)</h4>
+        <p>Type the following command into your Stata Command window or a do-file:</p>
+        <pre><code>browse</code></pre>
+        <p><strong>Explanation of the Stata Command:</strong></p>
+        <ul>
+            <li><code>browse</code>: This command opens the Data Editor in "browse" (read-only) mode. It's a quick way to inspect your data without the risk of accidental modification.</li>
+        </ul>
+
+        <h3>2. Editing Your Data (Edit Mode)</h3>
+        <p>The "Edit" mode allows you to make direct changes to your dataset. Use this cautiously, as changes are live. It's always a good idea to save your dataset (`save "filename.dta", replace`) before making major edits.</p>
+        <h4>Method 1: Using Stata's Menu (Point-and-Click)</h4>
+        <ol>
+            <li>In the main Stata window, go to the top menu bar.</li>
+            <li>Click on <strong><code>Data</code></strong>.</li>
+            <li>Hover over <strong><code>Data Editor</code></strong>.</li>
+            <li>Select <strong><code>Data Editor (Edit)</code></strong>.</li>
+        </ol>
+        <p>A new "Data Editor (Edit)" window will open. You can now click on any cell and type to change its value. Press Enter to confirm the change.</p>
+
+        <h4>Method 2: Using a Do-File (Code Commands)</h4>
+        <p>Type the following command into your Stata Command window or a do-file:</p>
+        <pre><code>edit</code></pre>
+        <p><strong>Explanation of the Stata Command:</strong></p>
+        <ul>
+            <li><code>edit</code>: This command opens the Data Editor in "edit" (read-write) mode. This allows you to directly modify the data values in the cells.</li>
+        </ul>
+
+    </div>
+</body>
+</html>

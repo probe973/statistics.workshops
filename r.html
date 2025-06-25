@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>R Guides</title>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R Studio Guides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
             color: #222;
@@ -31,137 +35,236 @@
             color: #004085;
             margin-top: 35px;
             font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 0; /* Adjusted for guide-block styling */
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
         }
         p {
             margin-bottom: 20px;
         }
-        .guide-block {
-            margin-bottom: 30px;
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
         }
-        .guide-block hr {
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        /* Top navigation style */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky; /* Make it sticky */
+            top: 0; /* Stick to the top */
+            width: 100%; /* Ensure full width when sticky */
+            z-index: 1000; /* Ensure it stays on top of other content */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        /* Guide block styling */
+        .guide-block {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .guide-block p {
+            margin-bottom: 15px;
+            flex-grow: 1; /* Allows paragraph to take up available space */
         }
         .guide-button {
-            display: inline-block;
-            margin-top: 10px;
+            display: block; /* Make it a block element */
+            width: fit-content; /* Adjust width to content */
+            margin-top: 15px;
             padding: 10px 20px;
             background-color: #004085;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 25px; /* More rounded corners */
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .guide-button:hover {
             background-color: #002c5a;
+            transform: translateY(-2px);
+        }
+        .guide-block hr {
+            border: 0;
+            height: 1px; /* Thinner line for internal HR */
+            background: #e0e0e0;
+            margin: 20px 0 0; /* Adjust margin */
+        }
+        hr { /* General HR for outside guide blocks */
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
         }
     </style>
-
 </head>
 <body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="index.html">Home</a>
+        <a href="jamovi.html">jamovi Guides</a>
+        <a href="r.html">R Studio Guides</a>
+        <a href="spss.html">SPSS Guides</a>
+        <a href="stata.html">Stata Guides</a>
+        <a href="ai.html">AI Guides</a>
+    </div>
+
     <div class="container">
-        <h1>R Guides</h1>
-        <p>You can download the data file for R by clicking <a href="../omni.csv">here</a>.</p>
+        <h1>R Studio Guides</h1>
+        <p>You can download the data file for R Studio by clicking <a href="../omni.csv">here</a>.</p>
         <h2>The Guides</h2>
-    
+
         <div class="guide-block">
             <h3>Loading the data</h3>
             <p>Importing your dataset into the software environment.</p>
-            <a class="guide-button" href="loading_the_data/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="loading_the_data/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Descriptive statistics</h3>
-            <p>Summarizing data using measures like mean, median, and standard deviation.</p>
-            <a class="guide-button" href="descriptive_statistics/guide.html">Guide Link</a>
-            <hr>
+            <p>Summarising data using measures like mean, median, and standard deviation.</p>
+            <a class="guide-button" href="descriptive/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Assessing normality of data</h3>
             <p>Evaluating whether your data follows a normal distribution.</p>
-            <a class="guide-button" href="assessing_normality_of_data/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="assessing_normality_of_data/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Reliability analysis (Cronbach alpha)</h3>
             <p>Measuring internal consistency of a set of items or scale.</p>
-            <a class="guide-button" href="reliability_analysis_cronbach_alpha/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="reliability_analysis_cronbach_alpha/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Independent-samples t-test</h3>
             <p>Comparing the means of two independent groups.</p>
-            <a class="guide-button" href="independentsamples_ttest/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="independentsamples_ttest/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>One-way ANOVA</h3>
             <p>Comparing means across three or more independent groups.</p>
-            <a class="guide-button" href="oneway_anova/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="oneway_anova/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Paired-samples t-test</h3>
             <p>Comparing means from the same group at different times.</p>
-            <a class="guide-button" href="pairedsamples_ttest/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="pairedsamples_ttest/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Repeated-measures ANOVA</h3>
             <p>Comparing means across multiple time points or conditions within the same group.</p>
-            <a class="guide-button" href="repeatedmeasures_anova/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="repeatedmeasures_anova/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Two-way ANOVA</h3>
             <p>Examining the effect of two independent variables on a dependent variable.</p>
-            <a class="guide-button" href="twoway_anova/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="twoway_anova/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Non-parametric tests of difference (between groups and within groups)</h3>
             <p>Using non-parametric methods to compare groups when assumptions of parametric tests are not met.</p>
-            <a class="guide-button" href="nonparametric_tests_of_difference_between_groups_and_within_groups/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="nonparametric_tests_of_difference_between_groups_and_within_groups/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Chi-square test of association</h3>
             <p>Testing for a relationship between two categorical variables.</p>
-            <a class="guide-button" href="chisquare_test_of_association/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="chisquare_test_of_association/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Correlation</h3>
             <p>Assessing the strength and direction of a relationship between two variables.</p>
-            <a class="guide-button" href="correlation/guide.html">Guide Link</a>
-            <hr>
+            <a class="guide-button" href="correlation/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Linear regression</h3>
-            <p>Modeling the relationship between a dependent variable and one or more independent variables.</p>
-            <a class="guide-button" href="linear_regression/guide.html">Guide Link</a>
-            <hr>
+            <p>Modelling the relationship between a dependent variable and one or more independent variables.</p>
+            <a class="guide-button" href="linear_regression/guide_r.html">Guide Link</a>
         </div>
-        
+
         <div class="guide-block">
             <h3>Binary logistic regression</h3>
-            <p>Modeling the relationship between a binary outcome and predictor variables.</p>
-            <a class="guide-button" href="binary_logistic_regression/guide.html">Guide Link</a>
-            <hr>
+            <p>Modelling the relationship between a binary outcome and predictor variables.</p>
+            <a class="guide-button" href="binary_logistic_regression/guide_r.html">Guide Link</a>
         </div>
-        
+
     </div>
 </body>
 </html>

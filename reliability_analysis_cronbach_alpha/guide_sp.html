@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introductory Statistics Guide: Reliability Analysis & Cronbach's Alpha in SPSS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 25px; /* Adjusted to match other guides' h3 */
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px; /* Added consistent padding */
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+            border-radius: 5px; /* Added */
+            font-family: "Courier New", Courier, monospace; /* Added */
+            color: #333; /* Added */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        /* Top navigation style */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky; /* Make it sticky */
+            top: 0; /* Stick to the top */
+            width: 100%; /* Ensure full width when sticky */
+            z-index: 1000; /* Ensure it stays on top of other content */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        /* Reflection and Write-up boxes */
+        .reflection-box {
+            background-color: #f0f8ff; /* Light blue */
+            border-left: 5px solid #add8e6; /* Slightly darker blue vertical line */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px; /* Consistent border-radius */
+        }
+        .reflection-box h4 {
+            color: #0056b3; /* Consistent h4 color */
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .writeup-box {
+            background-color: #e9f5e9; /* Light green */
+            border-left: 5px solid #4CAF50; /* Slightly darker green vertical line */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px; /* Consistent border-radius */
+        }
+        .writeup-box h4 {
+            color: #0056b3; /* Consistent h4 color */
+            margin-top: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../spss.html">SPSS Guides</a>
+    </div>
+
+    <div class="container">
+        <h1>Introductory Statistics Guide: Reliability Analysis & Cronbach's Alpha in SPSS</h1>
+        <p>Welcome to this guide on reliability analysis, a crucial aspect of psychological and social science research. When we measure something, like 'satisfaction' or 'anxiety', we often use multiple questions or 'items' to capture the full concept. Reliability analysis helps us understand if these items consistently measure the same thing.</p>
+
+        <h3>What is Reliability?</h3>
+        <p>Imagine using a bathroom scale. If you step on it multiple times in a row and get wildly different readings each time, you'd consider it unreliable. In research, reliability refers to the consistency of a measure. If a questionnaire is reliable, it should produce similar results under consistent conditions.</p>
+
+        <h3>Introducing Cronbach's Alpha</h3>
+        <p>One of the most common ways to assess the internal consistency reliability of a scale is through <strong>Cronbach's Alpha (&alpha;)</strong>. It's a single number that ranges from 0 to 1, indicating how closely related a set of items are as a group. Think of it as the average correlation of all possible split-halves of a test.</p>
+        <ul>
+            <li>A higher Cronbach's Alpha generally indicates greater internal consistency.</li>
+            <li><strong>Interpretation Guidelines (general):</strong>
+                <ul>
+                    <li>&alpha; &ge; 0.9: Excellent</li>
+                    <li>0.8 &le; &alpha; &lt; 0.9: Good</li>
+                    <li>0.7 &le; &alpha; &lt; 0.8: Acceptable</li>
+                    <li>0.6 &le; &alpha; &lt; 0.7: Questionable</li>
+                    <li>0.5 &le; &alpha; &lt; 0.6: Poor</li>
+                    <li>&alpha; &lt; 0.5: Unacceptable</li>
+                </ul>
+            </li>
+        </ul>
+        <p>It's important to note that while a high alpha is desirable, it doesn't necessarily mean the scale is measuring what it's supposed to measure (that's validity). It just means the items are consistent with each other.</p>
+
+        <hr>
+
+        <h3>Data Setup: The Omni Dataset</h3>
+        <p>This guide uses the omni dataset. If you need help loading this data, please refer to the loading data guides.</p>
+
+        <hr>
+
+        <h3>When Responses Might Need to be Reverse Scored</h3>
+        <p>Sometimes, not all questions in a scale are phrased in the same direction. For example, in a satisfaction survey, most questions might ask about positive aspects of satisfaction ("I am happy with...", "I am pleased with..."), but one question might be phrased negatively ("I am dissatisfied with..."). If a high score on the 'satisfied' questions indicates high satisfaction, then a high score on the 'dissatisfied' question would indicate <em>low</em> satisfaction.</p>
+        <p>To ensure all items contribute consistently to the overall score, we need to <strong>reverse score</strong> the negatively phrased items. This means transforming the response so that a high score on that item now also indicates high satisfaction.</p>
+
+        <h4>How to identify items for reverse scoring:</h4>
+        <ol>
+            <li><strong>Examine the wording:</strong> Carefully read each question. If a question is negatively phrased or indicates the opposite construct to the others, it likely needs reverse scoring.</li>
+            <li><strong>Check correlations:</strong> If an item is negatively correlated with the other items in the scale, it's a strong indicator that it needs to be reverse scored.</li>
+        </ol>
+        <p>In your dataset, the <code>satisfaction_q</code> variables all show positive correlations with each other (e.g., satisfaction_q1 and satisfaction_q2 correlate at ~0.88; satisfaction_q3 and satisfaction_q4 at ~0.91). This suggests that all satisfaction questions are phrased in a consistent direction and <strong>do not require reverse scoring</strong> for this specific dataset.</p>
+
+        <h4>Example of Reverse Scoring (if needed in SPSS):</h4>
+        <p>If your scale uses a 1-5 Likert scale (1=Strongly Disagree, 5=Strongly Agree), and an item needs reverse scoring (where 1 becomes 5, 2 becomes 4, etc. on a 1-5 scale):</p>
+        <ol>
+            <li>Go to <strong><code>Transform</code></strong> > <strong><code>Recode into Different Variables...</code></strong>.</li>
+            <li>Move the variable you want to reverse score (e.g., <code>satisfaction_q3</code>) from the left box to the "Numeric Variable -> Output Variable:" box.</li>
+            <li>In the "Output Variable" section on the right, give your new, reverse-scored variable a name (e.g., <code>satisfaction_q3_rev</code>) and a descriptive label (e.g., "Satisfaction Q3 (Reverse)").</li>
+            <li>Click <strong><code>Change</code></strong>.</li>
+            <li>Click <strong><code>Old and New Values...</code></strong>.
+                <ul>
+                    <li>For a 1-5 scale, you'll map values:
+                        <ul>
+                            <li>Old Value: <code>1</code> -> New Value: <code>5</code></li>
+                            <li>Old Value: <code>2</code> -> New Value: <code>4</code></li>
+                            <li>Old Value: <code>3</code> -> New Value: <code>3</code></li>
+                            <li>Old Value: <code>4</code> -> New Value: <code>2</code></li>
+                            <li>Old Value: <code>5</code> -> New Value: <code>1</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>Click <strong><code>Add</code></strong> after each mapping.</li>
+            <li>Click <strong><code>Continue</code></strong>.</li>
+            <li>Click <strong><code>OK</code></strong>. SPSS will create your new reverse-scored variable in your dataset.</li>
+        </ol>
+
+        <hr>
+
+        <h3>SPSS How-To: Reliability Analysis (Cronbach's Alpha)</h3>
+        <p>SPSS is excellent for performing statistical analyses through its intuitive menu system. Here's how a beginner student can calculate Cronbach's Alpha for their scale:</p>
+        <ol>
+            <li>Go to the top menu bar and click on <strong><code>Analyze</code></strong>.</li>
+            <li>Hover over <strong><code>Scale</code></strong>.</li>
+            <li>Click on <strong><code>Reliability Analysis...</code></strong>.</li>
+            <li>A new "Reliability Analysis" dialog box will open.</li>
+            <li>Move all the items that belong to your scale (e.g., <code>satisfaction_q1</code>, <code>satisfaction_q2</code>, <code>satisfaction_q3</code>, <code>satisfaction_q4</code>, <code>satisfaction_q5</code>) from the left list to the <strong><code>Items:</code></strong> box on the right.</li>
+            <li>Ensure that "Model:" is set to <strong><code>Alpha</code></strong> (this is the default and calculates Cronbach's Alpha).</li>
+            <li>(Optional, but recommended for beginners): Click on the <strong><code>Statistics...</code></strong> button.
+                <ul>
+                    <li>Under "Descriptives for", check <strong><code>Item</code></strong>, <strong><code>Scale</code></strong>, and <strong><code>Scale if item deleted</code></strong>. This will provide useful information about each item's contribution to the overall reliability.</li>
+                    <li>Click <strong><code>Continue</code></strong>.</li>
+                </ul>
+            </li>
+            <li>Click <strong><code>OK</code></strong> in the main "Reliability Analysis" dialog box.</li>
+            <li>SPSS will generate an Output Viewer window. In the "Reliability Statistics" table, you will find the value for <strong>Cronbach's Alpha</strong>.</li>
+        </ol>
+        <p>For your <code>satisfaction_q</code> items, the Cronbach's Alpha is approximately <strong>0.960</strong>, indicating excellent internal consistency. You will also see a table titled "Item-Total Statistics" which shows "Cronbach's Alpha if Item Deleted" – useful if you consider removing an item to improve reliability (though not needed for your current high alpha).</p>
+        <div class="reflection-box">
+            <h4>Reflection Question:</h4>
+            <p>If your Cronbach's Alpha was very low (e.g., 0.2), what might that suggest about the set of items you used to measure satisfaction?</p>
+        </div>
+
+        <hr>
+
+        <h3>SPSS How-To: Create a Combined Scale Score</h3>
+        <p>Once you've established the reliability of your scale, you often want to create a single 'combined' or 'total' score for each participant. This score represents their overall standing on the construct being measured (e.g., overall satisfaction).</p>
+        <p>You have two main options for creating this combined score: <strong>summing</strong> the item scores or <strong>averaging</strong> them.</p>
+        <ul>
+            <li>If you <strong>sum</strong> the five <code>satisfaction_q</code> scores (each ranging from 1 to 5), your combined score would range from 5 (1+1+1+1+1) to 25 (5+5+5+5+5).</li>
+            <li>If you <strong>average</strong> the five <code>satisfaction_q</code> scores, your combined score will remain within the same range as the original scale, which is 1 to 5. Averaging is generally recommended as it keeps the score on the original scale metric.</li>
+        </ul>
+        <p>Here's how to create a combined satisfaction score from your <code>satisfaction_q</code> variables in SPSS using the averaging method:</p>
+        <ol>
+            <li>Go to <strong><code>Transform</code></strong> > <strong><code>Compute Variable...</code></strong>.</li>
+            <li>A "Compute Variable" dialog box will appear.</li>
+            <li>In the "Target Variable:" box on the top left, type the name for your new combined score, for example, <strong><code>combined_satisfaction</code></strong>.</li>
+            <li>In the "Numeric Expression:" box (the large empty box on the right), you will build your formula.
+                <ul>
+                    <li>From the "Function group:" list, select <strong><code>Statistical</code></strong>.</li>
+                    <li>From the "Functions and Special Variables:" list, double-click on <strong><code>MEAN(num.expr,num.expr,...)</code></strong>. This will insert <code>MEAN(?,?)</code> into your Numeric Expression box.</li>
+                    <li>Replace the question marks (<code>?</code>) with your individual satisfaction item variables, separated by commas. You can select them from the variable list on the left and click the arrow button to move them, or type them directly. So, it will look like:
+                        <pre><code>MEAN(satisfaction_q1, satisfaction_q2, satisfaction_q3, satisfaction_q4, satisfaction_q5)</code></pre>
+                    </li>
+                </ul>
+            </li>
+            <li>Click <strong><code>OK</code></strong>. SPSS will create your new <code>combined_satisfaction</code> variable in your dataset (you might need to scroll to the far right in Data View or look in Variable View).</li>
+            <li><strong>Note:</strong> The <code>MEAN()</code> function in SPSS automatically handles missing values. If a participant has some missing data for a few items but still has valid data for at least two items, SPSS will compute the mean based on the available items.</li>
+        </ol>
+        <div class="reflection-box">
+            <h4>Reflection Question:</h4>
+            <p>What would be an advantage of using the mean (average) for your combined scale score compared to using the sum?</p>
+        </div>
+
+        <hr>
+
+        <h3>SPSS How-To: Generate Summary Statistics for the Combined Satisfaction Score</h3>
+        <p>Once you have your combined scale, it's good practice for beginner students to generate some summary statistics to understand its distribution. This includes measures like the mean, median, standard deviation, and range.</p>
+        <p>Here's how to get summary statistics for your <code>combined_satisfaction</code> score in SPSS:</p>
+        <ol>
+            <li>Go to <strong><code>Analyze</code></strong> > <strong><code>Descriptive Statistics</code></strong>.</li>
+            <li>You have two main options that are useful for beginners:
+                <h4>Method 1: Frequencies (for detailed distribution)</h4>
+                <ul>
+                    <li>Select <strong><code>Frequencies...</code></strong>.</li>
+                    <li>Move <code>combined_satisfaction</code> from the left list to the <strong><code>Variables(s):</code></strong> box.</li>
+                    <li>(Optional, but recommended for beginners): Click on the <strong><code>Statistics...</code></strong> button.
+                        <ul>
+                            <li>Under "Central Tendency", check <strong><code>Mean</code></strong>, <strong><code>Median</code></strong>.</li>
+                            <li>Under "Dispersion", check <strong><code>Std. deviation</code></strong>, <strong><code>Minimum</code></strong>, <strong><code>Maximum</code></strong>.</li>
+                            <li>Click <strong><code>Continue</code></strong>.</li>
+                        </ul>
+                    </li>
+                    <li>Uncheck "Display frequency tables" if you only want the statistics and not a long table of every score.</li>
+                    <li>Click <strong><code>OK</code></strong>.</li>
+                </ul>
+                <h4>Method 2: Descriptives (for quick summary)</h4>
+                <ul>
+                    <li>Select <strong><code>Descriptives...</code></strong>.</li>
+                    <li>Move <code>combined_satisfaction</code> from the left list to the <strong><code>Variables(s):</code></strong> box.</li>
+                    <li>Click on <strong><code>Options...</code></strong> to select which statistics you want (Mean, Std. deviation, Min, Max are usually checked by default).</li>
+                    <li>Click <strong><code>Continue</code></strong>.</li>
+                    <li>Click <strong><code>OK</code></strong>.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Both methods will generate an Output Viewer with a table of descriptive statistics. For your <code>combined_satisfaction</code> score, the summary statistics are:</p>
+        <ul>
+            <li><strong>Count:</strong> 100</li>
+            <li><strong>Mean:</strong> 3.04</li>
+            <li><strong>Standard Deviation (Std):</strong> 1.40</li>
+            <li><strong>Minimum:</strong> 1.00</li>
+            <li><strong>25th Percentile:</strong> 1.60 (from Frequencies output if you checked quartiles)</li>
+            <li><strong>Median (50th Percentile):</strong> 3.10</li>
+            <li><strong>75th Percentile:</strong> 4.45 (from Frequencies output if you checked quartiles)</li>
+            <li><strong>Maximum:</strong> 5.00</li>
+        </ul>
+        <p>These statistics give you a good overview of your participants' overall satisfaction levels.</p>
+
+        <hr>
+
+        <h3>How to Write-Up Reliability Results</h3>
+        <p>When you're writing up your research, it's crucial to clearly report the reliability of your measures. Here's a template for how a beginner student can write up the results for Cronbach's Alpha:</p>
+        <div class="writeup-box">
+            <h4>Example Write-Up:</h4>
+            <p>"The internal consistency reliability of the five-item satisfaction scale was assessed using Cronbach's Alpha. The analysis revealed excellent internal consistency, with a Cronbach's Alpha of &alpha; = 0.96. This indicates that the five items consistently measure the same underlying construct of satisfaction. Given the high internal consistency, the five items were averaged to create a single 'combined satisfaction' score for subsequent analyses."</p>
+        </div>
+        <h4>Key elements to include:</h4>
+        <ul>
+            <li><strong>What was assessed:</strong> Clearly state the scale or measure whose reliability was assessed.</li>
+            <li><strong>Method:</strong> Specify that Cronbach's Alpha was used.</li>
+            <li><strong>Result:</strong> Report the exact Cronbach's Alpha value.</li>
+            <li><strong>Interpretation:</strong> Briefly interpret what the alpha value means in the context of your scale (e.g., excellent, good, acceptable).</li>
+            <li><strong>Action taken:</strong> If a combined score was created, mention how it was done (e.g., averaged, summed).</li>
+        </ul>
+
+    </div>
+</body>
+</html>
