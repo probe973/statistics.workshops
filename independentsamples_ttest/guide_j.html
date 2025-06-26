@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Independent-samples t-test using jamovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Merged Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00; /* Red color for actual code snippets */
+        }
+        /* Ensure paragraphs and list items within the container are dark and use the Inter font */
+        .container p, .container ul li, .container ol li {
+            color: #222;
+            font-family: 'Inter', sans-serif;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap; /* Ensures text wraps */
+            word-wrap: break-word; /* Breaks long words */
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap; /* Allow items to wrap */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
+    </div>
+    <div class="container">
+        <h1>Independent-samples t-test using jamovi</h1>
+        <p class="subtitle">A Guide to Comparing Two Independent Group Means</p>
+
+        <p>This guide will walk you through performing an independent-samples t-test using jamovi. The independent-samples t-test is a statistical analysis used to determine if there is a statistically significant difference between the means of two unrelated (independent) groups on a continuous variable. For example, you might use it to compare the average test scores of students who received tutoring versus those who did not, or the average anxiety levels of two different treatment groups.</p>
+
+        <p>In this walkthrough, we will use jamovi to perform an independent-samples t-test to decide whether accessing study support services makes a statistically significant difference to students' final exam scores. This directly aligns with the definition of the t-test: we are comparing the mean final exam scores (a continuous variable) between two independent groups (those who used study support services and those who did not).</p>
+
+        <p>Before you begin, ensure you have your <code class="no-mathjax-process">omni.omv</code> file open in jamovi. We will be using the variables:</p>
+        <ul>
+            <li><code class="no-mathjax-process">final_exam_score</code>: The continuous dependent variable (the score we are comparing).</li>
+            <li><code class="no-mathjax-process">used_study_support_services</code>: The categorical grouping variable (Yes/No).</li>
+        </ul>
+
+        <hr>
+
+        <h2>Assumptions of the Independent-Samples t-test</h2>
+        <p>Before performing an independent-samples t-test, it's important to check that your data meets certain assumptions. Violating these assumptions can lead to unreliable results. Here are the key assumptions:</p>
+        <ol>
+            <li><strong>Independence of Observations:</strong>
+                <ul>
+                    <li><strong>Meaning:</strong> The data points within each group, and between the groups, must be independent of each other. This means that the measurements for one participant should not influence, or be influenced by, the measurements for any other participant. For instance, in our example, one student's final exam score should not depend on another student's score, and the "Yes" group's scores should not influence the "No" group's scores.</li>
+                    <li><strong>Check:</strong> This assumption is typically ensured by the study design (e.g., random sampling, ensuring participants are not related or influencing each other).</li>
+                </ul>
+            </li>
+            <li><strong>Scale of Measurement:</strong>
+                <ul>
+                    <li><strong>Meaning:</strong> The dependent variable (the score you're measuring) should be measured on a continuous scale (interval or ratio).</li>
+                    <li><strong>Check:</strong> In our example, <code class="no-mathjax-process">final_exam_score</code> is a continuous variable, so this assumption is met.</li>
+                </ul>
+            </li>
+            <li><strong>Normality of the Dependent Variable:</strong>
+                <ul>
+                    <li><strong>Meaning:</strong> The dependent variable should be approximately normally distributed for each of the two independent groups.</li>
+                    <li><strong>Check:</strong> You can assess normality using numerical summaries (Skewness and Kurtosis and their Z-scores), visual tools (Histograms and Q-Q plots), and statistical tests (Shapiro-Wilk). For a detailed guide on how to check normality in jamovi, please refer to our dedicated guide: <a href="../assessing_normality_of_data/guide_j.html">Assessing Normality in jamovi</a>.</li>
+                </ul>
+            </li>
+            <li><strong>Homogeneity of Variances (Equality of Variances):</strong>
+                <ul>
+                    <li><strong>Meaning:</strong> The variability (spread) of scores in the dependent variable should be roughly equal across the two independent groups. In other words, the standard deviations of the two groups should be similar.</li>
+                    <li><strong>Check:</strong> This assumption is tested using <strong>Levene's Test for Equality of Variances</strong>, which jamovi will automatically provide as part of the t-test output.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <div class="reflection-question">
+            <h4>Reflection Question & Task (Assumptions):</h4>
+            <p><strong>Task:</strong> Before proceeding, use the steps outlined in the <a href="../assessing_normality_of_data/guide_j.html">Assessing Normality in jamovi</a> guide to check the normality of the <code class="no-mathjax-process">final_exam_score</code> variable separately for each group (those who <code>used_study_support_services</code> = Yes and those who <code>used_study_support_services</code> = No).</p>
+            <p>You should find evidence that both groups for <code class="no-mathjax-process">final_exam_score</code> are normally distributed, and so this assumption is met.</p>
+        </div>
+
+        <hr>
+
+        <h2>Hypothesis Testing</h2>
+        <p>Every statistical test involves setting up hypotheses to guide our investigation and drawing conclusions based on the evidence from our data.</p>
+        <ul>
+            <li><strong>Null Hypothesis (H<sub>0</sub>):</strong> This is the statement that there is <strong>no statistically significant difference</strong> between the means of the two groups on the dependent variable. For our example:
+                <pre><code>H_0: There is no significant difference in the mean final exam scores between students who used study support services and those who did not.</code></pre>
+                (Or, more formally: the population mean final exam score for those who used support services = the population mean final exam score for those who did not use support services)
+            </li>
+            <li><strong>Alternative Hypothesis (H<sub>1</sub>):</strong> This is the statement that there <strong>is a statistically significant difference</strong> between the means of the two groups. This is what we are trying to find evidence for. For our example:
+                <pre><code>H_1: There is a significant difference in the mean final exam scores between students who used study support services and those who did not.</code></pre>
+                (Or, more formally: the population mean final exam score for those who used support services != the population mean final exam score for those who did not use support services)
+            </li>
+        </ul>
+        <p>The independent-samples t-test will produce a <strong>t-statistic</strong> (a single value that summarizes the difference between the groups relative to the variability within the groups) and a <strong>p-value</strong>. The p-value tells us the probability of observing our data (or more extreme data) if the null hypothesis were true.</p>
+        <p>To interpret the p-value, we compare it to a predetermined <strong>alpha (alpha) level</strong>, which is our chosen significance level. A commonly used alpha level in social sciences is `0.05`.</p>
+        <ul>
+            <li>If the <strong>p-value is less than alpha (p < 0.05)</strong>, we <strong>reject the null hypothesis</strong>. This means there is enough statistical evidence to conclude that a significant difference exists between the group means.</li>
+            <li>If the <strong>p-value is greater than or equal to alpha (p >= 0.05)</strong>, we <strong>fail to reject the null hypothesis</strong>. This means there is not enough statistical evidence to conclude that a significant difference exists between the group means. (Note: "Failing to reject" is not the same as "accepting" the null hypothesis; it simply means we don't have enough evidence to confidently say there's a difference based on our data.)</li>
+        </ul>
+
+        <h3>Understanding Effect Size (Cohen's d)</h3>
+        <p>While the p-value tells us whether a difference is statistically significant, it doesn't tell us about the *magnitude* or *practical importance* of that difference. This is where <strong>effect size</strong> comes in. For the independent-samples t-test, a common effect size measure is **Cohen's d**.</p>
+        <ul>
+            <li><strong>Meaning:</strong> Cohen's d quantifies the standardized difference between two group means. It expresses the difference in terms of standard deviation units. For instance, a Cohen's d of 0.5 means the two group means differ by half a standard deviation.</li>
+            <li><strong>Interpretation Guidelines (Cohen, 1988):</strong>
+                <ul>
+                    <li>`d = 0.2`: <strong>Small</strong> effect size (a small, but perhaps noticeable, difference).</li>
+                    <li>`d = 0.5`: <strong>Medium</strong> effect size (a moderate difference that is noticeable to the naked eye).</li>
+                    <li>`d = 0.8`: <strong>Large</strong> effect size (a large and substantially noticeable difference).</li>
+                </ul>
+            </li>
+            <li><strong>Why it's important:</strong> A statistically significant p-value (especially with a large sample size) might sometimes indicate a very small, practically unimportant difference. Effect size helps you judge if the observed difference is meaningful in the real world.</li>
+        </ul>
+
+        <hr>
+
+        <h2>Guide to Carrying Out the Test in jamovi</h2>
+        <p>Follow these steps to perform the independent-samples t-test in jamovi:</p>
+        <ol>
+            <li>In jamovi, go to <code>Analyses > T-Tests > Independent Samples T-Test</code>.</li>
+            <li>A new analysis pane will open on the right.
+                <ul>
+                    <li>Move your dependent variable, <code class="no-mathjax-process">final_exam_score</code>, into the <code>Dependent Variables</code> box.</li>
+                    <li>Move your grouping variable, <code class="no-mathjax-process">used_study_support_services</code>, into the <code>Grouping Variable</code> box.</li>
+                </ul>
+            </li>
+            <li>Under <code>Tests</code>, ensure <code>Student's</code> is selected by default. We will adjust this based on the variance assumption.</li>
+            <li>Under <code>Assumptions</code>, make sure <code>Equality of variances</code> (Levene's test) is checked. This will tell you if the variances between your groups are equal.</li>
+            <li>Under <code>Additional Options</code>:
+                <ul>
+                    <li>Check <code>Descriptives</code> to get the mean, standard deviation, and standard error for each group.</li>
+                    <li>Check <code>Mean plot</code> to visually represent the means of the two groups.</li>
+                    <li>Check <code>Effect size</code> and ensure `Cohen's d` is selected. This provides a measure of the size of the difference between the groups, independent of sample size.</li>
+                </ul>
+            </li>
+            <li>Now, look at the output in the jamovi results pane.
+                <p><strong>Checking the Equality of Variances (Levene's Test):</strong></p>
+                <p>First, examine the "Assumption Checks" table, specifically the row for "Equality of variances (Levene's)". Look at the <code>p</code> value (often labelled <code>p</code>).</p>
+                <ul>
+                    <li>If Levene's Test has a **non-significant p-value (p >= 0.05)**, it means the assumption of equality of variances is met. In this case, you should continue to use the **Student's t-test**.</li>
+                    <li>If Levene's Test has a **significant p-value (p < 0.05)**, it means the assumption of equality of variances is violated. In this case, you should go back to the "Tests" section in the analysis options and select the **Welch's t-test** checkbox instead of Student's. Welch's t-test adjusts for unequal variances.</li>
+                </ul>
+                <p>For our data, you should find that Levene's Test is non-significant, so we will use the Student's t-test results.</p>
+            </li>
+        </ol>
+
+        <div class="reflection-question">
+            <h4>Reflection Questions & Task (Test Results):</h4>
+            <ol>
+                <li>From the "Group Descriptives" table, what are the mean and standard deviation for 'final_exam_score' for students who <code>used_study_support_services</code> = Yes, and for those who <code>used_study_support_services</code> = No? What is the mean difference between these two groups?</li>
+                <li>What is the p-value for Levene's Test for Equality of Variances? Based on this p-value, which version of the t-test (Student's or Welch's) should you interpret?</li>
+                <li>From the "Independent Samples T-Test" table (using the appropriate row based on Levene's test), what is the t-statistic, degrees of freedom (df), and the p-value for your comparison? What is Cohen's d?</li>
+                <li>Based on the t-test p-value and an alpha level of 0.05, what is your statistical conclusion regarding the difference in final exam scores between the two groups?</li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h4>Suggested Solutions for Reflection Questions (Test Results):</h4>
+            <ol>
+                <li>From the "Group Descriptives" table:
+                    <ul>
+                        <li><strong>Used Support Services = No:</strong> Mean = 72.30, Standard Deviation = 5.84, N = 48</li>
+                        <li><strong>Used Support Services = Yes:</strong> Mean = 76.90, Standard Deviation = 4.77, N = 52</li>
+                    </ul>
+                    The mean difference is 76.90 - 72.30 = 4.60. Students who used support services had, on average, a higher final exam score.</li>
+                <li>You should find that Levene's Test for Equality of Variances has a p-value of 0.237 (p >= 0.05). Since the p-value is greater than 0.05, we **do not reject the null hypothesis** for Levene's test, meaning the assumption of equality of variances is met. Therefore, you should interpret the results from the **Student's t-test** row.</li>
+                <li>From the "Independent Samples T-Test" table (Student's row):
+                    <ul>
+                        <li>t-statistic = -4.30</li>
+                        <li>Degrees of freedom (df) = 98</li>
+                        <li>p-value < 0.001</li>
+                        <li>Cohen's d = -0.860</li>
+                    </ul>
+                </li>
+                <li>Given a p-value of < 0.001, which is less than our alpha level of 0.05 (p < 0.05), we **reject the null hypothesis**. This means there **is a statistically significant difference** in the mean final exam scores between students who used study support services and those who did not. Specifically, students who used study support services (M = 76.90) had significantly higher final exam scores than those who did not (M = 72.30).</li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h2>Writing Up the Independent-Samples t-test Results</h2>
+        <p>When reporting the results of a t-test, you typically include descriptive statistics, the results of Levene's test, the t-statistic, degrees of freedom, p-value, and an effect size (like Cohen's d). Here's a general template and then the specific write-up for our example.</p>
+
+        <h3>General Template for Write-Up:</h3>
+        <p>An independent-samples t-test was conducted to compare [dependent variable] between [group 1] (M = [Mean 1], SD = [SD 1]) and [group 2] (M = [Mean 2], SD = [SD 2]).</p>
+
+        <p>[If Levene's is non-significant]: Levene's test for equality of variances was not significant (F([df1], [df2]) = [F-value], p = [Levene's p-value]), indicating that the assumption of equal variances was met. The Student's independent-samples t-test was used.</p>
+        <p>[If Levene's is significant]: Levene's test for equality of variances was significant (F([df1], [df2]) = [F-value], p = [Levene's p-value]), indicating that the assumption of equal variances was violated. Therefore, Welch's independent-samples t-test was used.</p>
+
+        <p>There [was/was no] a statistically significant difference in [dependent variable] between [group 1] and [group 2], t([df]) = [t-statistic], p = [p-value], Cohen's d = [Cohen's d].</p>
+        <p>[If significant]: Specifically, [group with higher mean] (M = [Mean higher]) had significantly higher [dependent variable] than [group with lower mean] (M = [Mean lower]).</p>
+        <p>[If not significant]: The observed difference in means (Mean difference = [Mean 1 - Mean 2]) was not statistically significant.</p>
+
+        <h3>Actual Write-Up for the Example:</h3>
+        <p>An independent-samples t-test was conducted to compare final exam scores between students who did not use study support services (M = 72.30, SD = 5.84, N = 48) and those who did use study support services (M = 76.90, SD = 4.77, N = 52). Levene's test for equality of variances was not significant (F(1, 98) = 1.42, p = 0.237), indicating that the assumption of equal variances was met. The Student's independent-samples t-test was used.</p>
+        <p>There was a statistically significant difference in final exam scores between students who did not use study support services and those who did, t(98) = -4.30, p < 0.001, Cohen's d = -0.860. Specifically, students who used study support services (M = 76.90) had significantly higher final exam scores than those who did not (M = 72.30).</p>
+    </div>
+</body>
+</html>
