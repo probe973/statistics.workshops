@@ -255,7 +255,7 @@
         </ul>
 
         <h3>Understanding Effect Size (Cohen's d)</h3>
-        <p>While the p-value tells us whether a difference is statistically significant, it doesn't tell us about the *magnitude* or *practical importance* of that difference. This is where <strong>effect size</strong> comes in. For the independent-samples t-test, a common effect size measure is **Cohen's d**.</p>
+        <p>While the p-value tells us whether a difference is statistically significant, it doesn't tell us about the *magnitude* or *practical importance* of that difference. This is where <strong>effect size</strong> comes in. For the independent-samples t-test, a common effect size measure is <strong>Cohen's d</strong>.</p>
         <ul>
             <li><strong>Meaning:</strong> Cohen's d quantifies the standardized difference between two group means. It expresses the difference in terms of standard deviation units. For instance, a Cohen's d of 0.5 means the two group means differ by half a standard deviation.</li>
             <li><strong>Interpretation Guidelines (Cohen, 1988):</strong>
@@ -293,8 +293,8 @@
                 <p><strong>Checking the Equality of Variances (Levene's Test):</strong></p>
                 <p>First, examine the "Assumption Checks" table, specifically the row for "Equality of variances (Levene's)". Look at the <code>p</code> value (often labelled <code>p</code>).</p>
                 <ul>
-                    <li>If Levene's Test has a **non-significant p-value (p >= 0.05)**, it means the assumption of equality of variances is met. In this case, you should continue to use the **Student's t-test**.</li>
-                    <li>If Levene's Test has a **significant p-value (p < 0.05)**, it means the assumption of equality of variances is violated. In this case, you should go back to the "Tests" section in the analysis options and select the **Welch's t-test** checkbox instead of Student's. Welch's t-test adjusts for unequal variances.</li>
+                    <li>If Levene's Test has a <strong>non-significant p-value (p >= 0.05)</strong>, it means the assumption of equality of variances is met. In this case, you should continue to use the <strong>Student's t-test</strong>.</li>
+                    <li>If Levene's Test has a <strong>significant p-value (p < 0.05)</strong>, it means the assumption of equality of variances is violated. In this case, you should go back to the "Tests" section in the analysis options and select the <strong>Welch's t-test</strong> checkbox instead of Student's. Welch's t-test adjusts for unequal variances.</li>
                 </ul>
                 <p>For our data, you should find that Levene's Test is non-significant, so we will use the Student's t-test results.</p>
             </li>
@@ -319,7 +319,7 @@
                         <li><strong>Used Support Services = Yes:</strong> Mean = 76.90, Standard Deviation = 4.77, N = 52</li>
                     </ul>
                     The mean difference is 76.90 - 72.30 = 4.60. Students who used support services had, on average, a higher final exam score.</li>
-                <li>You should find that Levene's Test for Equality of Variances has a p-value of 0.237 (p >= 0.05). Since the p-value is greater than 0.05, we **do not reject the null hypothesis** for Levene's test, meaning the assumption of equality of variances is met. Therefore, you should interpret the results from the **Student's t-test** row.</li>
+                <li>You should find that Levene's Test for Equality of Variances has a p-value of 0.237 (p >= 0.05). Since the p-value is greater than 0.05, we <strong>do not reject the null hypothesis</strong> for Levene's test, meaning the assumption of equality of variances is met. Therefore, you should interpret the results from the <strong>Student's t-test</strong> row.</li>
                 <li>From the "Independent Samples T-Test" table (Student's row):
                     <ul>
                         <li>t-statistic = -4.30</li>
@@ -328,7 +328,7 @@
                         <li>Cohen's d = -0.860</li>
                     </ul>
                 </li>
-                <li>Given a p-value of < 0.001, which is less than our alpha level of 0.05 (p < 0.05), we **reject the null hypothesis**. This means there **is a statistically significant difference** in the mean final exam scores between students who used study support services and those who did not. Specifically, students who used study support services (M = 76.90) had significantly higher final exam scores than those who did not (M = 72.30).</li>
+                <li>Given a p-value of < 0.001, which is less than our alpha level of 0.05 (p < 0.05), we <strong>reject the null hypothesis</strong>. This means there <strong>is a statistically significant difference</strong> in the mean final exam scores between students who used study support services and those who did not. Specifically, students who used study support services (M = 76.90) had significantly higher final exam scores than those who did not (M = 72.30).</li>
             </ol>
         </div>
 
