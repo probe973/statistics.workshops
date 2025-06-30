@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-way ANOVA using jamovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Merged Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .button-group a {
+            background-color: #004085;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .button-group a:hover {
+            background-color: #002c5a;
+            transform: translateY(-2px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
+    </div>
+    <div class="container">
+        <h1>One-way ANOVA using jamovi</h1>
+        <p class="subtitle">A Guide to Understanding and Performing ANOVA with jamovi</p>
+
+        <p>ANOVA is an abbreviation of Analysis of Variance. It can be used to <strong>determine if there are statistically significant differences between the means of three or more independent (unrelated) groups on a continuous dependent variable.</strong> While it shares a goal with the independent-samples t-test (comparing means), ANOVA is specifically designed for situations with more than two groups, helping to avoid the increased risk of Type I errors that would arise from performing multiple t-tests. A one-way ANOVA is used to determine whether there are differences in a measure variable based on a single categorical factor. This factor can have more than two levels, unlike the independent-samples t-test where there could only be two. Some examples of where a one-way ANOVA could be used include:</p>
+        <ul>
+            <li>Comparing the effectiveness of three different teaching methods (e.g., traditional lecture, blended learning, flipped classroom) on student exam scores.</li>
+            <li>Assessing if anxiety levels differ among people with mild, moderate, and severe depression.</li>
+            <li>Investigating if plant growth varies significantly under three different fertilizer types.</li>
+        </ul>
+        <p>In this guide we will go over performing a one-way ANOVA to determine the following:</p>
+        <ul>
+            <li>Does preferred study method (flashcards, practice tests, summarising) make a difference to final examination score?</li>
+            <li>Does study session group (low, medium, high number of sessions) make a difference to the study session score?</li>
+        </ul>
+        <p>You will be making using of the `omni` dataset, which has been used throughout all these guides. Please make sure you have downloaded the data and loaded into jamovi.</p>
+
+        <h2>Assumptions of a One-way ANOVA</h2>
+        <p>For a one-way ANOVA, there are several key assumptions that should ideally be met for the results to be reliable. It's important to check these before interpreting your ANOVA output:</p>
+        <ol>
+            <li><strong>Independence of Observations:</strong> The observations within each group must be independent of each other. This means that the data points in one group should not be related to or influenced by data points in another group, or within the same group. This is typically ensured by the study design (e.g., participants are randomly assigned to groups, or each participant provides only one data point).</li>
+            <li><strong>Normality:</strong> The dependent variable should be approximately normally distributed for each group. While ANOVA is robust to minor violations of normality, particularly with larger sample sizes, severe non-normality can affect the validity of the p-value.
+                <ul>
+                    <li><strong>How to check:</strong> In jamovi, you can assess normality using descriptive statistics (checking skewness and kurtosis values for each group) and statistical tests like the Shapiro-Wilk test. Visual inspection of histograms and Q-Q plots for each group is also helpful.</li>
+                </ul>
+            </li>
+            <li><strong>Homogeneity of Variances (Homoscedasticity):</strong> The variance of the dependent variable should be approximately equal across all groups. This means that the spread of data points around the mean should be similar in each group.
+                <ul>
+                    <li><strong>How to check:</strong> The most common test for this assumption is Levene's test. In jamovi, you can easily select this option within the ANOVA analysis.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>The assumption of normality of normality has been passed for the variables we are looking at today.</p>
+        <div class="reflection-question">
+            <h4>Task:</h4>
+            <p>Check the assumption of normality for these variables. You can use <a href="../assessing_normality_of_data/guide_j.html">this earlier guide</a> if you want to review this.</p>
+        </div>
+
+        <h2>Null and Alternative Hypotheses</h2>
+        <p>The null hypothesis (H<sub>0</sub>) of a one-way ANOVA is that the mean score for all groups will be the same.</p>
+        <p style="text-align: center;">H<sub>0</sub>: &#x03BC;<sub>1</sub> = &#x03BC;<sub>2</sub> = &#x03BC;<sub>3</sub> = &hellip; = &#x03BC;<sub>k</sub></p>
+        <p>(where &#x03BC; represents the mean, and k is the number of groups)</p>
+        <p>The alternative hypothesis (H<sub>1</sub>) is that there is a difference in the mean score between some, or all, of the groups.</p>
+        <p style="text-align: center;">H<sub>1</sub>: Not all means are equal</p>
+        <p>The ANOVA is carried out and produces an F statistic and a p-value. If this p-value is less than a defined amount, normally 0.05 is used, then this gives evidence of there being a difference between the groups. If this is not the case then we have not found enough evidence that the groups make a difference to the score.</p>
+
+        <h2>One-way ANOVA procedure in jamovi for final examination score by study method</h2>
+        <h3>Procedure for final examination score by study method</h3>
+        <p>To conduct a One-Way ANOVA in jamovi for `final_exam_score` by `preferred_study_method`, follow these steps:</p>
+        <ol>
+            <li>Open your `omni` dataset in jamovi.</li>
+            <li>In jamovi, navigate to the <strong>Analyses</strong> tab, then select <strong>ANOVA &gt; One-Way ANOVA</strong>.</li>
+            <li>In the analysis options that appear:
+                <ul>
+                    <li>Move `final_exam_score` into the <strong>Dependent Variables</strong> box.</li>
+                    <li>Move `preferred_study_method` into the <strong>Grouping Variable</strong> box.</li>
+                </ul>
+            </li>
+            <li>Under the <strong>Assumptions Checks</strong> options, tick the box for <strong>Homogeneity tests</strong>. This will provide Levene's test results.</li>
+            <li>Under the <strong>Display</strong> options, tick the boxes for <strong>Descriptive statistics</strong> and <strong>Descriptive plots</strong>.</li>
+        </ol>
+
+        <p>The following results are given:</p>
+        <h4>Levene&rsquo;s Test for Homogeneity of Variances</h4>
+        <p>You should find a table titled "Homogeneity of Variances Tests" in your jamovi output:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Statistic</th>
+                    <th>df1</th>
+                    <th>df2</th>
+                    <th>p</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Levene&rsquo;s</td>
+                    <td>1.30</td>
+                    <td>2</td>
+                    <td>97</td>
+                    <td>0.276</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Here's how to interpret these numbers:</p>
+        <ul>
+            <li>The <strong>F-statistic (Statistic)</strong> is 1.30.</li>
+            <li>The <strong>degrees of freedom (df1 and df2)</strong> are 2 and 97, respectively.</li>
+            <li>The <strong>p-value (p)</strong> is 0.276.</li>
+        </ul>
+        <p>Since the p-value for Levene&rsquo;s test (0.276) is greater than our typical alpha level of 0.05, we do not reject the null hypothesis of Levene&rsquo;s test. This indicates that <strong>the assumption of equality of variances has been met</strong>. Therefore, for the main ANOVA, you should interpret the results from <strong>Fisher&rsquo;s F-test</strong> (the default in jamovi when homogeneity is assumed). If the p-value had been less than 0.05, we would use Welch&rsquo;s F-test instead.</p>
+
+        <h4>Descriptive Statistics</h4>
+        <p>The "Group Descriptives" table provides summary statistics for each group:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>preferred_study_method</th>
+                    <th>N</th>
+                    <th>Mean</th>
+                    <th>SD</th>
+                    <th>SE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>final_exam_score</td>
+                    <td>Flashcards</td>
+                    <td>36</td>
+                    <td>75.6</td>
+                    <td>6.45</td>
+                    <td>1.075</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Practice Tests</td>
+                    <td>31</td>
+                    <td>74.5</td>
+                    <td>5.35</td>
+                    <td>0.961</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Summarizing</td>
+                    <td>33</td>
+                    <td>73.9</td>
+                    <td>5.36</td>
+                    <td>0.932</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>From this table, you can see the mean final exam scores for students who used Flashcards (75.6), Practice Tests (74.5), and Summarizing (73.9).</p>
+
+        <h4>ANOVA Results</h4>
+        <p>Look for the "One-Way ANOVA (Fisher&rsquo;s)" table in your output:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>F</th>
+                    <th>df1</th>
+                    <th>df2</th>
+                    <th>p</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>final_exam_score</td>
+                    <td>0.791</td>
+                    <td>2</td>
+                    <td>97</td>
+                    <td>0.456</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Here's what these values mean:</p>
+        <ul>
+            <li><strong>F (0.791):</strong> This is the F-statistic, which is the test statistic for ANOVA.</li>
+            <li><strong>df1 (2):</strong> This is the numerator degrees of freedom, which relates to the number of groups.</li>
+            <li><strong>df2 (97):</strong> This is the denominator degrees of freedom, which relates to the total sample size.</li>
+            <li><strong>p (0.456):</strong> This is the p-value associated with the F-statistic.</li>
+        </ul>
+
+        <div class="reflection-question">
+            <h4>Question:</h4>
+            <p>Is there evidence that the study method makes a difference to the final exam grade?</p>
+            <h4>Answer:</h4>
+            <p>Based on the ANOVA results, there is no statistically significant evidence that the preferred study method makes a difference to the final exam grade. The p-value obtained is 0.456, which is greater than the conventional significance level of 0.05. Therefore, we do not reject the null hypothesis, meaning we do not have sufficient evidence to conclude that there is a significant difference in final exam scores between the different study methods.</p>
+        </div>
+
+        <h2>Effect Size</h2>
+        <p>Effect Size is a measure of the magnitude of the difference or relationship between variables, independent of sample size. For ANOVA, a common effect size measure is <strong>Eta Squared (&eta;<sup>2</sup>)</strong>. It represents the proportion of the total variance in the dependent variable that is accounted for by the independent variable (the grouping factor).</p>
+        <ul>
+            <li><strong>Interpretation of Eta Squared (&eta;<sup>2</sup>):</strong>
+                <ul>
+                    <li><strong>Small Effect:</strong> &eta;<sup>2</sup> = 0.01 (meaning 1% of the variance in the dependent variable is explained by the independent variable)</li>
+                    <li><strong>Medium Effect:</strong> &eta;<sup>2</sup> = 0.06 (meaning 6% of the variance is explained)</li>
+                    <li><strong>Large Effect:</strong> &eta;<sup>2</sup> = 0.14 (meaning 14% of the variance is explained)</li>
+                </ul>
+            </li>
+        </ul>
+        <p>The one-way ANOVA approach in jamovi does not produce the effect size measure directly in the primary output table. You can get it by running the ANOVA in a slightly different way.</p>
+
+        <h3>Procedure to obtain Eta Squared (&eta;<sup>2</sup>) in jamovi:</h3>
+        <p>Go through the ANOVA &gt; ANOVA approach instructions, ensuring the user selects the eta squared box.</p>
+        <ol>
+            <li>In jamovi, go to the <strong>Analyses</strong> tab, then select <strong>ANOVA &gt; ANOVA</strong> (this is the more general ANOVA analysis module, not the "One-Way ANOVA" module).</li>
+            <li>In the analysis options:
+                <ul>
+                    <li>Move `final_exam_score` to the <strong>Dependent Variable</strong> box.</li>
+                    <li>Move `preferred_study_method` to the <strong>Fixed Factors</strong> box.</li>
+                </ul>
+            </li>
+            <li>Under the <strong>Effect Size</strong> options, tick the box for <strong>&eta;<sup>2</sup></strong>.</li>
+        </ol>
+
+        <p>This gives the result:</p>
+        <h4>ANOVA - final_exam_score</h4>
+        <p>Locate the "ANOVA - final_exam_score" table in your jamovi output. You should see a column for &eta;<sup>2</sup>:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Sum of Squares</th>
+                    <th>df</th>
+                    <th>Mean Square</th>
+                    <th>F</th>
+                    <th>p</th>
+                    <th>&eta;<sup>2</sup></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>preferred_study_method</td>
+                    <td>52.7</td>
+                    <td>2</td>
+                    <td>26.4</td>
+                    <td>0.791</td>
+                    <td>0.456</td>
+                    <td>0.016</td>
+                </tr>
+                <tr>
+                    <td>Residuals</td>
+                    <td>3233.9</td>
+                    <td>97</td>
+                    <td>33.3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The effect size, &eta;<sup>2</sup>, is found in the last column, on the row corresponding to your independent variable (`preferred_study_method`). In this case, &eta;<sup>2</sup> = 0.016.</p>
+
+        <div class="reflection-question">
+            <h4>Question:</h4>
+            <p>What is the size of the effect of study method on final examination score?</p>
+            <h4>Answer:</h4>
+            <p>The size of the effect of study method on final examination score, as measured by Eta Squared (&eta;<sup>2</sup>), is 0.016. According to Cohen's guidelines for interpreting effect sizes, an &eta;<sup>2</sup> of 0.01 is considered a small effect. Therefore, an &eta;<sup>2</sup> of 0.016 indicates a very small practical effect, meaning that preferred study method accounts for only 1.6% of the variance in final examination scores.</p>
+        </div>
+
+        <h2>Write-up Results</h2>
+        <p>Here's an example write-up of these results:</p>
+        <div class="write-up-template">
+            <p>A one-way ANOVA was conducted to examine the effect of preferred study method (Flashcards, Practice Tests, Summarizing) on final examination scores. Levene's test indicated that the assumption of homogeneity of variances was met, <i>F</i>(2, 97) = 1.30, <i>p</i> = 0.276. The ANOVA results showed that there was no statistically significant effect of preferred study method on final examination score, <i>F</i>(2, 97) = 0.791, <i>p</i> = 0.456. The effect size, as measured by Eta Squared, was &eta;<sup>2</sup> = 0.016, which indicates a very small effect, accounting for only 1.6% of the variance in final examination scores. Descriptive statistics revealed that students using Flashcards had a mean score of 75.60 (<i>M</i> = 75.60, <i>SD</i> = 6.45), Practice Tests a mean of 74.50 (<i>M</i> = 74.50, <i>SD</i> = 5.35), and Summarizing a mean of 73.90 (<i>M</i> = 73.90, <i>SD</i> = 5.36).</p>
+        </div>
+
+        <hr>
+
+        <h2>One-way ANOVA procedure in jamovi for study session score by study session group</h2>
+        <h3>Procedure for study session score by study session group</h3>
+        
+        <div class="reflection-question">
+            <h4>Task:</h4>
+            <p>Use the previous part of the guide to conduct a one-way ANOVA to determine whether the study session group makes a difference to the study session score.</p>
+        </div>
+        <p>To perform this analysis in jamovi, follow the same steps as detailed for the `final_exam_score` analysis, but substitute the variables:</p>
+        <ol>
+            <li>In jamovi, navigate to the <strong>Analyses</strong> tab, then select <strong>ANOVA &gt; One-Way ANOVA</strong>.</li>
+            <li>In the analysis options:
+                <ul>
+                    <li>Move `study_session_score` into the <strong>Dependent Variables</strong> box.</li>
+                    <li>Move `study_session_group` into the <strong>Grouping Variable</strong> box.</li>
+                </ul>
+            </li>
+            <li>Under the <strong>Assumptions Checks</strong> options, tick the box for <strong>Homogeneity tests</strong>.</li>
+            <li>Under the <strong>Display</strong> options, tick the boxes for <strong>Descriptive statistics</strong> and <strong>Descriptive plots</strong>.</li>
+            <li>To get the effect size (&eta;<sup>2</sup>), you will need to run the more general ANOVA module. Go to <strong>Analyses &gt; ANOVA &gt; ANOVA</strong> (general ANOVA).
+                <ul>
+                    <li>Move `study_session_score` to <strong>Dependent Variable</strong>.</li>
+                    <li>Move `study_session_group` to <strong>Fixed Factors</strong>.</li>
+                    <li>Under <strong>Effect Size</strong>, check <strong>&eta;<sup>2</sup></strong>.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <p>The results will be:</p>
+        <h4>Homogeneity of Variances Tests</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Statistic</th>
+                    <th>df</th>
+                    <th>df2</th>
+                    <th>p</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Levene's</td>
+                    <td>0.160</td>
+                    <td>2</td>
+                    <td>97</td>
+                    <td>0.852</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>ANOVA - study_session_score</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Sum of Squares</th>
+                    <th>df</th>
+                    <th>Mean Square</th>
+                    <th>F</th>
+                    <th>p</th>
+                    <th>&eta;<sup>2</sup></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>study_session_group</td>
+                    <td>2834</td>
+                    <td>2</td>
+                    <td>1416.8</td>
+                    <td>66.0</td>
+                    <td>&lt;.001</td>
+                    <td>0.576</td>
+                </tr>
+                <tr>
+                    <td>Residuals</td>
+                    <td>2082</td>
+                    <td>97</td>
+                    <td>21.5</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4>Group Descriptives</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>study_session_group</th>
+                    <th>N</th>
+                    <th>Mean</th>
+                    <th>SD</th>
+                    <th>SE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>study_session_score</td>
+                    <td>High</td>
+                    <td>31</td>
+                    <td>71.7</td>
+                    <td>4.69</td>
+                    <td>0.843</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Low</td>
+                    <td>33</td>
+                    <td>59.3</td>
+                    <td>4.71</td>
+                    <td>0.820</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Medium</td>
+                    <td>36</td>
+                    <td>69.4</td>
+                    <td>4.51</td>
+                    <td>0.752</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Interpretation of key results.</h3>
+        <p>Here's an interpretation of the key results for `study_session_score` by `study_session_group`:</p>
+        <ul>
+            <li><strong>Homogeneity of Variances (Levene's Test):</strong> The p-value for Levene's test is 0.852. Since this value is greater than 0.05, the assumption of homogeneity of variances is met. This means you should interpret the results from the standard Fisher's F-test.</li>
+            <li><strong>ANOVA Results:</strong> The "ANOVA - study_session_score" table shows an F-statistic of 66.0 with <i>df</i>1 = 2 and <i>df</i>2 = 97, and a p-value of &lt;.001. Since the p-value is less than 0.05, there is a statistically significant effect of `study_session_group` on `study_session_score`. This indicates that there are significant differences in study session scores between at least some of the study session groups.</li>
+            <li><strong>Effect Size (&eta;<sup>2</sup>):</strong> The Eta Squared (&eta;<sup>2</sup>) is 0.576. According to Cohen's guidelines, this is a very large effect size, indicating that approximately 57.6% of the variance in study session scores can be explained by the study session group that individuals belonged to.</li>
+            <li><strong>Descriptive Statistics:</strong>
+                <ul>
+                    <li>The <strong>High</strong> study session group (N=31) had a mean score of 71.7 (<i>SD</i> = 4.69).</li>
+                    <li>The <strong>Low</strong> study session group (N=33) had a mean score of 59.3 (<i>SD</i> = 4.71).</li>
+                    <li>The <strong>Medium</strong> study session group (N=36) had a mean score of 69.4 (<i>SD</i> = 4.51).</li>
+                </ul>
+                These descriptive statistics indicate that the High group achieved the highest average score, followed by the Medium group, and then the Low group.</li>
+        </ul>
+
+        <h2>Post-hoc Tests</h2>
+        <p>When there is significant difference reported by the ANOVA, it can often be useful to determine where the differences occur. For example, is there a difference between the High and the Low group, the High and the Medium group, etc.? To do this we can use post-hoc tests. These are paired comparisons for each of the groups. For the ANOVA, these pairwise comparisons are independent-samples t-test (as there are now only 2 groups). Due to running multiple tests on the same data a correction to the p-value is often made, which means the p-value will be made higher than what you would get from just the t-test. The reason for this is that the p-value in a hypothesis test is the probability of saying there is a difference when in fact one doesn&rsquo;t exist (this is why we are looking for small p-values). Running multiple tests increases the chance of making this mistake (called a Type I error), so a correction is used to reduce this chance. When there are equal variances are assumed, it is often advised to use the Tukey correction, and the Games-Howell correction when equal variances cannot be assumed.</p>
+
+        <h3>Procedure to get Post-hoc Results in jamovi.</h3>
+        <p>To get post-hoc results in jamovi, after running the One-Way ANOVA for `study_session_score` by `study_session_group`, simply click on the analysis in the jamovi output window to bring up its options again. Then, follow these steps:</p>
+        <ol>
+            <li>Under the <strong>Post Hoc tests</strong> options:
+                <ul>
+                    <li>Move `study_session_group` to the <strong>Post Hoc Tests</strong> box.</li>
+                    <li>Since Levene's test for `study_session_score` by `study_session_group` was non-significant (<i>p</i> = 0.852), the assumption of equal variances is met. Therefore, select <strong>Tukey</strong> under the "Correction" options. (If Levene's test had been significant, you would select Games-Howell).</li>
+                </ul>
+            </li>
+        </ol>
+
+        <div class="reflection-question">
+            <h4>Question:</h4>
+            <p>Which pairs of groups show significant differences between each other?</p>
+        </div>
+
+        <p>The results of the post-hoc tests are:</p>
+        <h4>Tukey Post-Hoc Test &ndash; study_session_score</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Medium</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>High</td>
+                    <td>Mean difference</td>
+                    <td>&mdash;</td>
+                    <td>12.4</td>
+                    <td>2.29</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>p-value</td>
+                    <td>&mdash;</td>
+                    <td>&lt;.001</td>
+                    <td>0.113</td>
+                </tr>
+                <tr>
+                    <td>Low</td>
+                    <td>Mean difference</td>
+                    <td></td>
+                    <td>&mdash;</td>
+                    <td>-10.08</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>p-value</td>
+                    <td></td>
+                    <td>&mdash;</td>
+                    <td>&lt;.001</td>
+                </tr>
+                <tr>
+                    <td>Medium</td>
+                    <td>Mean difference</td>
+                    <td></td>
+                    <td></td>
+                    <td>&mdash;</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>p-value</td>
+                    <td></td>
+                    <td></td>
+                    <td>&mdash;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Interpretation of post-hoc results.</h3>
+        <p>Here's how to interpret the key results from the Tukey Post-Hoc Test:</p>
+        <ul>
+            <li><strong>High vs. Low:</strong> The mean difference is 12.4, and the p-value is &lt;.001. Since <i>p</i> &lt; 0.05, there is a <strong>statistically significant difference</strong> between the High and Low study session groups. The High group scored significantly higher on study session scores than the Low group.</li>
+            <li><strong>High vs. Medium:</strong> The mean difference is 2.29, and the p-value is 0.113. Since <i>p</i> &gt; 0.05, there is <strong>no statistically significant difference</strong> between the High and Medium study session groups.</li>
+            <li><strong>Low vs. Medium:</strong> The mean difference is -10.08, and the p-value is &lt;.001. Since <i>p</i> &lt; 0.05, there is a <strong>statistically significant difference</strong> between the Low and Medium study session groups. The Medium group scored significantly higher on study session scores than the Low group.</li>
+        </ul>
+        <p>In summary, the Low study session group had significantly lower study session scores compared to both the High and Medium groups. There was no significant difference between the High and Medium groups.</p>
+
+        <h2>Write-up</h2>
+        <h3>Example write-up of this analysis, with post-hoc.</h3>
+        <div class="write-up-template">
+            <p>A one-way ANOVA was conducted to assess the effect of study session group (High, Low, Medium) on study session scores. Levene's test indicated that the assumption of homogeneity of variances was met, <i>F</i>(2, 97) = 0.160, <i>p</i> = 0.852. The ANOVA revealed a statistically significant effect of study session group on study session score, <i>F</i>(2, 97) = 66.0, <i>p</i> &lt; .001. The effect size, as measured by Eta Squared, was &eta;<sup>2</sup> = 0.576, representing a large effect, with approximately 57.6% of the variance in study session scores accounted for by the study session group.</p>
+            <p>Post-hoc comparisons using Tukey's HSD test indicated that:</p>
+            <ul>
+                <li>The High study session group (<i>M</i> = 71.7, <i>SD</i> = 4.69) scored significantly higher than the Low group (<i>M</i> = 59.3, <i>SD</i> = 4.71), with a mean difference of 12.40, <i>p</i> &lt; .001.</li>
+                <li>The Medium study session group (<i>M</i> = 69.4, <i>SD</i> = 4.51) scored significantly higher than the Low group (<i>M</i> = 59.3, <i>SD</i> = 4.71), with a mean difference of 10.08, <i>p</i> &lt; .001.</li>
+                <li>There was no statistically significant difference between the High (<i>M</i> = 71.7, <i>SD</i> = 4.69) and Medium (<i>M</i> = 69.4, <i>SD</i> = 4.51) study session groups, <i>p</i> = 0.113.</li>
+            </ul>
+            <p>These results indicate that participation in either a High or Medium study session group leads to significantly higher study session scores compared to the Low group, while there is no significant difference in scores between the High and Medium groups themselves.</p>
+        </div>
+    </div>
+</body>
+</html>
