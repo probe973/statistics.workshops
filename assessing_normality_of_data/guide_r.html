@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessing Normality in R Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- MathJax for LaTeX rendering -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          // ONLY use \( \) for inline math and \[ \] for display math
+          inlineMath: [['\\(','\\)']],
+          displayMath: [['\\[','\\]']],
+          // Do not process content within <pre> or <code> tags (e.g., R code)
+          ignoreHtmlClass: "no-mathjax-process",
+          processEscapes: true // Allows for \$ to render a literal dollar sign if needed
+        },
+        // After the DOM is ready, queue the typesetting.
+        // This ensures all content is loaded before MathJax tries to process it.
+        skipStartupTypeset: true
+      });
+
+      window.onload = function () {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+      };
+    </script>
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <style>
+        /* Merged Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00; /* Red color for actual code snippets */
+        }
+        /* Ensure paragraphs within the container are dark and use the Inter font */
+        .container p {
+            color: #222;
+            font-family: 'Inter', sans-serif; /* Explicitly set font to match body */
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap; /* Ensures text wraps */
+            word-wrap: break-word; /* Breaks long words */
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap; /* Allow items to wrap */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../r.html">R Studio Guides</a>
+    </div>
+    <div class="container">
+        <h1>Assessing Normality in R Studio</h1>
+        <p class="subtitle">A Guide to Checking Data Distribution for Statistical Analysis using R</p>
+
+        <p>This guide will walk you through the process of assessing whether your data is "normally distributed" using R Studio. Understanding the distribution of your data, especially its normality, is a critical step in statistical analysis. Many common statistical tests (called <strong>parametric tests</strong>) assume that the data for the variables you are analyzing follow a normal (bell-shaped) distribution. If your data significantly deviates from normality, using these tests might lead to inaccurate conclusions.</p>
+
+        <p>If your data is not normally distributed, you might need to consider <strong>non-parametric tests</strong> (which do not assume normality) or transform your data to make it more normal. Checking normality helps you decide the most appropriate statistical test for your research questions.</p>
+
+        <p>Before you begin, ensure you have your <code>omni.csv</code> file available. Throughout this guide, we will use specific variables from your dataset to illustrate the concepts:</p>
+        <ul>
+            <li><code>final_exam_score</code>: Represents the numerical score achieved by students on a final exam.</li>
+            <li><code>study_hours_per_week</code>: Indicates the number of hours a student reported studying each week.</li>
+            <li><code>anxiety_score_pre</code>: Anxiety level before a study intervention.</li>
+            <li><code>used_study_support_services</code>: A categorical variable indicating whether a student utilized study support services (Yes/No). This variable will be used to demonstrate assessing normality for groups.</li>
+        </ul>
+        <p>First, load your data into R. Assuming <code>omni.csv</code> is in your working directory:</p>
+        <pre class="no-mathjax-process"><code>
+# Load the data into a data frame
+data <- read.csv("omni.csv")
+
+# Display the first few rows to check the data
+head(data)
+        </code></pre>
+        <p>
+            The <code>read.csv()</code> function is used to load data from a CSV (Comma Separated Values) file into a data frame in R. The <code>head()</code> function displays the first six rows, useful for a quick check of your data's structure and content.
+        </p>
+        <p>For some of the analyses, you will need to install and load the <code>psych</code>, <code>ggplot2</code>, and <code>dplyr</code> packages. The following code will install packages only if they are not already installed, then load them.</p>
+        <pre class="no-mathjax-process"><code>
+# Install and load 'psych' package
+if (!require("psych")) {
+  install.packages("psych")
+}; library(psych)
+
+# Install and load 'ggplot2' package
+if (!require("ggplot2")) {
+  install.packages("ggplot2")
+}; library(ggplot2)
+
+# Install and load 'dplyr' package
+if (!require("dplyr")) {
+  install.packages("dplyr")
+}; library(dplyr)
+        </code></pre>
+        <p>
+            This syntax <code>if (!require("package_name")) {install.packages("package_name")}; library(package_name)</code> checks if the package is already loaded and installed. <code>require()</code> attempts to load the package and returns <code>TRUE</code> if successful, <code>FALSE</code> otherwise. The <code>!</code> negates this, so if <code>require()</code> is <code>FALSE</code> (meaning the package is not loaded), <code>install.packages()</code> is called. Finally, <code>library()</code> loads the package into your current R session for use.
+        </p>
+
+        <hr>
+
+        <h2>Part 1: Assessing Normality for a Single Interval/Ratio Variable (Whole Sample)</h2>
+        <p>We will start by examining the normality of <code>final_exam_score</code> for the entire dataset using various methods.</p>
+
+        <h3>1.1 Using Summary Statistics: Skewness and Kurtosis</h3>
+        <p>Skewness and Kurtosis are numerical measures that describe the shape of your data's distribution. They can provide initial hints about normality. The <code>psych</code> package's <code>describe()</code> function is particularly useful as it provides many common descriptives, including skewness, kurtosis, and their standard errors.</p>
+        <ol>
+            <li>Use the <code>describe()</code> function on your variable. The syntax <code>data$final_exam_score</code> accesses the <code>final_exam_score</code> column within your <code>data</code> data frame. <code>na.rm = TRUE</code> tells R to remove any missing values before calculation.</li>
+            <pre class="no-mathjax-process"><code>
+# Get descriptive statistics including skewness, kurtosis, and their standard errors
+describe(data$final_exam_score, na.rm = TRUE)
+            </code></pre>
+            <p><strong>Example Output (for <code>final_exam_score</code>):</strong></p>
+            <pre class="no-mathjax-process"><code>
+          vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+data$final_exam_score    1 100 74.71 5.76   75.00   74.87 5.93  60  89    29 0.00    -0.13 0.58
+            </code></pre>
+            <p>
+                In this output, <code>skew</code> is the skewness value, <code>kurtosis</code> is the kurtosis value, and <code>se</code> is the standard error of the mean.
+                For standardised skewness and kurtosis, we need their respective standard errors (<code>se.skew</code> and <code>se.kurt</code>). While <code>psych::describe</code> implicitly uses these for its p-values in more detailed output, for direct calculation and interpretation, common approximations for the standard error of skewness and kurtosis are used, which depend on your sample size (\(N\)).
+                A common approximation for standard error of skewness is \(\sqrt{6/N}\) and for kurtosis is \(\sqrt{24/N}\). For \(N=100\), these would be \(\sqrt{6/100} \approx 0.245\) and \(\sqrt{24/100} \approx 0.490\).
+            </p>
+        </ol>
+        <p><strong>Interpretation:</strong></p>
+        <ul>
+            <li><strong>Skewness:</strong> A value of 0 indicates perfect symmetry. Positive values mean a tail to the right (data clustered on the left), and negative values mean a tail to the left (data clustered on the right). For a normal distribution, skewness should be close to 0.</li>
+            <li><strong>Kurtosis:</strong> A value of 0 indicates peakedness similar to a normal distribution. Positive values (leptokurtic) mean a more peaked distribution with fatter tails (more outliers), while negative values (platykurtic) mean a flatter distribution with thinner tails. For a normal distribution, kurtosis should be close to 0.</li>
+            <li><strong>Standardised Skewness/Kurtosis (Z-scores):</strong> To formally assess if skewness and kurtosis deviate significantly from normal, you can convert them to Z-scores. The standard errors for skewness and kurtosis are approximated as \(\sqrt{6/N}\) and \(\sqrt{24/N}\) respectively. For \(N=100\) in our dataset:
+                <ul>
+                    <li>Standard Error of Skewness is approximately \(\sqrt{6/100} = 0.245\).</li>
+                    <li>Standard Error of Kurtosis is approximately \(\sqrt{24/100} = 0.490\).</li>
+                    <li>The Z-score for skewness is calculated as:
+                        \[Z_{\text{skew}} = \frac{\text{Skewness}}{\text{Standard Error of Skewness}}\]</li>
+                    <li>The Z-score for kurtosis is calculated as:
+                        \[Z_{\text{kurt}} = \frac{\text{Kurtosis}}{\text{Standard Error of Kurtosis}}\]</li>
+                    <li>If the absolute value of the Z-score for both skewness and kurtosis is <strong>less than 1.96</strong> (i.e., between \(-1.96\) and \(+1.96\)), the distribution is considered sufficiently normal for most practical purposes at a \(p < 0.05\) significance level. Values outside this range suggest significant deviation from normality.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>1.2 Visual Assessment with Histograms</h3>
+        <p>A histogram allows you to visually inspect the shape of your data's distribution. A truly normal distribution will look like a symmetric bell curve. We will use <code>ggplot2</code> for enhanced visuals.</p>
+        <pre class="no-mathjax-process"><code>
+# Create a histogram with a normal density overlay
+ggplot(data, aes(x = final_exam_score)) +
+  geom_histogram(aes(y = ..density..), binwidth = 2, fill = "steelblue", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mean(data$final_exam_score, na.rm = TRUE), sd = sd(data$final_exam_score, na.rm = TRUE)), color = "darkred", size = 1) +
+  labs(title = "Histogram of Final Exam Scores with Normal Curve",
+       x = "Final Exam Score",
+       y = "Density") +
+  theme_minimal()
+            </code></pre>
+        <p><strong>Explanation of the <code>ggplot2</code> code:</strong></p>
+        <ul>
+            <li><code>ggplot(data, aes(x = final_exam_score))</code>: This function initializes the plot.
+                <ul>
+                    <li>The first argument, <code>data</code>, specifies the data frame containing the variables you want to plot.</li>
+                    <li>The second argument, <code>aes()</code> (aesthetic mapping), tells <code>ggplot</code> how variables in your data map to visual properties of the plot. Here, <code>x = final_exam_score</code> maps the <code>final_exam_score</code> variable to the x-axis.</li>
+                </ul>
+            </li>
+            <li><code>geom_histogram(aes(y = ..density..), binwidth = 2, fill = "steelblue", color = "white")</code>: This layer adds the histogram bars to the plot.
+                <ul>
+                    <li><code>aes(y = ..density..)</code>: Maps the y-axis to the density of observations, rather than the count. This is useful for comparing distributions, especially when overlaying a density curve.</li>
+                    <li><code>binwidth = 2</code>: Sets the width of each histogram bar to 2 units (e.g., 2 score points). Adjusting this can change the appearance of the distribution.</li>
+                    <li><code>fill = "steelblue"</code>: Sets the fill color of the histogram bars to steelblue.</li>
+                    <li><code>color = "white"</code>: Sets the border color of the histogram bars to white.</li>
+                </ul>
+            </li>
+            <li><code>stat_function(fun = dnorm, args = list(mean = mean(data$final_exam_score, na.rm = TRUE), sd = sd(data$final_exam_score, na.rm = TRUE)), color = "darkred", size = 1)</code>: This layer overlays a theoretical normal distribution curve.
+                <ul>
+                    <li><code>fun = dnorm</code>: Specifies that the function to be plotted is the probability density function for a normal distribution.</li>
+                    <li><code>args = list(...)</code>: Provides arguments to the <code>dnorm</code> function. Here, we supply the <code>mean</code> and <code>sd</code> (standard deviation) calculated directly from your <code>final_exam_score</code> data, ensuring the overlaid curve matches your data's characteristics. <code>na.rm = TRUE</code> handles missing values.</li>
+                    <li><code>color = "darkred"</code>: Sets the color of the normal curve to dark red.</li>
+                    <li><code>size = 1</code>: Sets the thickness of the normal curve.</li>
+                </ul>
+            </li>
+            <li><code>labs(title = ..., x = ..., y = ...)</code>: This function adds labels and a title to your plot, making it more informative.</li>
+            <li><code>theme_minimal()</code>: Applies a minimalist theme to the plot, removing excessive background elements for a cleaner look.</li>
+        </ul>
+        <p><strong>Visual Interpretation:</strong> Look for symmetry, a single peak in the middle, and tails that taper off evenly on both sides. Compare the bars to the overlaid normal curve.</p>
+
+        <h3>1.3 Visual Assessment with Q-Q Plots (Quantile-Quantile Plots)</h3>
+        <p>Q-Q plots are a powerful visual tool for assessing normality. They plot the quantiles of your data against the quantiles of a theoretical normal distribution. If your data is normally distributed, the points will fall approximately along a straight diagonal line.</p>
+        <p>The <code>qqnorm()</code> function generates the normal quantile-quantile plot, while <code>qqline()</code> adds the reference line. <code>col</code> sets the line color, and <code>lwd</code> sets its width.</p>
+        <pre class="no-mathjax-process"><code>
+# Create a Q-Q plot for final_exam_score
+qqnorm(data$final_exam_score, main = "Normal Q-Q Plot of Final Exam Scores")
+qqline(data$final_exam_score, col = "steelblue", lwd = 2)
+            </code></pre>
+        <p>
+            The <code>qqnorm()</code> function generates the normal quantile-quantile plot. The <code>qqline()</code> function adds a straight line to the Q-Q plot, passing through the first and third quartiles. This line serves as a reference: if the data points fall approximately along this line, it suggests a normal distribution.
+        </p>
+        <p><strong>Visual Interpretation:</strong></p>
+        <ul>
+            <li>If points generally follow the diagonal line, the data is likely normal.</li>
+            <li>Deviations from the line, especially at the ends, indicate non-normality (e.g., S-shapes for skewness, tails curving away for kurtosis).</li>
+        </ul>
+
+        <h3>1.4 Statistical Test for Normality: Shapiro-Wilk Test</h3>
+        <p>While visual inspection is important, statistical tests provide a numerical assessment of normality. The Shapiro-Wilk test is widely used for this purpose.</p>
+        <p>The <code>shapiro.test()</code> function performs the Shapiro-Wilk test, returning a test statistic (W) and a p-value.</p>
+        <pre class="no-mathjax-process"><code>
+# Perform the Shapiro-Wilk Normality Test
+shapiro.test(data$final_exam_score)
+            </code></pre>
+        <p><strong>Interpretation of Shapiro-Wilk Test:</strong></p>
+        <ul>
+            <li><strong>Null Hypothesis (H<sub>0</sub>):</strong> The data is normally distributed.</li>
+            <li><strong>Alternative Hypothesis (H<sub>1</sub>):</strong> The data is NOT normally distributed.</li>
+            <li>If the <strong>p-value is greater than or equal to your significance level (e.g., \(p \ge 0.05\))</strong>, you <strong>do not reject the null hypothesis</strong>. This suggests there is not enough evidence to conclude that the data is non-normal, so it can be considered normal for practical purposes.</li>
+            <li>If the <strong>p-value is less than your significance level (e.g., \(p < 0.05\))</strong>, you <strong>reject the null hypothesis</strong>. This suggests there is evidence that the data is NOT normally distributed.</li>
+            <li><strong>Important Note:</strong> For very large sample sizes, the Shapiro-Wilk test can show a statistically significant deviation from normality even for minor, practically irrelevant deviations. Always combine the statistical test results with visual inspections (histograms, Q-Q plots) and also consider the standardised skewness and kurtosis. For small samples, the test might not be powerful enough to detect non-normality.</li>
+        </ul>
+
+        <div class="reflection-question">
+            <h4>Reflection Questions & Tasks (Part 1):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code>, examine its Skewness and Kurtosis values from the <code>describe()</code> output. Are they close to 0? What does this suggest about its distribution shape?</li>
+                <li>Look at the histogram and Q-Q plot for <code>final_exam_score</code>. Do they visually support the numerical measures of skewness and kurtosis? How would you describe the distribution of final exam scores based on these plots?</li>
+                <li>What is the p-value for the Shapiro-Wilk test for <code>final_exam_score</code>? If \(p \ge 0.05\), what does this imply about the normality of the data?</li>
+                <li><strong>Task:</strong> Now, repeat the steps in Sections 1.1 to 1.4 for the variable <code>study_hours_per_week</code>. How do its summary statistics (Skewness, Kurtosis), visual plots (Histogram, Q-Q plot), and the Shapiro-Wilk p-value compare to those of <code>final_exam_score</code>? Does <code>study_hours_per_week</code> appear normally distributed? Why or why not?</li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h4>Suggested Solutions for Reflection Questions (Part 1):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code>, you will find Skewness = 0.00 and Kurtosis = -0.13. This suggests the distribution is very close to symmetrical and its peakedness is similar to a normal distribution.</li>
+                <li>The histogram for <code>final_exam_score</code> will look roughly bell-shaped and symmetrical. The Q-Q plot's points will fall closely along the diagonal line. Both visuals support the idea that the data is approximately normally distributed.</li>
+                <li>For <code>final_exam_score</code>, the Shapiro-Wilk p-value will be 0.99 (or very close to 1). This implies that we do not reject the null hypothesis, meaning the <code>final_exam_score</code> data can be considered normally distributed. To calculate the Z-scores:
+                    <ul>
+                        <li>From <code>describe(data$final_exam_score)</code>: Skewness = 0.00, Kurtosis = -0.13.</li>
+                        <li>Standard Error of Skewness is approximately \(\sqrt{6/100} = 0.245\).</li>
+                        <li>Standard Error of Kurtosis is approximately \(\sqrt{24/100} = 0.490\).</li>
+                        <li>\(Z_{\text{skew}} = 0.00 / 0.245 = 0.00\).</li>
+                        <li>\(Z_{\text{kurt}} = -0.13 / 0.490 = -0.27\).</li>
+                    </ul>
+                    Both Z-scores (0.00 and -0.27) fall between \(-1.96\) and \(+1.96\), reinforcing the conclusion of normality.
+                </li>
+                <li><strong>Task Solution (for <code>study_hours_per_week</code>):</strong>
+                    <ul>
+                        <li>Using <code>describe(data$study_hours_per_week)</code>: You will find Skewness = 0.60 and Kurtosis = 0.07. The positive skewness suggests a noticeable tail to the right.</li>
+                        <li>The histogram will show a clear positive skew (more bars on the left, tail extending right). The Q-Q plot will show points significantly deviating from the line at the upper end, particularly on the right side.</li>
+                        <li>The Shapiro-Wilk p-value will be 0.001 (or very small, e.g., \(< 0.0001\)). This means we reject the null hypothesis, suggesting <code>study_hours_per_week</code> is <strong>not</strong> normally distributed. To calculate the Z-scores:
+                        <ul>
+                            <li>Skewness = 0.60, Kurtosis = 0.07.</li>
+                            <li>Standard Error of Skewness is approximately \(0.245\).</li>
+                            <li>Standard Error of Kurtosis is approximately \(0.490\).</li>
+                            <li>\(Z_{\text{skew}} = 0.60 / 0.245 = 2.45\). This Z-score (2.45) is greater than 1.96, indicating a statistically significant positive skewness.</li>
+                            <li>\(Z_{\text{kurt}} = 0.07 / 0.490 = 0.14\). This Z-score (0.14) is within the normal range.</li>
+                        </ul>
+                        The significant skewness, combined with the low p-value from the Shapiro-Wilk test and visual cues, strongly supports the conclusion that <code>study_hours_per_week</code> is not normally distributed.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h2>Part 2: Assessing Normality for an Interval/Ratio Variable (Split by Groups)</h2>
+        <p>Sometimes, a variable might appear normally distributed in the overall sample, but its distribution might differ when examined within specific subgroups. This is important to check if you plan to compare groups using parametric tests. We will use the <code>dplyr</code> package for data manipulation and <code>ggplot2</code> for plotting.</p>
+        <p>We will assess the normality of <code>final_exam_score</code> again, but this time split by <code>used_study_support_services</code> (Yes/No).</p>
+
+        <h3>2.1 Grouped Summary Statistics and Plots</h3>
+        <p>First, ensure <code>used_study_support_services</code> is treated as a factor (categorical variable) in R using <code>as.factor()</code>. Then, we use <code>dplyr</code>'s piping operator (<code>%>%</code>) to chain commands: <code>group_by(used_study_support_services)</code> groups the data by the specified variable, and <code>summarise()</code> creates new summary variables (like N, Mean, SD, Skewness, Kurtosis) for each group. We explicitly call <code>psych::skew</code> and <code>psych::kurtosi</code> to ensure the correct functions are used from the <code>psych</code> package.</p>
+        <pre class="no-mathjax-process"><code>
+# Convert used_study_support_services to a factor if it's not already
+data$used_study_support_services <- as.factor(data$used_study_support_services)
+
+# Grouped descriptive statistics using dplyr and psych::describe
+# This will calculate descriptives for final_exam_score for each group
+grouped_descriptives <- data %>%
+  group_by(used_study_support_services) %>%
+  summarise(
+    N = n(),
+    Mean = mean(final_exam_score, na.rm = TRUE),
+    SD = sd(final_exam_score, na.rm = TRUE),
+    Median = median(final_exam_score, na.rm = TRUE),
+    Skewness = psych::skew(final_exam_score, na.rm = TRUE),
+    Kurtosis = psych::kurtosi(final_exam_score, na.rm = TRUE)
+  )
+print(grouped_descriptives)
+            </code></pre>
+        <p>For grouped histograms and Q-Q plots, <code>ggplot2</code> provides powerful tools:</p>
+        <pre class="no-mathjax-process"><code>
+# Grouped Histograms
+ggplot(data, aes(x = final_exam_score, fill = used_study_support_services)) +
+  geom_histogram(aes(y = ..density..), binwidth = 2, color = "white", position = "identity", alpha = 0.7) +
+  facet_wrap(~ used_study_support_services) + # Creates separate plots for each group
+  labs(title = "Histograms of Final Exam Scores by Study Support Services",
+       x = "Final Exam Score",
+       y = "Density") +
+  theme_minimal() +
+  theme(legend.position = "none") # Hide legend if facet_wrap is used
+
+# Grouped Box Plots
+ggplot(data, aes(x = used_study_support_services, y = final_exam_score, fill = used_study_support_services)) +
+  geom_boxplot() +
+  labs(title = "Box Plots of Final Exam Scores by Study Support Services",
+       x = "Used Study Support Services",
+       y = "Final Exam Score") +
+  theme_minimal() +
+  theme(legend.position = "none") # Hide legend
+
+# Grouped Q-Q Plots (requires iteration or custom function for multiple plots)
+# For simplicity, here's how you might generate individual Q-Q plots for each group:
+par(mfrow = c(1, 2)) # Arrange plots in 1 row, 2 columns
+qqnorm(data$final_exam_score[data$used_study_support_services == "No"],
+       main = "Q-Q Plot: Final Exam Scores (No Support)")
+qqline(data$final_exam_score[data$used_study_support_services == "No"], col = "blue")
+
+qqnorm(data$final_exam_score[data$used_study_support_services == "Yes"],
+       main = "Q-Q Plot: Final Exam Scores (Yes Support)")
+qqline(data$final_exam_score[data$used_study_support_services == "Yes"], col = "red")
+par(mfrow = c(1, 1)) # Reset plot layout
+            </code></pre>
+            <p><strong>Explanation of the Grouped <code>ggplot2</code> code:</strong></p>
+            <ul>
+                <li><code>ggplot(data, aes(x = final_exam_score, fill = used_study_support_services))</code>:
+                    <ul>
+                        <li>Similar to before, this initializes the plot. The addition of <code>fill = used_study_support_services</code> within <code>aes()</code> means that the fill color of the geometric objects (like histogram bars or box plots) will be mapped to the different levels of the <code>used_study_support_services</code> variable (e.g., "Yes" and "No"). This automatically assigns different colors to each group.</li>
+                    </ul>
+                </li>
+                <li><code>geom_histogram(aes(y = ..density..), binwidth = 2, color = "white", position = "identity", alpha = 0.7)</code>:
+                    <ul>
+                        <li>This creates the grouped histograms.</li>
+                        <li><code>position = "identity"</code>: When using a `fill` aesthetic with histograms, `position="identity"` makes sure the bars for different groups are plotted on top of each other at their true positions rather than stacked or dodged.</li>
+                        <li><code>alpha = 0.7</code>: Sets the transparency level of the histogram bars. A value of 0.7 makes the bars 70% opaque, which is useful when bars from different groups overlap, allowing you to see through them.</li>
+                    </ul>
+                </li>
+                <li><code>facet_wrap(~ used_study_support_services)</code>: This is a crucial function for creating multiple plots based on a categorical variable.
+                    <ul>
+                        <li>The tilde (`~`) followed by `used_study_support_services` tells `ggplot` to create separate sub-plots (or "facets") for each unique level found in the <code>used_study_support_services</code> column (i.e., one plot for "Yes" and one for "No"). This makes it easy to compare distributions across groups.</li>
+                    </ul>
+                </li>
+                <li><code>theme(legend.position = "none")</code>:
+                    <ul>
+                        <li>This modifies the theme to hide the legend. Since `facet_wrap()` already labels each sub-plot by group, the legend becomes redundant.</li>
+                    </ul>
+                </li>
+                <li>For the **Grouped Box Plots**:
+                    <ul>
+                        <li><code>ggplot(data, aes(x = used_study_support_services, y = final_exam_score, fill = used_study_support_services))</code>: Here, the categorical <code>used_study_support_services</code> is mapped to the x-axis, and the numerical <code>final_exam_score</code> is mapped to the y-axis. The <code>fill</code> aesthetic ensures each box plot is colored according to its group.</li>
+                        <li><code>geom_boxplot()</code>: This layer generates the box plots, which visually summarize the distribution of <code>final_exam_score</code> for each category of <code>used_study_support_services</code>, showing median, quartiles, and potential outliers.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>
+                <code>facet_wrap(~ used_study_support_services)</code> in <code>ggplot2</code> is a powerful way to create separate plots for each level of a categorical variable. For Q-Q plots, we manually filter the data for each group using subsetting (e.g., <code>data$final_exam_score[data$used_study_support_services == "No"]</code>) and plot them side-by-side using <code>par(mfrow)</code>.
+            </p>
+
+        <h3>2.2 Interpreting Grouped Normality Assessments</h3>
+        <p>Examine the output for each group independently, just as you did in Part 1. Pay close attention to:</p>
+        <ul>
+            <li><strong>Skewness and Kurtosis values:</strong> Are they close to zero for each group?</li>
+            <li><strong>Standardised Skewness/Kurtosis (Z-scores):</strong> Are their absolute values less than 1.96 for each group? Remember to calculate standard errors based on the \(N\) for *each group*. Standard Error of Skewness is approximately \(\sqrt{6/N}\) and Standard Error of Kurtosis is approximately \(\sqrt{24/N}\).</li>
+            <li><strong>Histograms:</strong> Do they show a bell shape for each group? Are there differences in symmetry or tails between groups?</li>
+            <li><strong>Q-Q Plots:</strong> Do the points follow the line for each group? Are there deviations, especially at the tails?</li>
+            <li><strong>Shapiro-Wilk p-values:</strong> For each group, is the p-value \(\ge 0.05\) (suggesting normality) or \(< 0.05\) (suggesting non-normality)?</li>
+        </ul>
+        <p>To run Shapiro-Wilk for each group, you can again use <code>dplyr</code>'s <code>group_by</code> and <code>summarise</code> to apply <code>shapiro.test()</code> to each subgroup.</p>
+        <pre class="no-mathjax-process"><code>
+# Perform Shapiro-Wilk test for each group
+shapiro_results <- data %>%
+  group_by(used_study_support_services) %>%
+  summarise(
+    Shapiro_W = shapiro.test(final_exam_score)$statistic,
+    Shapiro_p = shapiro.test(final_exam_score)$p.value
+  )
+print(shapiro_results)
+            </code></pre>
+
+        <div class="reflection-question">
+            <h4>Reflection Questions & Tasks (Part 2):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, compare the Skewness and Kurtosis values for the 'Yes' group vs. the 'No' group from your grouped descriptive statistics. Are both groups still approximately symmetrical and mesokurtic?</li>
+                <li>Look at the grouped histograms and Q-Q plots. Do both the 'Yes' and 'No' groups visually appear to be normally distributed? Note any subtle differences you observe.</li>
+                <li>What are the Shapiro-Wilk p-values for both the 'Yes' and 'No' groups? Do these results suggest normality for both groups, or only one, or neither?</li>
+                <li><strong>Task:</strong> Choose another numerical variable (e.g., <code>anxiety_score_pre</code>) and split it by <code>used_study_support_services</code>. Perform the grouped normality assessment in R and describe your findings. Do the results for the separate groups match your expectation based on the overall sample's normality?</li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h4>Suggested Solutions for Reflection Questions (Part 2):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, you will find (N values for calculating Z-scores: 'No' Group \(N=48\), 'Yes' Group \(N=52\)):
+                    <ul>
+                        <li><strong>'No' Group (\(N=48\)):</strong> Skewness = 0.31, Kurtosis = 0.31.</li>
+                        <li><strong>'Yes' Group (\(N=52\)):</strong> Skewness = 0.20, Kurtosis = -0.56.</li>
+                    </ul>
+                    Both are relatively close to zero, suggesting both groups maintain approximate symmetry and mesokurtic characteristics, though the 'Yes' group might be slightly flatter (more platykurtic) than the 'No' group.</li>
+                <li>Visually, both grouped histograms for <code>final_exam_score</code> will still appear relatively bell-shaped. The Q-Q plots will show points generally following the line for both groups, reinforcing their approximate normality. You might observe the 'Yes' group's distribution appearing slightly narrower and more uniform, consistent with its slightly negative kurtosis.</li>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, you will find:
+                    <ul>
+                        <li><strong>'No' Group (\(N=48\)):</strong> Shapiro-Wilk \(p = 0.50\). To calculate the Z-scores:
+                            <ul>
+                                <li>Std. Error Skewness is approximately \(\sqrt{6/48} = 0.354\). \(Z_{\text{skew}} = 0.31 / 0.354 = 0.88\).</li>
+                                <li>Std. Error Kurtosis is approximately \(\sqrt{24/48} = 0.707\). \(Z_{\text{kurt}} = 0.31 / 0.707 = 0.44\).</li>
+                            </ul>
+                            Both Z-scores (0.88 and 0.44) are between \(-1.96\) and \(+1.96\). Conclusion: The 'No' group's final exam scores are normally distributed.
+                        </li>
+                        <li><strong>'Yes' Group (\(N=52\)):</strong> Shapiro-Wilk \(p = 0.65\). To calculate the Z-scores:
+                            <ul>
+                                <li>Std. Error Skewness is approximately \(\sqrt{6/52} = 0.339\). \(Z_{\text{skew}} = 0.20 / 0.339 = 0.59\).</li>
+                                <li>Std. Error Kurtosis is approximately \(\sqrt{24/52} = 0.679\). \(Z_{\text{kurt}} = -0.56 / 0.679 = -0.82\).</li>
+                            </ul>
+                            Both Z-scores (0.59 and -0.82) are between \(-1.96\) and \(+1.96\). Conclusion: The 'Yes' group's final exam scores are normally distributed.
+                        </li>
+                    </ul>
+                    These results suggest normality for both groups based on both Shapiro-Wilk and standardised skewness/kurtosis, confirming that the overall normality of <code>final_exam_score</code> holds true even when divided by <code>used_study_support_services</code>.</li>
+                <li><strong>Task Solution (for <code>anxiety_score_pre</code> split by <code>used_study_support_services</code>):</strong>
+                    <ul>
+                        <li>Overall, <code>anxiety_score_pre</code> is positively skewed (Skewness = 0.80) with a Shapiro-Wilk \(p = 0.001\), indicating it is <strong>not</strong> normally distributed for the whole sample. Overall \(Z_{\text{skew}} = 0.80 / 0.245 = 3.27\) (outside \(\pm 1.96\)).</li>
+                        <li>When split:
+                            <ul>
+                                <li><strong>'No' Study Support Group (\(N=48\)):</strong> Skewness = 1.20, Kurtosis = 1.50. Shapiro-Wilk \(p = 0.005\). To calculate Z-scores:
+                                    <ul>
+                                        <li>\(Z_{\text{skew}} = 1.20 / 0.354 = 3.39\) (outside \(\pm 1.96\)).</li>
+                                        <li>\(Z_{\text{kurt}} = 1.50 / 0.707 = 2.12\) (outside \(\pm 1.96\)).</li>
+                                    </ul>
+                                    Conclusion: This subgroup's <code>anxiety_score_pre</code> is <strong>not</strong> normally distributed, strongly indicated by both the Shapiro-Wilk p-value and the significant Z-scores for skewness and kurtosis. The histogram will show a pronounced positive skew, and the Q-Q plot will show significant deviations from the line, especially at the higher end.</li>
+                                <li><strong>'Yes' Study Support Group (\(N=52\)):</strong> Skewness = 0.30, Kurtosis = -0.20. Shapiro-Wilk \(p = 0.20\). To calculate Z-scores:
+                                    <ul>
+                                        <li>\(Z_{\text{skew}} = 0.30 / 0.339 = 0.88\) (within \(\pm 1.96\)).</li>
+                                        <li>\(Z_{\text{kurt}} = -0.20 / 0.679 = -0.29\) (within \(\pm 1.96\)).</li>
+                                    </ul>
+                                    Conclusion: This subgroup's <code>anxiety_score_pre</code> <strong>is</strong> normally distributed, supported by all three methods. The histogram will appear more symmetrical, and the Q-Q plot's points will mostly follow the diagonal line.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Finding:</strong> This shows that while the overall <code>anxiety_score_pre</code> is not normal, the distribution differs significantly between groups, with one subgroup exhibiting non-normality more strongly, while the other is normally distributed. This clearly highlights the importance of checking normality by groups.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h2>Part 3: Using R Scripts for Reproducible Analysis</h2>
+        <p>An "R script" (often saved as a <code>.R</code> file) is a text file containing a sequence of R commands. Running an R script is like typing each command into the console one by one, but it allows you to automate your analysis, ensure reproducibility, and keep a clear record of your steps. This is a best practice in quantitative research.</p>
+
+        <h3>3.1 Creating and Running an R Script</h3>
+        <ol>
+            <li><strong>Open a new R Script:</strong> In R Studio, go to <code>File > New File > R Script</code>.</li>
+            <li><strong>Copy Commands:</strong> Copy all the R commands provided below into the new R Script window.</li>
+            <li><strong>Save the R Script:</strong> Go to <code>File > Save As...</code> in the R Script editor. Save your script with a <code>.R</code> extension (e.g., <code>normality_analysis.R</code>) in the same directory as your <code>omni.csv</code> file, or note its path.</li>
+            <li><strong>Run the R Script:</strong>
+                <ul>
+                    <li>**To run specific lines:** Select the lines of code you want to run in the R Script editor, then click the "Run" button (looks like a triangle) or press <code>Ctrl + Enter</code> (Windows/Linux) / <code>Cmd + Enter</code> (Mac).</li>
+                    <li>**To run the entire file:** Click the "Source" button on the R Script editor toolbar. This runs the entire script from top to bottom. Alternatively, type <code>source("normality_analysis.R")</code> (replacing with your file name) in the R console and press Enter.</li>
+                </ul>
+            </li>
+            <p>Running the R script will execute all the commands, producing the same output and graphs as if you typed them manually, but much faster and more reliably.</p>
+        </ol>
+
+        <h3>3.2 Commands for Your R Script</h3>
+        <p>Below are all the R commands used throughout this guide, organised for easy copying into your script. Remember that lines starting with <code>#</code> are comments and will not be executed by R.</p>
+        <pre class="no-mathjax-process"><code>
+# --- R Script for Normality Assessment ---
+
+# Clear any existing variables from memory (optional, good practice for fresh start)
+rm(list = ls())
+
+# Set your working directory (uncomment and modify if needed)
+# setwd("C:/Users/YourUser/YourDataFolder")
+
+# Install and load 'psych' package
+if (!require("psych")) {
+  install.packages("psych")
+}; library(psych)
+
+# Install and load 'ggplot2' package
+if (!require("ggplot2")) {
+  install.packages("ggplot2")
+}; library(ggplot2)
+
+# Install and load 'dplyr' package
+if (!require("dplyr")) {
+  install.packages("dplyr")
+}; library(dplyr)
+
+# Load the data
+data <- read.csv("omni.csv")
+
+# --- Part 1: Assessing Normality for a Single Interval/Ratio Variable (Whole Sample) ---
+
+# Get descriptive statistics including skewness, kurtosis, and their standard errors
+# Note: describe() from psych package provides skew/kurt but standard errors for them
+# need to be calculated based on sample size (sqrt(6/N) for skew, sqrt(24/N) for kurt)
+# Or use specific packages like moments or normtest for direct SEs/p-values
+print(describe(data$final_exam_score, na.rm = TRUE))
+
+# Calculate and print standardized Z-scores for skewness and kurtosis
+N_final_exam <- length(data$final_exam_score[!is.na(data$final_exam_score)])
+se_skew_final_exam <- sqrt(6 / N_final_exam)
+se_kurt_final_exam <- sqrt(24 / N_final_exam)
+skew_final_exam <- psych::skew(data$final_exam_score, na.rm = TRUE)
+kurt_final_exam <- psych::kurtosi(data$final_exam_score, na.rm = TRUE)
+Z_skew_final_exam <- skew_final_exam / se_skew_final_exam
+Z_kurt_final_exam <- kurt_final_exam / se_kurt_final_exam
+cat("\nStandardized Skewness (Z-score) for final_exam_score:", round(Z_skew_final_exam, 2), "\n")
+cat("Standardized Kurtosis (Z-score) for final_exam_score:", round(Z_kurt_final_exam, 2), "\n")
+
+
+# Create a histogram with a normal density overlay
+ggplot(data, aes(x = final_exam_score)) +
+  geom_histogram(aes(y = ..density..), binwidth = 2, fill = "steelblue", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mean(data$final_exam_score, na.rm = TRUE), sd = sd(data$final_exam_score, na.rm = TRUE)), color = "darkred", size = 1) +
+  labs(title = "Histogram of Final Exam Scores with Normal Curve",
+       x = "Final Exam Score",
+       y = "Density") +
+  theme_minimal()
+ggsave("final_exam_score_histogram.png", width = 7, height = 5) # Save the plot
+
+# Create a Q-Q plot for final_exam_score
+png("final_exam_score_qqplot.png", width = 700, height = 500) # Open a PNG device
+qqnorm(data$final_exam_score, main = "Normal Q-Q Plot of Final Exam Scores")
+qqline(data$final_exam_score, col = "steelblue", lwd = 2)
+dev.off() # Close the PNG device
+
+# Perform the Shapiro-Wilk Normality Test
+shapiro_test_final_exam <- shapiro.test(data$final_exam_score)
+print(shapiro_test_final_exam)
+
+
+# --- Part 1: Analysing study_hours_per_week (Task) ---
+
+# Get descriptive statistics for study_hours_per_week
+print(describe(data$study_hours_per_week, na.rm = TRUE))
+
+# Calculate and print standardized Z-scores for study_hours_per_week
+N_study_hours <- length(data$study_hours_per_week[!is.na(data$study_hours_per_week)])
+se_skew_study_hours <- sqrt(6 / N_study_hours)
+se_kurt_study_hours <- sqrt(24 / N_study_hours)
+skew_study_hours <- psych::skew(data$study_hours_per_week, na.rm = TRUE)
+kurt_study_hours <- psych::kurtosi(data$study_hours_per_week, na.rm = TRUE)
+Z_skew_study_hours <- skew_study_hours / se_skew_study_hours
+Z_kurt_study_hours <- kurt_study_hours / se_kurt_study_hours
+cat("\nStandardized Skewness (Z-score) for study_hours_per_week:", round(Z_skew_study_hours, 2), "\n")
+cat("Standardized Kurtosis (Z-score) for study_hours_per_week:", round(Z_kurt_study_hours, 2), "\n")
+
+# Create a histogram for study_hours_per_week
+ggplot(data, aes(x = study_hours_per_week)) +
+  geom_histogram(aes(y = ..density..), binwidth = 2, fill = "salmon", color = "white") +
+  stat_function(fun = dnorm, args = list(mean = mean(data$study_hours_per_week, na.rm = TRUE), sd = sd(data$study_hours_per_week, na.rm = TRUE)), color = "darkblue", size = 1) +
+  labs(title = "Histogram of Study Hours per Week with Normal Curve",
+       x = "Study Hours per Week",
+       y = "Density") +
+  theme_minimal()
+ggsave("study_hours_histogram.png", width = 7, height = 5)
+
+# Create a Q-Q plot for study_hours_per_week
+png("study_hours_qqplot.png", width = 700, height = 500)
+qqnorm(data$study_hours_per_week, main = "Normal Q-Q Plot of Study Hours per Week")
+qqline(data$study_hours_per_week, col = "salmon", lwd = 2)
+dev.off()
+
+# Perform the Shapiro-Wilk Normality Test for study_hours_per_week
+shapiro_test_study_hours <- shapiro.test(data$study_hours_per_week)
+print(shapiro_test_study_hours)
+
+
+# --- Part 2: Assessing Normality for Groups (final_exam_score by used_study_support_services) ---
+
+# Convert used_study_support_services to a factor
+data$used_study_support_services <- as.factor(data$used_study_support_services)
+
+# Grouped descriptive statistics using dplyr and psych::describe
+grouped_descriptives_final_exam <- data %>%
+  group_by(used_study_support_services) %>%
+  summarise(
+    N = n(),
+    Mean = mean(final_exam_score, na.rm = TRUE),
+    SD = sd(final_exam_score, na.rm = TRUE),
+    Median = median(final_exam_score, na.rm = TRUE),
+    Skewness = psych::skew(final_exam_score, na.rm = TRUE),
+    Kurtosis = psych::kurtosi(final_exam_score, na.rm = TRUE)
+  )
+print(grouped_descriptives_final_exam)
+
+# Calculate and print standardized Z-scores for each group for final_exam_score
+data_split_final_exam <- split(data$final_exam_score, data$used_study_support_services)
+for (group_name in names(data_split_final_exam)) {
+  group_data <- data_split_final_exam[[group_name]]
+  N_group <- length(group_data[!is.na(group_data)])
+  se_skew_group <- sqrt(6 / N_group)
+  se_kurt_group <- sqrt(24 / N_group)
+  skew_group <- psych::skew(group_data, na.rm = TRUE)
+  kurt_group <- psych::kurtosi(group_data, na.rm = TRUE)
+  Z_skew_group <- skew_group / se_skew_group
+  Z_kurt_group <- kurt_group / se_kurt_group
+  cat(paste0("\nGroup: ", group_name, "\n"))
+  cat("  Standardized Skewness (Z-score): ", round(Z_skew_group, 2), "\n")
+  cat("  Standardized Kurtosis (Z-score): ", round(Z_kurt_group, 2), "\n")
+}
+
+
+# Grouped Histograms
+ggplot(data, aes(x = final_exam_score, fill = used_study_support_services)) +
+  geom_histogram(aes(y = ..density..), binwidth = 2, color = "white", position = "identity", alpha = 0.7) +
+  facet_wrap(~ used_study_support_services) +
+  labs(title = "Histograms of Final Exam Scores by Study Support Services",
+       x = "Final Exam Score",
+       y = "Density") +
+  theme_minimal()
+ggsave("final_exam_grouped_histograms.png", width = 10, height = 5)
+
+# Grouped Box Plots
+ggplot(data, aes(x = used_study_support_services, y = final_exam_score, fill = used_study_support_services)) +
+  geom_boxplot() +
+  labs(title = "Box Plots of Final Exam Scores by Study Support Services",
+       x = "Used Study Support Services",
+       y = "Final Exam Score") +
+  theme_minimal() +
+  theme(legend.position = "none")
+ggsave("final_exam_grouped_boxplots.png", width = 7, height = 5)
+
+# Grouped Q-Q Plots (generated individually)
+png("final_exam_grouped_qqplots.png", width = 1000, height = 500)
+par(mfrow = c(1, 2)) # Arrange plots in 1 row, 2 columns
+qqnorm(data$final_exam_score[data$used_study_support_services == "No"],
+       main = "Q-Q Plot: Final Exam Scores (No Support)")
+qqline(data$final_exam_score[data$used_study_support_services == "No"], col = "blue")
+qqnorm(data$final_exam_score[data$used_study_support_services == "Yes"],
+       main = "Q-Q Plot: Final Exam Scores (Yes Support)")
+qqline(data$final_exam_score[data$used_study_support_services == "Yes"], col = "red")
+par(mfrow = c(1, 1)) # Reset plot layout
+dev.off()
+
+# Perform Shapiro-Wilk test for each group
+shapiro_results_grouped_final_exam <- data %>%
+  group_by(used_study_support_services) %>%
+  summarise(
+    Shapiro_W = shapiro.test(final_exam_score)$statistic,
+    Shapiro_p = shapiro.test(final_exam_score)$p.value
+  )
+print(shapiro_results_grouped_final_exam)
+
+
+# --- Part 2: Analysing anxiety_score_pre by used_study_support_services (Task) ---
+
+# Convert used_study_support_services to a factor (already done above, but good to note)
+# data$used_study_support_services <- as.factor(data$used_study_support_services)
+
+# Grouped descriptive statistics for anxiety_score_pre
+grouped_descriptives_anxiety <- data %>%
+  group_by(used_study_support_services) %>%
+  summarise(
+    N = n(),
+    Mean = mean(anxiety_score_pre, na.rm = TRUE),
+    SD = sd(anxiety_score_pre, na.rm = TRUE),
+    Median = median(anxiety_score_pre, na.rm = TRUE),
+    Skewness = psych::skew(anxiety_score_pre, na.rm = TRUE),
+    Kurtosis = psych::kurtosi(anxiety_score_pre, na.rm = TRUE)
+  )
+print(grouped_descriptives_anxiety)
+
+# Calculate and print standardized Z-scores for each group for anxiety_score_pre
+data_split_anxiety <- split(data$anxiety_score_pre, data$used_study_support_services)
+for (group_name in names(data_split_anxiety)) {
+  group_data <- data_split_anxiety[[group_name]]
+  N_group <- length(group_data[!is.na(group_data)])
+  se_skew_group <- sqrt(6 / N_group)
+  se_kurt_group <- sqrt(24 / N_group)
+  skew_group <- psych::skew(group_data, na.rm = TRUE)
+  kurt_group <- psych::kurtosi(group_data, na.rm = TRUE)
+  Z_skew_group <- skew_group / se_skew_group
+  Z_kurt_group <- kurt_group / se_kurt_group
+  cat(paste0("\nGroup: ", group_name, "\n"))
+  cat("  Standardized Skewness (Z-score): ", round(Z_skew_group, 2), "\n")
+  cat("  Standardized Kurtosis (Z-score): ", round(Z_kurt_group, 2), "\n")
+}
+
+
+# Grouped Histograms for anxiety_score_pre
+ggplot(data, aes(x = anxiety_score_pre, fill = used_study_support_services)) +
+  geom_histogram(aes(y = ..density..), binwidth = 1, color = "white", position = "identity", alpha = 0.7) +
+  facet_wrap(~ used_study_support_services) +
+  labs(title = "Histograms of Pre-Anxiety Scores by Study Support Services",
+       x = "Pre-Anxiety Score",
+       y = "Density") +
+  theme_minimal()
+ggsave("anxiety_grouped_histograms.png", width = 10, height = 5)
+
+
+# Grouped Box Plots for anxiety_score_pre
+ggplot(data, aes(x = used_study_support_services, y = anxiety_score_pre, fill = used_study_support_services)) +
+  geom_boxplot() +
+  labs(title = "Box Plots of Pre-Anxiety Scores by Study Support Services",
+       x = "Used Study Support Services",
+       y = "Pre-Anxiety Score") +
+  theme_minimal() +
+  theme(legend.position = "none")
+ggsave("anxiety_grouped_boxplots.png", width = 7, height = 5)
+
+# Grouped Q-Q Plots (generated individually)
+png("anxiety_grouped_qqplots.png", width = 1000, height = 500)
+par(mfrow = c(1, 2))
+qqnorm(data$anxiety_score_pre[data$used_study_support_services == "No"],
+       main = "Q-Q Plot: Pre-Anxiety Scores (No Support)")
+qqline(data$anxiety_score_pre[data$used_study_support_services == "No"], col = "blue")
+qqnorm(data$anxiety_score_pre[data$used_study_support_services == "Yes"],
+       main = "Q-Q Plot: Pre-Anxiety Scores (Yes Support)")
+qqline(data$anxiety_score_pre[data$used_study_support_services == "Yes"], col = "red")
+par(mfrow = c(1, 1)) # Reset plot layout
+dev.off()
+
+# Perform Shapiro-Wilk test for each group for anxiety_score_pre
+shapiro_results_grouped_anxiety <- data %>%
+  group_by(used_study_support_services) %>%
+  summarise(
+    Shapiro_W = shapiro.test(anxiety_score_pre)$statistic,
+    Shapiro_p = shapiro.test(anxiety_score_pre)$p.value
+  )
+print(shapiro_results_grouped_anxiety)
+
+# --- End of R Script ---
+        ```</pre>
+
+        <hr>
+
+        <h2>Conclusion</h2>
+        <p>You have now explored key methods for assessing the normality of your data in R Studio: using numerical summaries (Skewness and Kurtosis, including their standardised Z-scores), visual tools (Histograms and Q-Q plots), and statistical tests (Shapiro-Wilk). You've also learned how to apply these assessments to your entire sample and to specific subgroups within your data.</p>
+        <p>Remember that no single method provides a definitive answer to normality. Always use a combination of visual inspection, statistical tests, and the standardised skewness and kurtosis Z-scores. Also, consider your sample size. This thorough approach will help you make informed decisions about whether to proceed with parametric tests or consider alternative non-parametric methods for your analyses.</p>
+        <p>The ability to use R scripts will significantly enhance your efficiency and reproducibility in R. Continue practising these methods with various variables in your own datasets. The more you engage with data exploration, the more proficient you will become in uncovering meaningful insights.</p>
+    </div>
+</body>
+</html>
+

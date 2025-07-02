@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessing Normality in jamovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Merged Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap; /* Ensures text wraps */
+            word-wrap: break-word; /* Breaks long words */
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap; /* Allow items to wrap */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
+    </div>
+    <div class="container">
+        <h1>Assessing Normality in jamovi</h1>
+        <p class="subtitle">A Guide to Checking Data Distribution for Statistical Analysis</p>
+
+        <p>This guide will walk you through the process of assessing whether your data is "normally distributed" using jamovi. Understanding the distribution of your data, especially its normality, is a critical step in statistical analysis. Many common statistical tests (called <strong>parametric tests</strong>) assume that the data for the variables you are analyzing follow a normal (bell-shaped) distribution. If your data significantly deviates from normality, using these tests might lead to inaccurate conclusions.</p>
+
+        <p>If your data is not normally distributed, you might need to consider <strong>non-parametric tests</strong> (which do not assume normality) or transform your data to make it more normal. Checking normality helps you decide the most appropriate statistical test for your research questions. This guide describes analysis within jamovi and does not imply any changes to your original <code>omni.omv</code> dataset.</p>
+
+        <p>Before you begin, ensure you have your <code>omni.omv</code> file open in jamovi. Throughout this guide, we will use specific variables from your dataset to illustrate the concepts:</p>
+        <ul>
+            <li><code>final_exam_score</code>: Represents the numerical score achieved by students on a final exam.</li>
+            <li><code>study_hours_per_week</code>: Indicates the number of hours a student reported studying each week.</li>
+            <li><code>anxiety_score_pre</code>: Anxiety level before a study intervention.</li>
+            <li><code>used_study_support_services</code>: A categorical variable indicating whether a student utilized study support services (Yes/No). This variable will be used to demonstrate assessing normality for groups.</li>
+        </ul>
+
+        <hr>
+
+        <h2>Part 1: Assessing Normality for a Single Interval/Ratio Variable (Whole Sample)</h2>
+        <p>We will start by examining the normality of <code>final_exam_score</code> for the entire dataset using various methods.</p>
+
+        <h3>1.1 Using Summary Statistics: Skewness and Kurtosis</h3>
+        <p>Skewness and Kurtosis are numerical measures that describe the shape of your data's distribution. They can provide initial hints about normality.</p>
+        <ol>
+            <li>In the jamovi ribbon at the top, click on the <code>Analyses</code> tab.</li>
+            <li>Go to <code>Exploration</code> and select <code>Descriptives</code>.</li>
+            <li>A new window will appear. On the left, find <code>final_exam_score</code> and move it to the <code>Variables</code> box on the right.</li>
+            <li>Under the <code>Statistics</code> section, ensure <code>Skewness</code> and <code>Kurtosis</code> are checked. Jamovi will automatically update the results table in the output panel, including the Standard Error for Skewness and Kurtosis alongside their respective values.</li>
+        </ol>
+        <p><strong>Interpretation:</strong></p>
+        <ul>
+            <li><strong>Skewness:</strong> A value of 0 indicates perfect symmetry. Positive values mean a tail to the right (data clustered on the left), and negative values mean a tail to the left (data clustered on the right). For a normal distribution, skewness should be close to 0.</li>
+            <li><strong>Kurtosis:</strong> A value of 0 indicates peakedness similar to a normal distribution. Positive values (leptokurtic) mean a more peaked distribution with fatter tails (more outliers), while negative values (platykurtic) mean a flatter distribution with thinner tails. For a normal distribution, kurtosis should be close to 0.</li>
+            <li><strong>Standardised Skewness/Kurtosis (Z-scores):</strong> To formally assess if skewness and kurtosis deviate significantly from normal, you can convert them to Z-scores using the Standard Errors provided by jamovi.
+                <ul>
+                    <li><strong>Z<sub>skew</sub> = Skewness / Std. Error Skewness</strong></li>
+                    <li><strong>Z<sub>kurt</sub> = Kurtosis / Std. Error Kurtosis</strong></li>
+                    <li><strong>How to Calculate:</strong> Find the 'Skewness' value and its 'Std. Error Skewness' value in the jamovi output table. Divide the Skewness value by its standard error. Do the same for Kurtosis.
+                    <pre><code>Example: If Skewness = 0.60 and Std. Error Skewness = 0.24
+Z_skew = 0.60 / 0.24 = 2.50</code></pre>
+                    </li>
+                    <li>If the absolute value of the Z-score for both skewness and kurtosis is <strong>less than 1.96</strong> (i.e., between -1.96 and +1.96), the distribution is considered sufficiently normal for most practical purposes at a p < 0.05 significance level. Values outside this range suggest significant deviation from normality.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>1.2 Visual Assessment with Histograms</h3>
+        <p>A histogram allows you to visually inspect the shape of your data's distribution. A truly normal distribution will look like a symmetric bell curve.</p>
+        <ol>
+            <li>Continuing in the same <code>Descriptives</code> analysis window, look for the <code>Plots</code> section.</li>
+            <li>Select <code>Histogram</code>.</li>
+            <li>Jamovi will update the output panel with the histogram for <code>final_exam_score</code>.</li>
+        </ol>
+        <p><strong>Visual Interpretation:</strong> Look for symmetry, a single peak in the middle, and tails that taper off evenly on both sides.</p>
+
+        <h3>1.3 Visual Assessment with Q-Q Plots (Quantile-Quantile Plots)</h3>
+        <p>Q-Q plots are a powerful visual tool for assessing normality. They plot the quantiles of your data against the quantiles of a theoretical normal distribution. If your data is normally distributed, the points will fall approximately along a straight diagonal line.</p>
+        <ol>
+            <li>Still in the <code>Descriptives</code> analysis window, under the <code>Plots</code> section.</li>
+            <li>Select <code>Q-Q plot</code>.</li>
+            <li>Jamovi will add the Q-Q plot to your output.</li>
+        </ol>
+        <p><strong>Visual Interpretation:</strong></p>
+        <ul>
+            <li>If points generally follow the diagonal line, the data is likely normal.</li>
+            <li>Deviations from the line, especially at the ends, indicate non-normality (e.g., S-shapes for skewness, tails curving away for kurtosis).</li>
+        </ul>
+
+        <h3>1.4 Statistical Test for Normality: Shapiro-Wilk Test</h3>
+        <p>While visual inspection is important, statistical tests provide a numerical assessment of normality. The Shapiro-Wilk test is widely used for this purpose.</p>
+        <ol>
+            <li>In the <code>Descriptives</code> analysis window, under the <code>Statistics</code> section.</li>
+            <li>Check the box next to <code>Shapiro-Wilk</code>.</li>
+            <li>The p-value for the Shapiro-Wilk test will appear in your output table.</li>
+        </ol>
+        <p><strong>Interpretation of Shapiro-Wilk Test:</strong></p>
+        <ul>
+            <li><strong>Null Hypothesis (H<sub>0</sub>):</strong> The data is normally distributed.</li>
+            <li><strong>Alternative Hypothesis (H<sub>1</sub>):</strong> The data is NOT normally distributed.</li>
+            <li>If the <strong>p-value is greater than or equal to your significance level (e.g., p &ge; 0.05)</strong>, you <strong>do not reject the null hypothesis</strong>. This suggests there is not enough evidence to conclude that the data is non-normal, so it can be considered normal for practical purposes.</li>
+            <li>If the <strong>p-value is less than your significance level (e.g., p &lt; 0.05)</strong>, you <strong>reject the null hypothesis</strong>. This suggests there is evidence that the data is NOT normally distributed.</li>
+            <li><strong>Important Note:</strong> For very large sample sizes, the Shapiro-Wilk test can show a statistically significant deviation from normality even for minor, practically irrelevant deviations. Always combine the statistical test results with visual inspections (histograms, Q-Q plots) and also consider the standardised skewness and kurtosis. For small samples, the test might not be powerful enough to detect non-normality.</li>
+        </ul>
+
+        <div class="reflection-question">
+            <h4>Reflection Questions & Tasks (Part 1):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code>, examine its Skewness and Kurtosis values. Are they close to 0? What does this suggest about its distribution shape?</li>
+                <li>Look at the histogram and Q-Q plot for <code>final_exam_score</code>. Do they visually support the numerical measures of skewness and kurtosis? How would you describe the distribution of final exam scores based on these plots?</li>
+                <li>What is the p-value for the Shapiro-Wilk test for <code>final_exam_score</code>? If p &ge; 0.05, what does this imply about the normality of the data?</li>
+                <li><strong>Task:</strong> Now, repeat the steps in Sections 1.1 to 1.4 for the variable <code>study_hours_per_week</code>. How do its summary statistics (Skewness, Kurtosis), visual plots (Histogram, Q-Q plot), and the Shapiro-Wilk p-value compare to those of <code>final_exam_score</code>? Does <code>study_hours_per_week</code> appear normally distributed? Why or why not?</li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h4>Suggested Solutions for Reflection Questions (Part 1):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code>, you will find Skewness = 0.00 and Kurtosis = -0.13. This suggests the distribution is very close to symmetrical and its peakedness is similar to a normal distribution.</li>
+                <li>The histogram for <code>final_exam_score</code> will look roughly bell-shaped and symmetrical. The Q-Q plot's points will fall closely along the diagonal line. Both visuals support the idea that the data is approximately normally distributed.</li>
+                <li>For <code>final_exam_score</code>, the Shapiro-Wilk p-value will be 0.99. This implies that we do not reject the null hypothesis, meaning the <code>final_exam_score</code> data can be considered normally distributed. To calculate the Z-scores:
+                    <ul>
+                        <li>From jamovi output, find: Skewness = 0.00, Std. Error Skewness = 0.240.</li>
+                        <li>Z<sub>skew</sub> = 0.00 / 0.240 = 0.00.</li>
+                        <li>From jamovi output, find: Kurtosis = -0.130, Std. Error Kurtosis = 0.478.</li>
+                        <li>Z<sub>kurt</sub> = -0.130 / 0.478 = -0.27.</li>
+                    </ul>
+                    Both Z-scores (0.00 and -0.27) fall between -1.96 and +1.96, reinforcing the conclusion of normality.
+                </li>
+                <li><strong>Task Solution (for <code>study_hours_per_week</code>):</strong>
+                    <ul>
+                        <li>You will find Skewness = 0.60 and Kurtosis = 0.07. The positive skewness suggests a noticeable tail to the right.</li>
+                        <li>The histogram will show a clear positive skew (more bars on the left, tail extending right). The Q-Q plot will show points significantly deviating from the line at the upper end, particularly on the right side.</li>
+                        <li>The Shapiro-Wilk p-value will be 0.001. This means we reject the null hypothesis, suggesting <code>study_hours_per_week</code> is <strong>not</strong> normally distributed. To calculate the Z-scores:
+                        <ul>
+                            <li>From jamovi output, find: Skewness = 0.60, Std. Error Skewness = 0.240.</li>
+                            <li>Z<sub>skew</sub> = 0.60 / 0.240 = 2.50. This Z-score (2.50) is greater than 1.96, indicating a statistically significant positive skewness.</li>
+                            <li>From jamovi output, find: Kurtosis = 0.07, Std. Error Kurtosis = 0.478.</li>
+                            <li>Z<sub>kurt</sub> = 0.07 / 0.478 = 0.15. This Z-score (0.15) is within the normal range.</li>
+                        </ul>
+                        The significant skewness, combined with the low p-value from the Shapiro-Wilk test and visual cues, strongly supports the conclusion that `study_hours_per_week` is not normally distributed.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h2>Part 2: Assessing Normality for an Interval/Ratio Variable (Split by Groups)</h2>
+        <p>Sometimes, a variable might appear normally distributed in the overall sample, but its distribution might differ when examined within specific subgroups. This is important to check if you plan to compare groups using parametric tests.</p>
+        <p>We will assess the normality of <code>final_exam_score</code> again, but this time split by <code>used_study_support_services</code> (Yes/No).</p>
+
+        <h3>2.1 Grouped Summary Statistics and Plots</h3>
+        <ol>
+            <li>Return to the <code>Analyses</code> tab, then <code>Exploration</code> &gt; <code>Descriptives</code>.</li>
+            <li>Move <code>final_exam_score</code> to the <code>Variables</code> box.</li>
+            <li>Now, find the categorical variable <code>used_study_support_services</code> and move it to the <code>Split By</code> box.</li>
+            <li>Under the <code>Statistics</code> panel, ensure <code>Skewness</code>, <code>Kurtosis</code>, and <code>Shapiro-Wilk</code> are selected. Jamovi will automatically include the Standard Errors for Skewness and Kurtosis in the output table.</li>
+            <li>Under the <code>Plots</code> panel, ensure <code>Histogram</code> and <code>Q-Q plot</code> are selected.</li>
+            <li>Jamovi will generate separate descriptive statistics tables, histograms, and Q-Q plots for the 'Yes' and 'No' groups of <code>used_study_support_services</code>.</li>
+        </ol>
+
+        <h3>2.2 Interpreting Grouped Normality Assessments</h3>
+        <p>Examine the output for each group independently, just as you did in Part 1. Pay close attention to:</p>
+        <ul>
+            <li><strong>Skewness and Kurtosis values:</strong> Are they close to zero for each group?</li>
+            <li><strong>Standardised Skewness/Kurtosis (Z-scores):</strong> Are their absolute values less than 1.96 for each group?</li>
+            <li><strong>Histograms:</strong> Do they show a bell shape for each group? Are there differences in symmetry or tails between groups?</li>
+            <li><strong>Q-Q Plots:</strong> Do the points follow the line for each group? Are there deviations, especially at the tails?</li>
+            <li><strong>Shapiro-Wilk p-values:</strong> For each group, is the p-value &ge; 0.05 (suggesting normality) or &lt; 0.05 (suggesting non-normality)?</li>
+        </ul>
+
+        <div class="reflection-question">
+            <h4>Reflection Questions & Tasks (Part 2):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, compare the Skewness and Kurtosis values for the 'Yes' group vs. the 'No' group. Are both groups still approximately symmetrical and mesokurtic?</li>
+                <li>Look at the grouped histograms and Q-Q plots for <code>final_exam_score</code>. Do both the 'Yes' and 'No' groups visually appear to be normally distributed? Note any subtle differences you observe.</li>
+                <li>What are the Shapiro-Wilk p-values for both the 'Yes' and 'No' groups? Do these results suggest normality for both groups, or only one, or neither?</li>
+                <li><strong>Task:</strong> Choose another numerical variable that you suspect might have different normality characteristics across groups (e.g., <code>anxiety_score_pre</code> split by <code>used_study_support_services</code>). Perform the grouped normality assessment in jamovi and describe your findings. Do the results for the separate groups match your expectation based on the overall sample's normality?</li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h4>Suggested Solutions for Reflection Questions (Part 2):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, you will find:
+                    <ul>
+                        <li><strong>'No' Group (N=48):</strong> Skewness = 0.31, Kurtosis = 0.31.</li>
+                        <li><strong>'Yes' Group (N=52):</strong> Skewness = 0.20, Kurtosis = -0.56.</li>
+                    </ul>
+                    Both are relatively close to zero, suggesting both groups maintain approximate symmetry and mesokurtic characteristics, though the 'Yes' group might be slightly flatter (more platykurtic) than the 'No' group.</li>
+                <li>Visually, both grouped histograms for <code>final_exam_score</code> will still appear relatively bell-shaped. The Q-Q plots will show points generally following the line for both groups, reinforcing their approximate normality. You might observe the 'Yes' group's distribution appearing slightly narrower and more uniform, consistent with its slightly negative kurtosis.</li>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, you will find:
+                    <ul>
+                        <li><strong>'No' Group (N=48):</strong> Shapiro-Wilk p = 0.50. To calculate the Z-scores:
+                            <ul>
+                                <li>From jamovi output, find: Skewness = 0.31, Std. Error Skewness = 0.343.</li>
+                                <li>Z<sub>skew</sub> = 0.31 / 0.343 = 0.90.</li>
+                                <li>From jamovi output, find: Kurtosis = 0.31, Std. Error Kurtosis = 0.674.</li>
+                                <li>Z<sub>kurt</sub> = 0.31 / 0.674 = 0.46.</li>
+                            </ul>
+                            Both Z-scores (0.90 and 0.46) are between -1.96 and +1.96. Conclusion: The 'No' group's final exam scores are normally distributed.
+                        </li>
+                        <li><strong>'Yes' Group (N=52):</strong> Shapiro-Wilk p = 0.65. To calculate the Z-scores:
+                            <ul>
+                                <li>From jamovi output, find: Skewness = 0.20, Std. Error Skewness = 0.330.</li>
+                                <li>Z<sub>skew</sub> = 0.20 / 0.330 = 0.61.</li>
+                                <li>From jamovi output, find: Kurtosis = -0.56, Std. Error Kurtosis = 0.650.</li>
+                                <li>Z<sub>kurt</sub> = -0.56 / 0.650 = -0.86.</li>
+                            </ul>
+                            Both Z-scores (0.61 and -0.86) are between -1.96 and +1.96. Conclusion: The 'Yes' group's final exam scores are normally distributed.
+                        </li>
+                    </ul>
+                    These results suggest normality for both groups based on both Shapiro-Wilk and standardised skewness/kurtosis, confirming that the overall normality of <code>final_exam_score</code> holds true even when divided by <code>used_study_support_services</code>.</li>
+                <li><strong>Task Solution (for <code>anxiety_score_pre</code> split by <code>used_study_support_services</code>):</strong>
+                    <ul>
+                        <li>Overall, `anxiety_score_pre` is positively skewed (Skewness = 0.80) with a Shapiro-Wilk p-value = 0.001, indicating it is **not** normally distributed for the whole sample. The overall Z<sub>skew</sub> = 0.80 / 0.240 = 3.33 (outside +/-1.96).</li>
+                        <li>When split:
+                            <ul>
+                                <li><strong>'No' Study Support Group (N=48):</strong> Skewness = 1.20, Kurtosis = 1.50. Shapiro-Wilk p = 0.005. To calculate Z-scores:
+                                    <ul>
+                                        <li>Z<sub>skew</sub> = 1.20 / 0.343 = 3.50 (outside +/-1.96).</li>
+                                        <li>Z<sub>kurt</sub> = 1.50 / 0.674 = 2.22 (outside +/-1.96).</li>
+                                    </ul>
+                                    Conclusion: This subgroup's `anxiety_score_pre` is **not** normally distributed, strongly indicated by both the Shapiro-Wilk p-value and the significant Z-scores for skewness and kurtosis. The histogram will show a pronounced positive skew, and the Q-Q plot will show significant deviations from the line, especially at the higher end.
+                                </li>
+                                <li><strong>'Yes' Study Support Group (N=52):</strong> Skewness = 0.30, Kurtosis = -0.20. Shapiro-Wilk p = 0.20. To calculate Z-scores:
+                                    <ul>
+                                        <li>Z<sub>skew</sub> = 0.30 / 0.330 = 0.91 (within +/-1.96).</li>
+                                        <li>Z<sub>kurt</sub> = -0.20 / 0.650 = -0.31 (within +/-1.96).</li>
+                                    </ul>
+                                    Conclusion: This subgroup's `anxiety_score_pre` **is** normally distributed, supported by all three methods. The histogram will appear more symmetrical, and the Q-Q plot's points will mostly follow the diagonal line.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Finding:</strong> This shows that while the overall `anxiety_score_pre` is not normal, the distribution differs significantly between groups, with one subgroup exhibiting non-normality more strongly, while the other is normally distributed. This clearly highlights the importance of checking normality by groups.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h2>Conclusion</h2>
+        <p>You have now explored key methods for assessing the normality of your data in jamovi: using numerical summaries (Skewness and Kurtosis, including their standardised Z-scores), visual tools (Histograms and Q-Q plots), and statistical tests (Shapiro-Wilk). You've also learned how to apply these assessments to your entire sample and to specific subgroups within your data.</p>
+        <p>Remember that no single method provides a definitive answer to normality. Always use a combination of visual inspection, statistical tests, and the standardised skewness and kurtosis Z-scores. Also, consider your sample size. This thorough approach will help you make informed decisions about whether to proceed with parametric tests or consider alternative non-parametric methods for your analyses.</p>
+    </div>
+</body>
+</html>

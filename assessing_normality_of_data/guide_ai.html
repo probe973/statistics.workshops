@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessing Normality using an AI Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Merged Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00; /* Red color for actual code snippets */
+        }
+        /* Ensure paragraphs and list items within the container are dark and use the Inter font */
+        .container p, .container ul li, .container ol li {
+            color: #222;
+            font-family: 'Inter', sans-serif;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap; /* Ensures text wraps */
+            word-wrap: break-word; /* Breaks long words */
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap; /* Allow items to wrap */
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+            font-family: 'Inter', sans-serif; /* Explicitly set font */
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+        .warning-box {
+            background-color: #fff3cd; /* Light yellow */
+            border-left: 5px solid #ffc107; /* Orange border */
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .warning-box strong {
+            color: #856404; /* Darker yellow for bold text */
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../ai.html">AI Guides</a>
+    </div>
+    <div class="container">
+        <h1>Assessing Normality using an AI Chatbot</h1>
+        <p class="subtitle">A Guide to Checking Data Distribution for Statistical Analysis with AI</p>
+
+        <div class="warning-box">
+            <h4>Important Warning about AI and Data Analysis:</h4>
+            <p>While AI can be a powerful tool for generating insights and assisting with data analysis, it's crucial to understand its limitations. <strong>AI models can make mistakes, "hallucinate" data, or provide incorrect interpretations, especially if the input is unclear, ambiguous, or if it lacks real-world context.</strong></p>
+            <p>Always verify the output of an AI model against your raw data and your understanding of statistical principles. Treat AI as a helpful assistant, not as a replacement for critical thinking and human oversight in data analysis. The examples in this guide assume you will input real data into the AI entity.</p>
+        </div>
+
+        <p>This guide will walk you through the process of assessing whether your data is "normally distributed" by interacting with an AI chatbot. Understanding the distribution of your data, especially its normality, is a critical step in statistical analysis. Many common statistical tests (called <strong>parametric tests</strong>) assume that the data for the variables you are analyzing follow a normal (bell-shaped) distribution. If your data significantly deviates from normality, using these tests might lead to inaccurate conclusions.</p>
+
+        <p>If your data is not normally distributed, you might need to consider <strong>non-parametric tests</strong> (which do not assume normality) or transform your data to make it more normal. Checking normality helps you decide the most appropriate statistical test for your research questions. This guide describes how to use prompts to get normality assessments from an AI chatbot.</p>
+
+        <p>Before you begin, ensure you have your data from the <code>omni.csv</code> file ready. You will typically upload this file to the AI chatbot. Throughout this guide, we will use specific variables from your dataset to illustrate the concepts:</p>
+        <ul>
+            <li><code class="no-mathjax-process">final_exam_score</code>: Represents the numerical score achieved by students on a final exam.</li>
+            <li><code class="no-mathjax-process">study_hours_per_week</code>: Indicates the number of hours a student reported studying each week.</li>
+            <li><code class="no-mathjax-process">anxiety_score_pre</code>: Anxiety level before a study intervention.</li>
+            <li><code class="no-mathjax-process">used_study_support_services</code>: A categorical variable indicating whether a student utilized study support services (Yes/No). This variable will be used to demonstrate assessing normality for groups.</li>
+        </ul>
+        <p>Start by providing your data to the AI chatbot. For example, you might say:</p>
+        <pre class="no-mathjax-process"><code>
+I have uploaded omni.csv.
+        </code></pre>
+        <p>
+            The AI needs your data to perform any analysis. Make sure you provide it in a clear format (e.g., as a CSV).
+        </p>
+
+        <hr>
+
+        <h2>Part 1: Assessing Normality for a Single Interval/Ratio Variable (Whole Sample)</h2>
+        <p>We will start by examining the normality of <code class="no-mathjax-process">final_exam_score</code> for the entire dataset using various methods.</p>
+
+        <h3>1.1 Using Summary Statistics: Skewness and Kurtosis (and their Z-scores)</h3>
+        <p>Skewness and Kurtosis are numerical measures that describe the shape of your data's distribution. They can provide initial hints about normality. You can ask the AI to calculate these for you.</p>
+        <ol>
+            <li>Provide a prompt to the AI chatbot asking for descriptive statistics, specifically including skewness and kurtosis.
+                <pre class="no-mathjax-process"><code>
+For the 'final_exam_score' variable, please provide the mean, median, skewness, kurtosis, and their standard errors. Also, calculate and include the Z-scores for skewness and kurtosis.
+                </code></pre>
+            </li>
+            <li>The AI chatbot will provide descriptive statistics.</li>
+        </ol>
+
+        <p><strong>Example AI Output (excerpt for <code class="no-mathjax-process">final_exam_score</code>):</strong></p>
+        <pre class="no-mathjax-process"><code>
+Variable: final_exam_score
+N: 100
+Mean: 74.71
+Median: 75.00
+Skewness: 0.003
+Standard Error of Skewness: 0.240
+Z-score for Skewness: 0.01
+Kurtosis: -0.131
+Standard Error of Kurtosis: 0.478
+Z-score for Kurtosis: -0.27
+Minimum: 60
+Maximum: 89
+        </code></pre>
+        <p><strong>Interpretation:</strong></p>
+        <ul>
+            <li><strong>Mean & Median Relationship:</strong> For a perfectly symmetrical distribution (like a normal distribution), the Mean and Median values will be very similar or identical.
+                <ul>
+                    <li>If the Mean is greater than the Median, it suggests a positively skewed distribution (tail extends to the right).</li>
+                    <li>If the Mean is less than the Median, it suggests a negatively skewed distribution (tail extends to the left).</li>
+                </ul>
+            </li>
+            <li><strong>Skewness:</strong> A value of 0 indicates perfect symmetry. Positive values mean a tail to the right (data clustered on the left), and negative values mean a tail to the left (data clustered on the right). For a normal distribution, skewness should be close to 0.</li>
+            <li><strong>Kurtosis:</strong> A value of 0 indicates peakedness similar to a normal distribution. Positive values (leptokurtic) mean a more peaked distribution with fatter tails (more outliers), while negative values (platykurtic) mean a flatter distribution with thinner tails. For a normal distribution, kurtosis should be close to 0.</li>
+            <li><strong>Standardised Skewness/Kurtosis (Z-scores):</strong> These Z-scores, provided directly by the AI, formally assess if skewness and kurtosis deviate significantly from normal. The formulas used are:
+                <ul>
+                    <li>The Z-score for skewness is calculated as:
+                        <pre><code>Z_skew = Skewness / Standard Error of Skewness</code></pre></li>
+                    <li>The Z-score for kurtosis is calculated as:
+                        <pre><code>Z_kurt = Kurtosis / Standard Error of Kurtosis</code></pre>
+                    </li>
+                    <li>If the absolute value of the Z-score for both skewness and kurtosis is <strong>less than 1.96</strong> (i.e., between -1.96 and +1.96), the distribution is considered sufficiently normal for most practical purposes at a p < 0.05 significance level. Values outside this range suggest significant deviation from normality.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>1.2 Visual Assessment with Histograms</h3>
+        <p>A histogram allows you to visually inspect the shape of your data's distribution. A truly normal distribution will look like a symmetric bell curve. You can ask the AI to generate a description of this plot.</p>
+        <ol>
+            <li>Provide a prompt to the AI chatbot asking for a histogram.
+                <pre class="no-mathjax-process"><code>
+Describe the histogram for the 'final_exam_score' variable, including its shape and whether a normal distribution curve would fit it well.
+                </code></pre>
+            </li>
+            <li>The AI chatbot should provide a textual description of the histogram. For a visual representation, you might need to use dedicated statistical software. You can ask the AI to provide code for this if needed (e.g., "Provide R code to generate this histogram").</li>
+        </ol>
+        <p><strong>Visual Interpretation:</strong> Look for symmetry, a single peak in the middle, and tails that taper off evenly on both sides. Compare the described bars to an imagined normal curve.</p>
+
+        <h3>1.3 Visual Assessment with Q-Q Plots (Quantile-Quantile Plots)</h3>
+        <p>Q-Q plots are a powerful visual tool for assessing normality. They plot the quantiles of your data against the quantiles of a theoretical normal distribution. If your data is normally distributed, the points will fall approximately along a straight diagonal line. Ask the AI for a description of this plot.</p>
+        <ol>
+            <li>Provide a prompt to the AI chatbot asking for a Q-Q plot description.
+                <pre class="no-mathjax-process"><code>
+Describe the Q-Q plot for 'final_exam_score'.
+                </code></pre>
+            </li>
+            <li>The AI chatbot should provide a textual description of the Q-Q plot. Similar to histograms, for a visual representation, you might need to use dedicated statistical software and can ask the AI for code.</li>
+        </ol>
+        <p><strong>Visual Interpretation:</strong></p>
+        <ul>
+            <li>If points generally follow the diagonal line, the data is likely normal.</li>
+            <li>Deviations from the line, especially at the ends, indicate non-normality (e.g., S-shapes for skewness, tails curving away for kurtosis).</li>
+        </ul>
+
+        <h3>1.4 Statistical Test for Normality: Shapiro-Wilk Test</h3>
+        <p>While visual inspection is important, statistical tests provide a numerical assessment of normality. The Shapiro-Wilk test is widely used for this purpose. You can ask the AI to perform this test.</p>
+        <ol>
+            <li>Provide a prompt to the AI chatbot asking for the Shapiro-Wilk test results.
+                <pre class="no-mathjax-process"><code>
+Perform a Shapiro-Wilk normality test for 'final_exam_score' and provide the p-value.
+                </code></pre>
+            </li>
+            <li>The AI chatbot will provide the test results, including the p-value.</li>
+        </ol>
+        <p><strong>Interpretation of Shapiro-Wilk Test:</strong></p>
+        <ul>
+            <li><strong>Null Hypothesis (H<sub>0</sub>):</strong> The data is normally distributed.</li>
+            <li><strong>Alternative Hypothesis (H<sub>1</sub>):</strong> The data is NOT normally distributed.</li>
+            <li>If the <strong>p-value is greater than or equal to your significance level (e.g., p &ge; 0.05)</strong>, you <strong>do not reject the null hypothesis</strong>. This suggests there is not enough evidence to conclude that the data is non-normal, so it can be considered normal for practical purposes.</li>
+            <li>If the <strong>p-value is less than your significance level (e.g., p < 0.05)</strong>, you <strong>reject the null hypothesis</strong>. This suggests there is evidence that the data is NOT normally distributed.</li>
+            <li><strong>Important Note:</strong> For very large sample sizes, the Shapiro-Wilk test can show a statistically significant deviation from normality even for minor, practically irrelevant deviations. Always combine the statistical test results with textual descriptions of visual inspections and also consider the standardised skewness and kurtosis. For small samples, the test might not be powerful enough to detect non-normality.</li>
+        </ul>
+
+        <div class="reflection-question">
+            <h4>Reflection Questions & Tasks (Part 1):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code>, examine its Skewness and Kurtosis values from the AI's output. Are they close to 0? What does this suggest about its distribution shape?</li>
+                <li>Examine the Z-scores for Skewness and Kurtosis for <code>final_exam_score</code> provided by the AI. Based on these Z-scores, do they suggest significant skewness or kurtosis?</li>
+                <li>Consider the AI's description of the histogram and Q-Q plot for <code>final_exam_score</code>. Do they visually support the numerical measures of skewness and kurtosis? How would you describe the distribution of final exam scores based on these descriptions?</li>
+                <li>What is the p-value for the Shapiro-Wilk test for <code>final_exam_score</code> from the AI's output? If p &ge; 0.05, what does this imply about the normality of the data?</li>
+                <li><strong>Task:</strong> Now, repeat the steps in Sections 1.1 to 1.4, providing prompts to the AI for the variable <code>study_hours_per_week</code>. How do its summary statistics (Mean, Median, Skewness, Kurtosis), Z-scores, textual descriptions of visual plots, and the Shapiro-Wilk p-value compare to those of <code>final_exam_score</code>? Does <code>study_hours_per_week</code> appear normally distributed? Why or why not?</li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h4>Suggested Solutions for Reflection Questions (Part 1):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code>, the AI's output will show Skewness &#x2248; 0.003 and Kurtosis &#x2248; -0.131. Both are close to 0, suggesting the distribution is very close to symmetrical and its peakedness is similar to a normal distribution (mesokurtic). The mean (e.g., 74.71) and median (e.g., 75.00) for <code>final_exam_score</code> will be very close, further suggesting a symmetrical distribution.</li>
+                <li>For <code>final_exam_score</code>:
+                    The AI's output will show Z-score for Skewness &#x2248; 0.01 and Z-score for Kurtosis &#x2248; -0.27. Both absolute Z-scores are well below 1.96, indicating no statistically significant skewness or kurtosis.</li>
+                <li>The AI's description of the histogram for <code>final_exam_score</code> will indicate it looks roughly bell-shaped and symmetrical, with a normal curve fitting well. The Q-Q plot's description will suggest points falling closely along the diagonal line. Both descriptions support the idea that the data is approximately normally distributed.</li>
+                <li>For <code>final_exam_score</code>, the AI's Shapiro-Wilk p-value will be high, likely &#x2265; 0.05 (e.g., 0.990). This implies that you do not reject the null hypothesis, meaning the <code>final_exam_score</code> data can be considered normally distributed.</li>
+                <li><strong>Task Solution (for <code>study_hours_per_week</code>):</strong>
+                    <ul>
+                        <li>The AI's output for <code>study_hours_per_week</code> will likely show Skewness &#x2248; 0.38 and Kurtosis &#x2248; 0.07. The positive skewness suggests a noticeable tail to the right. The kurtosis is close to 0. The mean (e.g., 19.28) will be slightly higher than the median (e.g., 18.50), which is consistent with this positive skewness.</li>
+                        <li>From AI output (example): The Z-score for Skewness &#x2248; 1.58. Since |1.58| < 1.96, this suggests no statistically significant skewness (though it's closer to the threshold than final exam score). The Z-score for Kurtosis &#x2248; 0.15. This is not significant.</li>
+                        <li>The AI's description of the histogram for <code>study_hours_per_week</code> will likely indicate a slight positive skew (more bars on the left, tail extending right), and that a normal curve would not fit perfectly. The Q-Q plot's description will suggest points slightly deviating from the line at the upper end, particularly on the right side, indicating a slight positive skewness.</li>
+                        <li>The AI's Shapiro-Wilk p-value will likely be < 0.05 (e.g., 0.001). This means you reject the null hypothesis, suggesting <code>study_hours_per_week</code> is <strong>not</strong> normally distributed.</li>
+                    </ul>
+                    The statistical test indicates non-normality, although the Z-scores for skewness and kurtosis are not statistically significant. This highlights that these methods provide different nuances and should be considered together. The textual descriptions of the visual cues (histogram, Q-Q plot) also support the conclusion of a slight deviation from normality.</li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h2>Part 2: Assessing Normality for an Interval/Ratio Variable (Split by Groups)</h2>
+        <p>Sometimes, a variable might appear normally distributed in the overall sample, but its distribution might differ when examined within specific subgroups. This is important to check if you plan to compare groups using parametric tests.</p>
+        <p>We will assess the normality of <code class="no-mathjax-process">final_exam_score</code> again, but this time split by <code class="no-mathjax-process">used_study_support_services</code> (Yes/No).</p>
+
+        <h3>2.1 Grouped Summary Statistics and Plots</h3>
+        <p>You can ask the AI to perform grouped analyses by specifying the grouping variable.</p>
+        <ol>
+            <li>Provide a prompt to the AI chatbot, asking it to analyze the numerical variable split by the categorical variable.
+                <pre class="no-mathjax-process"><code>
+For the 'final_exam_score' variable, please provide descriptive statistics (including mean, median, skewness, kurtosis, and their standard errors), and the Z-scores for skewness and kurtosis, along with the Shapiro-Wilk test results. Provide these all split by the 'used_study_support_services' variable. Also provide descriptions of grouped histograms and Q-Q plots.
+                </code></pre>
+            </li>
+            <li>The AI chatbot will provide separate outputs for each group (e.g., "No" and "Yes" for `used_study_support_services`), including summary statistics and textual descriptions of plots.</li>
+        </ol>
+
+        <p><strong>Example AI Output (excerpt for <code class="no-mathjax-process">final_exam_score</code> split by `used_study_support_services`):</strong></p>
+        <pre class="no-mathjax-process"><code>
+Group: used_study_support_services = No
+N: 48
+Mean: 73.5
+Median: 74.0
+Skewness: 0.31
+Standard Error of Skewness: 0.343
+Z-score for Skewness: 0.90
+Kurtosis: 0.31
+Standard Error of Kurtosis: 0.674
+Z-score for Kurtosis: 0.46
+Shapiro-Wilk p-value: 0.50
+Histogram Description: This group's histogram appears generally symmetrical and bell-shaped, with the data concentrated around the mean.
+Q-Q Plot Description: Points on the Q-Q plot for this group mostly follow the diagonal line, suggesting good adherence to normality.
+
+Group: used_study_support_services = Yes
+N: 52
+Mean: 75.8
+Median: 76.0
+Skewness: 0.20
+Standard Error of Skewness: 0.330
+Z-score for Skewness: 0.61
+Kurtosis: -0.56
+Standard Error of Kurtosis: 0.650
+Z-score for Kurtosis: -0.86
+Shapiro-Wilk p-value: 0.65
+Histogram Description: This group's histogram also appears fairly symmetrical, perhaps slightly flatter than the 'No' group's.
+Q-Q Plot Description: Points on the Q-Q plot for this group generally follow the diagonal line, showing good adherence to normality.
+        </code></pre>
+
+        <h3>2.2 Interpreting Grouped Normality Assessments</h3>
+        <p>Examine the output for each group independently, just as you did in Part 1. Pay close attention to:</p>
+        <ul>
+            <li><strong>Mean & Median Relationship:</strong> Are they similar for each group?</li>
+            <li><strong>Skewness and Kurtosis values:</strong> Are they close to zero for each group?</li>
+            <li><strong>Z-scores for Skewness and Kurtosis:</strong> Are their absolute values less than 1.96 for each group?</li>
+            <li><strong>Histograms:</strong> Do they show a bell shape for each group based on the description? Are there differences in symmetry or tails between groups?</li>
+            <li><strong>Q-Q Plots:</strong> Do the points follow the line for each group based on the description? Are there deviations, especially at the tails?</li>
+            <li><strong>Shapiro-Wilk p-values:</strong> For each group, is the p-value &#x2265; 0.05 (suggesting normality) or < 0.05 (suggesting non-normality)?</li>
+        </ul>
+
+        <div class="reflection-question">
+            <h4>Reflection Questions & Tasks (Part 2):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, compare the Mean, Median, Skewness, and Kurtosis values for the 'Yes' group vs. the 'No' group from your AI's grouped descriptive statistics output. Are both groups still approximately symmetrical and mesokurtic?</li>
+                <li>Examine the Z-scores for Skewness and Kurtosis for both the 'Yes' and 'No' groups for <code>final_exam_score</code> provided by the AI. Do they suggest significant skewness or kurtosis for either group?</li>
+                <li>Consider the AI's descriptions of the grouped histograms and Q-Q plots for <code>final_exam_score</code>. Do both the 'Yes' and 'No' groups visually appear to be normally distributed based on these descriptions? Note any subtle differences you observe.</li>
+                <li>What are the Shapiro-Wilk p-values for both the 'Yes' and 'No' groups from the AI's output? Do these results suggest normality for both groups, or only one, or neither?</li>
+                <li><strong>Task:</strong> Choose another numerical variable (e.g., <code>anxiety_score_pre</code>) and ask the AI to split it by <code>used_study_support_services</code> for a full normality assessment, including descriptions of plots. Describe your findings based on the AI's output. Do the results for the separate groups match your expectation based on the overall sample's normality?</li>
+            </ol>
+        </div>
+
+        <div class="solution-section">
+            <h4>Suggested Solutions for Reflection Questions (Part 2):</h4>
+            <ol>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, the AI's output will show:
+                    <ul>
+                        <li><strong>'No' Group (N=48):</strong> Skewness &#x2248; 0.31, Kurtosis &#x2248; 0.31. The mean (e.g., 73.5) and median (e.g., 74.0) will be very similar, supporting its approximate symmetry.</li>
+                        <li><strong>'Yes' Group (N=52):</strong> Skewness &#x2248; 0.20, Kurtosis &#x2248; -0.56. The mean (e.g., 75.8) and median (e.g., 76.0) will also be very similar, supporting its approximate symmetry.</li>
+                    </ul>
+                    Both are relatively close to zero for both skewness and kurtosis (excess kurtosis), suggesting both groups maintain approximate symmetry and mesokurtic characteristics, though the 'Yes' group might be slightly flatter (more platykurtic) than the 'No' group.</li>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code> (using example AI output Z-scores):
+                    <ul>
+                        <li><strong>'No' Group (N=48):</strong> The AI will report Z-score for Skewness &#x2248; 0.90 and Z-score for Kurtosis &#x2248; 0.46. Both absolute Z-scores are below 1.96, indicating no statistically significant skewness or kurtosis for this group.</li>
+                        <li><strong>'Yes' Group (N=52):</strong> The AI will report Z-score for Skewness &#x2248; 0.61 and Z-score for Kurtosis &#x2248; -0.86. Both absolute Z-scores are below 1.96, indicating no statistically significant skewness or kurtosis for this group.</li>
+                    </ul>
+                    These Z-scores indicate that both groups' distributions for final exam scores do not significantly deviate from normal based on skewness and kurtosis.</li>
+                <li>Consider the AI's descriptions: The AI's description of histograms for both groups will indicate they appear relatively bell-shaped, with normal curves fitting well. The Q-Q plot descriptions will suggest points generally following the line for both groups. You might observe the 'Yes' group's distribution appearing slightly narrower and more uniform, consistent with its slightly negative kurtosis.</li>
+                <li>For <code>final_exam_score</code> split by <code>used_study_support_services</code>, the AI's Shapiro-Wilk p-values will likely show:
+                    <ul>
+                        <li><strong>'No' Group (N=48):</strong> Shapiro-Wilk p = 0.50. Conclusion: The 'No' group's final exam scores are normally distributed.</li>
+                        <li><strong>'Yes' Group (N=52):</strong> Shapiro-Wilk p = 0.65. Conclusion: The 'Yes' group's final exam scores are normally distributed.</li>
+                    </ul>
+                    These results suggest normality for both groups based on both Shapiro-Wilk and standardised skewness/kurtosis, confirming that the overall normality of <code>final_exam_score</code> holds true even when divided by <code>used_study_support_services</code>.</li>
+                <li><strong>Task Solution (for <code>anxiety_score_pre</code> split by <code>used_study_support_services</code>):</strong>
+                    <ul>
+                        <li>Overall, the AI's output for <code>anxiety_score_pre</code> will likely show it is positively skewed (Skewness &#x2248; 0.80) with a Shapiro-Wilk p = 0.001, indicating it is <strong>not</strong> normally distributed for the whole sample. The mean (e.g., 25.5) will be noticeably higher than the median (e.g., 24.0), which aligns with this positive skewness.</li>
+                        <li>When split, the AI's output will show:
+                            <ul>
+                                <li><strong>'No' Study Support Group (N=48):</strong> Skewness &#x2248; 1.20, Kurtosis &#x2248; 1.50. Shapiro-Wilk p = 0.005. The mean (e.g., 28.0) will be higher than the median (e.g., 26.0), consistent with the strong positive skew. The AI will report Z-score for Skewness &#x2248; 3.50 and Z-score for Kurtosis &#x2248; 2.22. Both Z-scores are greater than 1.96, indicating statistically significant skewness and kurtosis.
+                                    Conclusion: This subgroup's <code>anxiety_score_pre</code> is <strong>not</strong> normally distributed, strongly indicated by both the Shapiro-Wilk p-value and the significant Z-scores for skewness and kurtosis. The AI's description of the histogram will indicate a pronounced positive skew, and the Q-Q plot description will suggest significant deviations from the line, especially at the higher end.</li>
+                                <li><strong>'Yes' Study Support Group (N=52):</strong> Skewness &#x2248; 0.30, Kurtosis &#x2248; -0.20. Shapiro-Wilk p = 0.20. The mean (e.g., 22.0) and median (e.g., 22.0) will be very close, supporting the approximate symmetry. The AI will report Z-score for Skewness &#x2248; 0.91 and Z-score for Kurtosis &#x2248; -0.31. Both Z-scores are below 1.96.
+                                    Conclusion: This subgroup's <code>anxiety_score_pre</code> <strong>is</strong> normally distributed, supported by all three methods. The AI's description of the histogram will suggest it appears more symmetrical, and the Q-Q plot description will suggest points mostly following the diagonal line.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Finding:</strong> This shows that while the overall <code>anxiety_score_pre</code> is not normal, the distribution differs significantly between groups, with one subgroup exhibiting non-normality more strongly, while the other is normally distributed. This clearly highlights the importance of checking normality by groups.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h2>Conclusion</h2>
+        <p>You have now explored key methods for assessing the normality of your data using an AI chatbot: obtaining numerical summaries (Mean, Median, Skewness, Kurtosis, and their standardised Z-scores), requesting textual descriptions of visual tools (Histograms and Q-Q plots), and performing statistical tests (Shapiro-Wilk). You've also learned how to ask the AI to apply these assessments to your entire sample and to specific subgroups within your data.</p>
+        <p>Remember that no single method provides a definitive answer to normality. Always use a combination of numerical and statistical results, combined with textual descriptions of visual inspections, and the standardised skewness and kurtosis Z-scores. Also, consider your sample size. This thorough approach will help you make informed decisions about whether to proceed with parametric tests or consider alternative non-parametric methods for your analyses.</p>
+        <p>Using AI chatbots can significantly streamline your data analysis workflow, providing quick insights and textual summaries of data characteristics based on simple, natural language prompts. Continue experimenting with different variables and data structures to become more proficient in leveraging AI for your statistical needs.</p>
+    </div>
+</body>
+</html>
