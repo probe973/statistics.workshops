@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paired-Samples T-Test Using jamovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Merged Styles - consistent with previous guides */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        li {
+            margin-bottom: 0.5em; /* Spacing between list items */
+        }
+        p {
+            margin-bottom: 1em; /* Consistent paragraph spacing */
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .button-group a {
+            background-color: #004085;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .button-group a:hover {
+            background-color: #002c5a;
+            transform: translateY(-2px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
+    </div>
+    <div class="container">
+        <h1>Paired-Samples T-Test Using jamovi</h1>
+        <p class="subtitle">A Guide to Understanding and Performing a Paired-Samples T-Test with jamovi</p>
+
+        <p>The paired-samples t-test is an example of a repeated measures or within-subjects design. A within-subjects design is when you are looking for differences in individuals across a series of measurements. In the guides for the independent-samples t-test and one-way ANOVA you were looking at between-subjects design, where individuals belonged to a particular group and differences were being examined between these groups. When there are two measurements per individual, for example a pre and post score, then we can make use of the paired-samples t-test.</p>
+        <p>Some examples of within-subject designs include:</p>
+        <ul>
+            <li>
+                <strong>For 2 repeated measures:</strong>
+                <ul>
+                    <li>Measuring participants' anxiety levels before and after a mindfulness intervention.</li>
+                    <li>Comparing a patient's blood pressure readings before and after administering a new medication.</li>
+                    <li>Assessing a student's test score on a pre-test versus a post-test for the same course.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>For 2+ repeated measures (leading to Repeated Measures ANOVA):</strong>
+                <ul>
+                    <li>Tracking participants' reaction times across three different task conditions (e.g., low, medium, high cognitive load).</li>
+                    <li>Measuring plant growth at weekly intervals over a month.</li>
+                    <li>Evaluating the effectiveness of different therapeutic techniques on depression scores measured at baseline, mid-treatment, and post-treatment.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Assumptions of the Paired-Samples T-Test</h2>
+        <p>For a paired-samples t-test, there are several key assumptions that should ideally be met for the results to be reliable. It's important to check these before interpreting your jamovi output:</p>
+        <ol>
+            <li><strong>Dependent Variable:</strong> The dependent variable should be measured on a continuous scale (i.e., interval or ratio level). Examples include scores on a test, reaction time in milliseconds, or temperature in degrees Celsius.</li>
+            <li><strong>Independence of Observations:</strong> The observations <em>within each pair</em> are dependent (e.g., pre-score and post-score from the same person), but the <em>pairs themselves</em> must be independent of each other. This means that the data from one participant (or pair) should not influence the data from another participant (or pair). This is usually ensured by the study design.</li>
+            <li><strong>Normality of the Differences:</strong> The distribution of the <em>differences</em> between the two related groups should be approximately normally distributed. This is the most crucial assumption for the paired-samples t-test.
+                <ul>
+                    <li><strong>How to check:</strong> In jamovi, you can assess normality of the differences by:
+                        <ul>
+                            <li><strong>Visually inspecting a histogram:</strong> Look for a roughly bell-shaped curve.</li>
+                            <li><strong>Examining Q-Q plots:</strong> Check if data points fall close to the diagonal line.</li>
+                            <li><strong>Using the Shapiro-Wilk test:</strong> A non-significant p-value (typically p > 0.05) indicates that the assumption of normality is met.</li>
+                            <li><strong>Calculating z-scores for skewness and kurtosis:</strong> Divide the skewness/kurtosis value by its standard error. Absolute z-scores within approximately &plusmn;1.96 (for a 0.05 significance level) suggest normality.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>Does a training course improve students’ performance on a quiz?</h2>
+        <p>In this guide you will be making use of the `quiz_score_pre` and `quiz_score_post` variables. The students were marked on a quiz score before starting the course and then again after the course. As the researcher you are interested in whether the course has made a statistically significant difference (p &lt; 0.05) to their scores.</p>
+
+        <h2>Null and Alternative Hypotheses of the Paired-Samples T-Test</h2>
+        <p>The null hypothesis (H<sub>0</sub>) of a paired-samples t-test states that there is no statistically significant difference between the means of the two related groups (or that the mean difference is zero).</p>
+        <p style="text-align: center;">H<sub>0</sub>: &#x03BC;<sub>pre</sub> = &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> = 0</p>
+        <p>The alternative hypothesis (H<sub>1</sub>) states that there is a statistically significant difference between the means of the two related groups (or that the mean difference is not zero).</p>
+        <p style="text-align: center;">H<sub>1</sub>: &#x03BC;<sub>pre</sub> &#x2260; &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> &#x2260; 0</p>
+        <p>The t-test is carried out and produces a t-statistic and a p-value. If this p-value is less than a defined amount, normally 0.05 is used, then this gives evidence of there being a difference between the groups. If this is not the case then we have not found enough evidence that the groups make a difference to the score.</p>
+
+        <h2>Normality Assumption Check</h2>
+        <p>As part of the jamovi paired-samples t-test process, the software can perform the normality test using the Shapiro-Wilk test. If you prefer to use descriptive statistics and skew etc. you will first need to create the difference variable. This next part will lead you through creating the difference variable and then you can use knowledge gained from previous guides to check the normality of this variable.</p>
+
+        <h3>Procedure to create the difference variable in jamovi:</h3>
+        <ol>
+            <li>From the data, scroll to the right until you reach the first empty column.</li>
+            <li>Double-click in the header of the empty column.</li>
+            <li>From the options that appear at the top, choose <strong>New Computed Variable</strong>.</li>
+            <li>In the first text box, enter a name for the variable, e.g., `Quiz Difference`.</li>
+            <li>Click the button marked <strong>fx</strong>.</li>
+            <li>From the <strong>Variables</strong> list, find the `quiz_score_post` variable and double-click it. It should appear in the function box.</li>
+            <li>Now type a subtract sign (-) and double-click the `quiz_score_pre` variable. The formula should read `quiz_score_post - quiz_score_pre`.</li>
+            <li>Press the up arrow to close the computed variable menu. You will now see the `Quiz Difference` variable in your data.</li>
+        </ol>
+
+        <h3>Descriptive Statistics for the Difference Variable:</h3>
+        <p>To obtain descriptive statistics and normality tests for this new difference variable:</p>
+        <ol>
+            <li>Go to the <strong>Analysis</strong> tab in the ribbon.</li>
+            <li>Click on <strong>Exploration > Descriptives</strong>.</li>
+            <li>Move your newly created `Quiz Difference` variable from the left box to the "Variables" box on the right.</li>
+            <li>Under "Statistics", ensure "Mean", "Median", "Standard deviation", "Minimum", "Maximum", "Skewness", "Std. error skewness", "Kurtosis", and "Std. error kurtosis" are checked.</li>
+            <li>Under "Plots", check "Histogram" and "Q-Q plot".</li>
+            <li>Under "Assumption Checks", check "Normality" (for the Shapiro-Wilk test).</li>
+        </ol>
+        <p>The descriptive statistics for the `Quiz Difference` variable are shown below:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Quiz Difference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>N</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>Missing</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Mean</td>
+                    <td>5.03</td>
+                </tr>
+                <tr>
+                    <td>Median</td>
+                    <td>4.50</td>
+                </tr>
+                <tr>
+                    <td>Standard deviation</td>
+                    <td>3.61</td>
+                </tr>
+                <tr>
+                    <td>Minimum</td>
+                    <td>-6</td>
+                </tr>
+                <tr>
+                    <td>Maximum</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>Skewness</td>
+                    <td>0.00153</td>
+                </tr>
+                <tr>
+                    <td>Std. error skewness</td>
+                    <td>0.241</td>
+                </tr>
+                <tr>
+                    <td>Kurtosis</td>
+                    <td>0.465</td>
+                </tr>
+                <tr>
+                    <td>Std. error kurtosis</td>
+                    <td>0.478</td>
+                </tr>
+                <tr>
+                    <td>Shapiro-Wilk W</td>
+                    <td>0.987</td>
+                </tr>
+                <tr>
+                    <td>Shapiro-Wilk p</td>
+                    <td>0.447</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>From the descriptive statistics and Shapiro-Wilk test for `Quiz Difference`:</p>
+        <ul>
+            <li>The Shapiro-Wilk p-value is 0.447. Since this is greater than 0.05, the Shapiro-Wilk test is non-significant, indicating that the distribution of the differences is not significantly different from a normal distribution.</li>
+            <li>The z-score for skewness is 0.00153 / 0.241 = 0.006.</li>
+            <li>The z-score for kurtosis is 0.465 / 0.478 = 0.973.</li>
+        </ul>
+        <p>Both the z-scores for skewness (0.006) and kurtosis (0.973) are well within the &plusmn;1.96 range (for a 0.05 significance level), further supporting the assumption of normality for the difference scores. Therefore, the assumption of normality for the differences has been met.</p>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Given that the calculation for the difference is post course minus pre course, does the positive 5.03 mean score indicate that students improved or got worse on average?</li>
+                <li>Do the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>A positive mean difference of 5.03 (quiz_score_post - quiz_score_pre) indicates that, on average, students' quiz scores improved after the course.</li>
+                <li>Yes, the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met for the difference scores. The Shapiro-Wilk p-value (0.447) is greater than 0.05, and the z-scores for skewness and kurtosis are within the acceptable range of &plusmn;1.96.</li>
+            </ul>
+        </div>
+
+        <h2>Paired-Samples T-Test Procedure</h2>
+        <p>To perform the paired-samples t-test in jamovi:</p>
+        <ol>
+            <li>Open your dataset in jamovi.</li>
+            <li>Go to the <strong>Analysis</strong> tab in the ribbon.</li>
+            <li>Click on <strong>T-Tests > Paired Samples T-Test</strong>.</li>
+            <li>In the "Paired Samples T-Test" analysis panel, move both `quiz_score_pre` and `quiz_score_post` into the "Paired Variables" box. You can drag them individually or select them and use the arrow button.</li>
+            <li>Under "Tests", ensure "Student's" is selected (this is the standard t-test).</li>
+            <li>Under "Hypothesis", ensure "Measure 1 - Measure 2 ≠ 0" is selected. This option represents a <strong>two-tailed test</strong>, which is typically chosen when you are interested in detecting a difference between the two measures, but you don't have a specific prediction about the direction of that difference (i.e., whether scores will increase or decrease). It tests if the mean difference is significantly different from zero in either a positive or negative direction.</li>
+            <li>Under "Additional Statistics", check the following options:
+                <ul>
+                    <li>"Mean difference"</li>
+                    <li>"Confidence interval" (this will provide the 95% confidence interval for the mean difference)</li>
+                    <li>"Effect size" (this will provide Cohen's d)</li>
+                    <li>"Descriptives"</li>
+                </ul>
+            </li>
+            <li>Under "Assumption Checks", check "Normality" (this will run the Shapiro-Wilk test on the difference scores).</li>
+            <li>Under "Plots", check "Descriptive plots".</li>
+        </ol>
+
+        <p>The jamovi output will automatically update as you select these options, displaying the results in the output panel.</p>
+
+        <h2>Interpretation of Results</h2>
+
+        <h3>Paired Samples T-Test Table</h3>
+        <p>The primary output for the paired-samples t-test will be similar to this:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>statistic</th>
+                    <th>df</th>
+                    <th>p</th>
+                    <th>Mean difference</th>
+                    <th>SE difference</th>
+                    <th></th>
+                    <th>Effect Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>quiz_score_pre</td>
+                    <td>quiz_score_post</td>
+                    <td>Student's t</td>
+                    <td>-13.9</td>
+                    <td>99.0</td>
+                    <td>&lt;.001</td>
+                    <td>-5.03</td>
+                    <td>0.361</td>
+                    <td>Cohen's d</td>
+                    <td>-1.39</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Note. H <sub>a</sub> &mu; Measure 1 - Measure 2 &ne; 0</p>
+        <p>Here's what these values mean:</p>
+        <ul>
+            <li>statistic (Student's t = -13.9): This is the calculated t-value for the paired-samples t-test. The negative sign indicates that the mean of the second variable (`quiz_score_post`) is higher than the first variable (`quiz_score_pre`), as jamovi calculates the mean difference as (Variable 1 - Variable 2).</li>
+            <li>df (99.0): These are the degrees of freedom, calculated as N - 1 (where N is the number of pairs). In this case, 100 - 1 = 99.</li>
+            <li>p (&lt;.001): This is the p-value. Since p &lt; 0.001, which is less than our conventional significance level of 0.05, we reject the null hypothesis. This indicates that there is a statistically significant difference between the pre-course and post-course quiz scores.</li>
+            <li>Mean difference (-5.03): This is the average difference between `quiz_score_pre` and `quiz_score_post`. A negative value here means that `quiz_score_post` was, on average, higher than `quiz_score_pre`. This aligns with our earlier calculation of `quiz_score_post - quiz_score_pre` being positive when we manually created the `Quiz Difference` variable.</li>
+            <li>SE difference (0.361): This is the standard error of the mean difference.</li>
+            <li>Effect Size (Cohen's d = -1.39): This is a measure of the magnitude of the observed effect.</li>
+        </ul>
+
+        <h3>Explanation of Cohen's d:</h3>
+        <p>Cohen's d is a standardized measure of effect size that quantifies the difference between two means in standard deviation units. It tells you how large the difference is, independent of sample size. A larger absolute value of Cohen's d indicates a stronger effect.</p>
+        <ul>
+            <li>Interpretation Guidelines (Cohen, 1988):
+                <ul>
+                    <li>Small effect: d = 0.2</li>
+                    <li>Medium effect: d = 0.5</li>
+                    <li>Large effect: d = 0.8</li>
+                </ul>
+            </li>
+        </ul>
+        <p>In this case, Cohen's d = -1.39. The negative sign simply reflects the direction of the difference (post-score was higher than pre-score). An absolute value of 1.39 indicates a very large effect size, meaning the training course had a substantial impact on students' quiz scores.</p>
+
+        <h3>Tests of Normality Table (from T-Test Output)</h3>
+        <p>This table confirms the normality check specifically for the difference scores, which is crucial for the paired-samples t-test:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>statistic</th>
+                    <th>p</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>quiz_score_pre</td>
+                    <td>quiz_score_post</td>
+                    <td>Shapiro-Wilk</td>
+                    <td>0.987</td>
+                    <td>0.447</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>As noted earlier, the Shapiro-Wilk p-value of 0.447 (p > 0.05) indicates that the assumption of normality for the difference scores is met.</p>
+
+        <h3>Descriptives Table (from T-Test Output)</h3>
+        <p>This table provides summary statistics for each of the paired variables:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>N</th>
+                    <th>Mean</th>
+                    <th>Median</th>
+                    <th>SD</th>
+                    <th>SE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>quiz_score_pre</td>
+                    <td>100</td>
+                    <td>66.0</td>
+                    <td>67.0</td>
+                    <td>9.36</td>
+                    <td>0.936</td>
+                </tr>
+                <tr>
+                    <td>quiz_score_post</td>
+                    <td>100</td>
+                    <td>71.0</td>
+                    <td>71.0</td>
+                    <td>9.69</td>
+                    <td>0.969</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>quiz_score_pre: Mean = 66.0, SD = 9.36</li>
+            <li>quiz_score_post: Mean = 71.0, SD = 9.69</li>
+        </ul>
+        <p>These descriptives clearly show an increase in the mean score from pre-course (66.0) to post-course (71.0).</p>
+
+        <h3>Descriptive Plot</h3>
+        <p>This plot visually represents the means and 95% confidence intervals for `quiz_score_pre` and `quiz_score_post`. The error bars (representing the 95% confidence intervals) for the two means do not overlap, which visually supports the finding of a statistically significant difference between the pre and post scores.</p>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Does the normality test in this dialog match the test from the descriptives?</li>
+                <li>Is there evidence that the course has made a difference to students’ quiz scores?</li>
+                <li>Using Cohen’s d, what is the size of the effect of the course to the quiz scores?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>Yes, the Shapiro-Wilk normality test result (statistic = 0.987, p = 0.447) in the paired-samples t-test output matches the result obtained from the separate descriptives analysis of the `Quiz Difference` variable.</li>
+                <li>Yes, there is strong evidence that the course has made a statistically significant difference to students' quiz scores. The p-value for the paired-samples t-test is &lt;.001, which is much less than the conventional alpha level of 0.05.</li>
+                <li>Using Cohen’s d, the size of the effect is -1.39. This indicates a very large effect, meaning the course had a substantial positive impact on students' quiz scores.</li>
+            </ul>
+        </div>
+
+        <h2>Write-up Results</h2>
+        <h3>Example write-up of this analysis:</h3>
+        <div class="write-up-template">
+            <p>A paired-samples t-test was conducted to evaluate whether a training course improved students' performance on a quiz. The assumption of normality for the difference scores was assessed using the Shapiro-Wilk test, which was non-significant (W = 0.987, <i>p</i> = 0.447), indicating that the assumption was met. Descriptive statistics showed that the mean quiz score before the course was 66.0 (<i>SD</i> = 9.36), and after the course, it increased to 71.0 (<i>SD</i> = 9.69).</p>
+            <p>The paired-samples t-test revealed a statistically significant improvement in quiz scores after the training course, <i>t</i>(99) = -13.9, <i>p</i> &lt; .001. The mean difference in scores was -5.03 (95% CI [-5.75, -4.31]), with post-course scores being higher. Cohen's d was -1.39, indicating a very large effect size, suggesting a substantial practical significance of the training course on quiz performance.</p>
+        </div>
+    </div>
+</body>
+</html>

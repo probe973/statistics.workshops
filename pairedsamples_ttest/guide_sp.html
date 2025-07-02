@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paired-Samples T-Test Using SPSS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        li {
+            margin-bottom: 0.5em; /* Spacing between list items */
+        }
+        p {
+            margin-bottom: 1em; /* Consistent paragraph spacing */
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .button-group a {
+            background-color: #004085;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .button-group a:hover {
+            background-color: #002c5a;
+            transform: translateY(-2px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../spss.html">SPSS Guides</a>
+    </div>
+    <div class="container">
+        <h1>Paired-Samples T-Test Using SPSS</h1>
+        <p class="subtitle">A Guide to Understanding and Performing a Paired-Samples T-Test with SPSS</p>
+
+        <p>The paired-samples t-test is an example of a repeated measures or within-subjects design. A within-subjects design is when you are looking for differences in individuals across a series of measurements. In the guides for the independent-samples t-test and one-way ANOVA you were looking at between-subjects design, where individuals belonged to a particular group and differences were being examined between these groups. When there are two measurements per individual, for example a pre and post score, then we can make use of the paired-samples t-test.</p>
+        <p>Some examples of within-subject designs include:</p>
+        <ul>
+            <li>
+                <strong>For 2 repeated measures:</strong>
+                <ul>
+                    <li>Measuring participants' anxiety levels before and after a mindfulness intervention.</li>
+                    <li>Comparing a patient's blood pressure readings before and after administering a new medication.</li>
+                    <li>Assessing a student's test score on a pre-test versus a post-test for the same course.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>For 2+ repeated measures (leading to Repeated Measures ANOVA):</strong>
+                <ul>
+                    <li>Tracking participants' reaction times across three different task conditions (e.g., low, medium, high cognitive load).</li>
+                    <li>Measuring plant growth at weekly intervals over a month.</li>
+                    <li>Evaluating the effectiveness of different therapeutic techniques on depression scores measured at baseline, mid-treatment, and post-treatment.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Assumptions of the Paired-Samples T-Test</h2>
+        <p>For a paired-samples t-test, there are several key assumptions that should ideally be met for the results to be reliable. It's important to check these before interpreting your SPSS output:</p>
+        <ol>
+            <li><strong>Dependent Variable:</strong> The dependent variable should be measured on a continuous scale (i.e., interval or ratio level). Examples include scores on a test, reaction time in milliseconds, or temperature in degrees Celsius.</li>
+            <li><strong>Independence of Observations:</strong> The observations <em>within each pair</em> are dependent (e.g., pre-score and post-score from the same person), but the <em>pairs themselves</em> must be independent of each other. This means that the data from one participant (or pair) should not influence the data from another participant (or pair). This is usually ensured by the study design.</li>
+            <li><strong>Normality of the Differences:</strong> The distribution of the <em>differences</em> between the two related groups should be approximately normally distributed. This is the most crucial assumption for the paired-samples t-test.
+                <ul>
+                    <li><strong>How to check:</strong> In SPSS, you will need to manually create a difference variable and then check its normality using descriptive statistics and normality tests (e.g., Shapiro-Wilk or Kolmogorov-Smirnov) via the "Explore" procedure.
+                        <ul>
+                            <li><strong>Visually inspecting a histogram:</strong> Look for a roughly bell-shaped curve.</li>
+                            <li><strong>Examining Q-Q plots:</strong> Check if data points fall close to the diagonal line.</li>
+                            <li><strong>Using the Shapiro-Wilk test:</strong> A non-significant p-value (typically p > 0.05) indicates that the assumption of normality is met.</li>
+                            <li><strong>Calculating z-scores for skewness and kurtosis:</strong> Divide the skewness/kurtosis value by its standard error. Absolute z-scores within approximately &plusmn;1.96 (for a 0.05 significance level) suggest normality.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>Does a training course improve students’ performance on a quiz?</h2>
+        <p>In this guide you will be making use of the `quiz_score_pre` and `quiz_score_post` variables. The students were marked on a quiz score before starting the course and then again after the course. As the researcher you are interested in whether the course has made a statistically significant difference (p &lt; 0.05) to their scores.</p>
+
+        <h2>Null and Alternative Hypotheses of the Paired-Samples T-Test</h2>
+        <p>The null hypothesis (H<sub>0</sub>) of a paired-samples t-test states that there is no statistically significant difference between the means of the two related groups (or that the mean difference is zero).</p>
+        <p style="text-align: center;">H<sub>0</sub>: &#x03BC;<sub>pre</sub> = &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> = 0</p>
+        <p>The alternative hypothesis (H<sub>1</sub>) states that there is a statistically significant difference between the means of the two related groups (or that the mean difference is not zero).</p>
+        <p style="text-align: center;">H<sub>1</sub>: &#x03BC;<sub>pre</sub> &#x2260; &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> &#x2260; 0</p>
+        <p>The t-test is carried out and produces a t-statistic and a p-value. If this p-value is less than a defined amount, normally 0.05 is used, then this gives evidence of there being a difference between the groups. If this is not the case then we have not found enough evidence that the groups make a difference to the score.</p>
+
+        <h2>Creating the Difference Variable in SPSS (for Normality Check)</h2>
+        <p>Since SPSS does not automatically provide normality tests for the difference scores within the paired-samples t-test, you need to create a new variable that represents the difference between your two measures. This variable can then be used to check the normality assumption.</p>
+        <h3>Procedure to create the difference variable in SPSS:</h3>
+        <ol>
+            <li>Open your dataset in SPSS.</li>
+            <li>From the top menu, click <strong>Transform > Compute Variable...</strong></li>
+            <li>In the "Compute Variable" dialog box:
+                <ul>
+                    <li>In the "Target Variable" field, type a name for your new difference variable (e.g., `Quiz_Difference`).</li>
+                    <li>In the "Numeric Expression" field, enter the formula for the difference. To calculate post-course minus pre-course, you would enter: `quiz_score_post - quiz_score_pre`. You can type the variable names directly or select them from the "Type & Label" list on the left and click the arrow button to move them into the expression.</li>
+                    <li>Click <strong>OK</strong>. A new variable named `Quiz_Difference` will be added to your dataset.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>Checking Normality of the Difference Variable in SPSS:</h3>
+        <p>Now that you have created the difference variable, you can check its normality:</p>
+        <ol>
+            <li>From the top menu, click <strong>Analyze > Descriptive Statistics > Explore...</strong></li>
+            <li>Move your newly created `Quiz_Difference` variable from the left box to the "Dependent List" box.</li>
+            <li>Click on the <strong>Plots...</strong> button.</li>
+            <li>In the "Explore: Plots" dialog box, check "Histogram" and "Normality plots with tests".</li>
+            <li>Click <strong>Continue</strong>.</li>
+            <li>Click <strong>OK</strong> in the main "Explore" dialog box.</li>
+        </ol>
+        <p>The descriptive statistics and normality test results for the `Quiz Difference` variable will appear in the SPSS Output Viewer. An example output is shown below (your actual output may vary slightly):</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Quiz Difference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>N</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>Missing</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Mean</td>
+                    <td>5.03</td>
+                </tr>
+                <tr>
+                    <td>Median</td>
+                    <td>4.50</td>
+                </tr>
+                <tr>
+                    <td>Standard deviation</td>
+                    <td>3.61</td>
+                </tr>
+                <tr>
+                    <td>Minimum</td>
+                    <td>-6</td>
+                </tr>
+                <tr>
+                    <td>Maximum</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>Skewness</td>
+                    <td>0.00153</td>
+                </tr>
+                <tr>
+                    <td>Std. error skewness</td>
+                    <td>0.241</td>
+                </tr>
+                <tr>
+                    <td>Kurtosis</td>
+                    <td>0.465</td>
+                </tr>
+                <tr>
+                    <td>Std. error kurtosis</td>
+                    <td>0.478</td>
+                </tr>
+                <tr>
+                    <td>Shapiro-Wilk W</td>
+                    <td>0.987</td>
+                </tr>
+                <tr>
+                    <td>Shapiro-Wilk p</td>
+                    <td>0.447</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>From the descriptive statistics and Shapiro-Wilk test for `Quiz Difference`:</p>
+        <ul>
+            <li>The Shapiro-Wilk p-value is 0.447. Since this is greater than 0.05, the Shapiro-Wilk test is non-significant, indicating that the distribution of the differences is not significantly different from a normal distribution.</li>
+            <li>The z-score for skewness is 0.00153 / 0.241 = 0.006.</li>
+            <li>The z-score for kurtosis is 0.465 / 0.478 = 0.973.</li>
+        </ul>
+        <p>Both the z-scores for skewness (0.006) and kurtosis (0.973) are well within the &plusmn;1.96 range (for a 0.05 significance level), further supporting the assumption of normality for the difference scores. Therefore, the assumption of normality for the differences has been met.</p>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Given that the calculation for the difference is post course minus pre course, does the positive 5.03 mean score indicate that students improved or got worse on average?</li>
+                <li>Do the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>A positive mean difference of 5.03 (quiz_score_post - quiz_score_pre) indicates that, on average, students' quiz scores improved after the course.</li>
+                <li>Yes, the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met for the difference scores. The Shapiro-Wilk p-value (0.447) is greater than 0.05, and the z-scores for skewness and kurtosis are within the acceptable range of &plusmn;1.96.</li>
+            </ul>
+        </div>
+
+        <h2>Paired-Samples T-Test Procedure in SPSS</h2>
+        <p>To perform the paired-samples t-test in SPSS:</p>
+        <ol>
+            <li>Open your dataset in SPSS.</li>
+            <li>From the top menu, click <strong>Analyze > Compare Means > Paired-Samples T Test...</strong></li>
+            <li>In the "Paired-Samples T Test" dialog box:
+                <ul>
+                    <li>You will see a "Paired Variables" box. Select `quiz_score_pre` and move it into the "Variable1" slot of the first pair by clicking the arrow button.</li>
+                    <li>Then, select `quiz_score_post` and move it into the "Variable2" slot of the first pair by clicking the arrow button.</li>
+                    <li>Ensure that the pair is listed as `quiz_score_pre - quiz_score_post`.</li>
+                    <li>Click the <strong>Options...</strong> button.</li>
+                    <li>In the "Paired-Samples T-Test: Options" dialog box, ensure the "Confidence Interval" is set to 95%. Click <strong>Continue</strong>.</li>
+                    <li>Click <strong>OK</strong> in the main "Paired-Samples T Test" dialog box to run the analysis.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <p>The SPSS output will appear in the Output Viewer window.</p>
+
+        <h2>Interpretation of Results</h2>
+
+        <h3>Paired Samples Statistics Table</h3>
+        <p>This table provides descriptive statistics for each of the paired variables:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Mean</th>
+                    <th>N</th>
+                    <th>Std. Deviation</th>
+                    <th>Std. Error Mean</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>quiz_score_pre</td>
+                    <td>66.0</td>
+                    <td>100</td>
+                    <td>9.36</td>
+                    <td>0.936</td>
+                </tr>
+                <tr>
+                    <td>quiz_score_post</td>
+                    <td>71.0</td>
+                    <td>100</td>
+                    <td>9.69</td>
+                    <td>0.969</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>quiz_score_pre: Mean = 66.0, Std. Deviation = 9.36</li>
+            <li>quiz_score_post: Mean = 71.0, Std. Deviation = 9.69</li>
+        </ul>
+        <p>These descriptives clearly show an increase in the mean score from pre-course (66.0) to post-course (71.0).</p>
+
+        <h3>Paired Samples Correlations Table (Optional)</h3>
+        <p>This table shows the correlation between the two paired variables. A significant correlation (p &lt; 0.05) indicates that the two measures are related, which is expected in a paired-samples design.</p>
+
+        <h3>Paired Samples Test Table</h3>
+        <p>The primary output for the paired-samples t-test will be similar to this:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th colspan="5">Paired Differences</th>
+                    <th colspan="3">Significance</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>Mean</th>
+                    <th>Std. Deviation</th>
+                    <th>Std. Error Mean</th>
+                    <th>95% Confidence Interval of the Difference Lower</th>
+                    <th>95% Confidence Interval of the Difference Upper</th>
+                    <th>t</th>
+                    <th>df</th>
+                    <th>One-Sided p</th>
+                    <th>Two-Sided p</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>quiz_score_pre - quiz_score_post</td>
+                    <td>-5.03</td>
+                    <td>3.61</td>
+                    <td>0.361</td>
+                    <td>-5.75</td>
+                    <td>-4.31</td>
+                    <td>-13.9</td>
+                    <td>99</td>
+                    <td>&lt;.001</td>
+                    <td>&lt;.001</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Here's what these values mean:</p>
+        <ul>
+            <li><strong>Mean (-5.03):</strong> This is the average difference between `quiz_score_pre` and `quiz_score_post`. A negative value here means that `quiz_score_post` was, on average, higher than `quiz_score_pre`.</li>
+            <li><strong>Std. Deviation (3.61):</strong> This is the standard deviation of the difference scores.</li>
+            <li><strong>Std. Error Mean (0.361):</strong> This is the standard error of the mean difference.</li>
+            <li><strong>95% Confidence Interval of the Difference (-5.75 to -4.31):</strong> This interval provides a range within which the true mean difference in the population is likely to fall, with 95% confidence. Since this interval does not contain zero, it supports the finding of a statistically significant difference.</li>
+            <li><strong>t (-13.9):</strong> This is the calculated t-value for the paired-samples t-test. The negative sign aligns with the negative mean difference.</li>
+            <li><strong>df (99):</strong> These are the degrees of freedom, calculated as N - 1 (where N is the number of pairs). In this case, 100 - 1 = 99.</li>
+            <li><strong>One-Sided p (&lt;.001) / Two-Sided p (&lt;.001):</strong> These are the p-values.
+                <p>When conducting a hypothesis test, you typically choose between a one-tailed or a two-tailed test based on your research question and prior knowledge:</p>
+                <ul>
+                    <li>A <strong>two-tailed test</strong> (represented by "Two-Sided p") is used when you are interested in detecting a difference between the two measures, but you don't have a specific prediction about the <em>direction</em> of that difference (i.e., whether scores will increase or decrease). For example, you might ask: "Is there a difference in quiz scores before and after the course?" This is the most common approach in research.</li>
+                    <li>A <strong>one-tailed test</strong> (represented by "One-Sided p") is used when you have a specific, directional hypothesis about the difference. For example, you might ask: "Did quiz scores <em>increase</em> after the course?" or "Did quiz scores <em>decrease</em> after the course?"</li>
+                </ul>
+                <p>For most general research questions, where you are simply looking for any difference, the two-sided p-value is the appropriate one to report. Since Two-Sided p &lt; 0.001, which is less than our conventional significance level of 0.05, we reject the null hypothesis. This indicates that there is a statistically significant difference between the pre-course and post-course quiz scores.</p>
+            </li>
+        </ul>
+
+        <h3>Paired Samples Effect Sizes Table</h3>
+        <p>SPSS provides Cohen's d directly in a separate "Paired Samples Effect Sizes" table (available in newer versions of SPSS, typically 27 and above). This table will look similar to the output you provided:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pair 1</th>
+                    <th></th>
+                    <th>Standardizer<sup>a</sup></th>
+                    <th>Point Estimate</th>
+                    <th colspan="2">95% Confidence Interval</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>Lower</th>
+                    <th>Upper</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2">quiz_score_pre - quiz_score_post</td>
+                    <td>Cohen's d</td>
+                    <td>3.608</td>
+                    <td>-1.394</td>
+                    <td>-1.668</td>
+                    <td>-1.116</td>
+                </tr>
+                <tr>
+                    <td>Hedges' correction</td>
+                    <td>3.636</td>
+                    <td>-1.383</td>
+                    <td>-1.655</td>
+                    <td>-1.108</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Note: <sup>a</sup> The denominator used in estimating the effect sizes. Cohen's d uses the sample standard deviation of the mean difference. Hedges' correction uses the sample standard deviation of the mean difference, plus a correction factor.</p>
+        <p><strong>Cohen's d</strong> is a standardized measure of effect size that quantifies the difference between two means in standard deviation units. It tells you how large the difference is, independent of sample size. A larger absolute value of Cohen's d indicates a stronger effect.</p>
+        <ul>
+            <li><strong>Interpretation Guidelines (Cohen, 1988):</strong>
+                <ul>
+                    <li>Small effect: d = 0.2</li>
+                    <li>Medium effect: d = 0.5</li>
+                    <li>Large effect: d = 0.8</li>
+                </ul>
+            </li>
+        </ul>
+        <p>In this case, Cohen's d = -1.394 (from the "Point Estimate" column). The negative sign simply reflects the direction of the difference (post-score was higher than pre-score). An absolute value of 1.394 indicates a <strong>very large effect size</strong>, meaning the training course had a substantial impact on students' quiz scores.</p>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Is there evidence that the course has made a difference to students’ quiz scores?</li>
+                <li>Using Cohen’s d, what is the size of the effect of the course to the quiz scores?</li>
+                <li>Does the 95% Confidence Interval for the mean difference support the significance finding?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>Yes, there is strong evidence that the course has made a statistically significant difference to students' quiz scores. The p-value for the paired-samples t-test is &lt;.001, which is much less than the conventional alpha level of 0.05.</li>
+                <li>Using Cohen’s d, the size of the effect is -1.394. This indicates a very large effect, meaning the course had a substantial positive impact on students' quiz scores.</li>
+                <li>Yes, the 95% Confidence Interval for the mean difference (-5.75 to -4.31) supports the significance finding because it does not include zero. This means we are 95% confident that the true average difference in the population lies within this range, and since zero is not in the range, there is a significant difference.</li>
+            </ul>
+        </div>
+
+        <h2>Write-up Results</h2>
+        <h3>Example write-up of this analysis:</h3>
+        <div class="write-up-template">
+            <p>A paired-samples t-test was conducted to evaluate whether a training course improved students' performance on a quiz. To check the normality assumption, a difference score variable (post-course minus pre-course) was computed. The Shapiro-Wilk test on this difference variable was non-significant (W = 0.987, <i>p</i> = 0.447), indicating that the assumption was met. Descriptive statistics showed that the mean quiz score before the course was 66.0 (<i>SD</i> = 9.36), and after the course, it increased to 71.0 (<i>SD</i> = 9.69).</p>
+            <p>The paired-samples t-test revealed a statistically significant improvement in quiz scores after the training course, <i>t</i>(99) = -13.9, <i>p</i> &lt; .001. The mean difference in scores was -5.03 (95% CI [-5.75, -4.31]), with post-course scores being higher. Cohen's d was -1.394, indicating a very large effect size, suggesting a substantial practical significance of the training course on quiz performance.</p>
+        </div>
+    </div>
+</body>
+</html>

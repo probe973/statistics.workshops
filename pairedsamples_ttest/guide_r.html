@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paired-Samples T-Test Using R Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- No MathJax. Using MathML directly. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        li {
+            margin-bottom: 0.5em; /* Spacing between list items */
+        }
+        p {
+            margin-bottom: 1em; /* Consistent paragraph spacing */
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .button-group a {
+            background-color: #004085;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .button-group a:hover {
+            background-color: #002c5a;
+            transform: translateY(-2px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../r.html">R Studio Guides</a>
+    </div>
+    <div class="container">
+        <h1>Paired-Samples T-Test Using R Studio</h1>
+        <p class="subtitle">A Guide to Understanding and Performing a Paired-Samples T-Test with R Studio</p>
+
+        <p>The paired-samples t-test is an example of a repeated measures or within-subjects design. A within-subjects design is when you are looking for differences in individuals across a series of measurements. In the guides for the independent-samples t-test and one-way ANOVA you were looking at between-subjects design, where individuals belonged to a particular group and differences were being examined between these groups. When there are two measurements per individual, for example a pre and post score, then we can make use of the paired-samples t-test.</p>
+        <p>Some examples of within-subject designs include:</p>
+        <ul>
+            <li>
+                <strong>For 2 repeated measures:</strong>
+                <ul>
+                    <li>Measuring participants' anxiety levels before and after a mindfulness intervention.</li>
+                    <li>Comparing a patient's blood pressure readings before and after administering a new medication.</li>
+                    <li>Assessing a student's test score on a pre-test versus a post-test for the same course.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>For 2+ repeated measures (leading to Repeated Measures ANOVA):</strong>
+                <ul>
+                    <li>Tracking participants' reaction times across three different task conditions (e.g., low, medium, high cognitive load).</li>
+                    <li>Measuring plant growth at weekly intervals over a month.</li>
+                    <li>Evaluating the effectiveness of different therapeutic techniques on depression scores measured at baseline, mid-treatment, and post-treatment.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Assumptions of the Paired-Samples T-Test</h2>
+        <p>For a paired-samples t-test, there are several key assumptions that should ideally be met for the results to be reliable. It's important to check these before interpreting your R Studio output:</p>
+        <ol>
+            <li><strong>Dependent Variable:</strong> The dependent variable should be measured on a continuous scale (i.e., interval or ratio level). Examples include scores on a test, reaction time in milliseconds, or temperature in degrees Celsius.</li>
+            <li><strong>Independence of Observations:</strong> The observations <em>within each pair</em> are dependent (e.g., pre-score and post-score from the same person), but the <em>pairs themselves</em> must be independent of each other. This means that the data from one participant (or pair) should not influence the data from another participant (or pair). This is usually ensured by the study design.</li>
+            <li><strong>Normality of the Differences:</strong> The distribution of the <em>differences</em> between the two related groups should be approximately normally distributed. This is the most crucial assumption for the paired-samples t-test.
+                <ul>
+                    <li><strong>How to check:</strong> In R, you will need to manually create a difference variable and then check its normality using descriptive statistics and normality tests (e.g., Shapiro-Wilk) and visual plots (histograms, Q-Q plots).
+                        <ul>
+                            <li><strong>Visually inspecting a histogram:</strong> Look for a roughly bell-shaped curve.</li>
+                            <li><strong>Examining Q-Q plots:</strong> Check if data points fall close to the diagonal line.</li>
+                            <li><strong>Using the Shapiro-Wilk test:</strong> A non-significant p-value (typically p > 0.05) indicates that the assumption of normality is met.</li>
+                            <li><strong>Calculating z-scores for skewness and kurtosis:</strong> Divide the skewness/kurtosis value by its standard error. Absolute z-scores within approximately <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math> (for a 0.05 significance level) suggest normality.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>Does a training course improve students’ performance on a quiz?</h2>
+        <p>In this guide you will be making use of the `quiz_score_pre` and `quiz_score_post` variables from your dataset. We will assume your dataset has been loaded into an R dataframe named `omni_data` using a command like `omni_data <- read.csv("[file location]/omni.csv")`. If you are unsure how to load a CSV file into R, please refer to our <a href="../loading_the_data/guide_r.html">earlier R Studio guides on data loading</a>.</p>
+
+        <h2>Null and Alternative Hypotheses of the Paired-Samples T-Test</h2>
+        <p>The null hypothesis (H<sub>0</sub>) of a paired-samples t-test states that there is no statistically significant difference between the means of the two related groups (or that the mean difference is zero).</p>
+        <p style="text-align: center;">H<sub>0</sub>: &#x03BC;<sub>pre</sub> = &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> = 0</p>
+        <p>The alternative hypothesis (H<sub>1</sub>) states that there is a statistically significant difference between the means of the two related groups (or that the mean difference is not zero).</p>
+        <p style="text-align: center;">H<sub>1</sub>: &#x03BC;<sub>pre</sub> &#x2260; &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> &#x2260; 0</p>
+        <p>The t-test is carried out and produces a t-statistic and a p-value. If this p-value is less than a defined amount, normally 0.05 is used, then this gives evidence of there being a difference between the groups. If this is not the case then we have not found enough evidence that the groups make a difference to the score.</p>
+
+        <h2>Descriptive Statistics in R Studio</h2>
+        <p>It's always a good practice to examine descriptive statistics for your variables before performing inferential tests. This gives you an initial understanding of your data, including means, standard deviations, and sample sizes.</p>
+        <h3>Procedure for Descriptive Statistics:</h3>
+        <p>To get basic descriptive statistics (mean, median, min, max, quartiles) for your variables, you can use the base R `summary()` function. For more detailed statistics, including standard deviation, standard error, skewness, and kurtosis, you can use the `describe()` function from the `psych` package.</p>
+
+        <p>First, install and load the `psych` package if you haven't already:</p>
+        <pre><code>install.packages("psych")  # Only run this once to install the package
+library(psych)             # Run this every time you start a new R session and want to use the package</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li><code>install.packages()</code>: This function installs packages from CRAN (Comprehensive R Archive Network). You only need to run this command once per package on your machine.</li>
+            <li><code>library()</code>: This function loads an installed package into your current R session, making its functions available for use. You need to run this every time you start a new R session and want to use functions from that package.</li>
+        </ul>
+
+        <p>Now, to get descriptive statistics for your pre- and post-course quiz scores:</p>
+        <pre><code>describe(omni_data$quiz_score_pre)
+describe(omni_data$quiz_score_post)</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li><code>describe()</code>: This function from the `psych` package provides a wide range of descriptive statistics.</li>
+            <li><code>omni_data$quiz_score_pre</code>, <code>omni_data$quiz_score_post</code>: Specify the variables for which you want descriptive statistics.</li>
+        </ul>
+        <p>Example Output for `describe(omni_data$quiz_score_pre)` (similar for `quiz_score_post`):</p>
+        <pre><code>
+       vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+X1    1 100 66.0 9.36   67.0   65.98 9.64  45  88    43  0.01    -0.45 0.94
+        </code></pre>
+        <p>From these descriptive statistics (using the example values from the problem):</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>N</th>
+                    <th>Mean</th>
+                    <th>Median</th>
+                    <th>SD</th>
+                    <th>SE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>quiz_score_pre</td>
+                    <td>100</td>
+                    <td>66.0</td>
+                    <td>67.0</td>
+                    <td>9.36</td>
+                    <td>0.936</td>
+                </tr>
+                <tr>
+                    <td>quiz_score_post</td>
+                    <td>100</td>
+                    <td>71.0</td>
+                    <td>71.0</td>
+                    <td>9.69</td>
+                    <td>0.969</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>These descriptives clearly show an increase in the mean score from pre-course (66.0) to post-course (71.0).</p>
+
+        <h2>Creating the Difference Variable in R Studio (for Normality Check)</h2>
+        <p>To check the normality assumption for the paired-samples t-test, it is necessary to create a new variable that represents the difference between your two measures. This variable can then be used to perform normality tests and create visual plots.</p>
+        <h3>Procedure to create the difference variable in R:</h3>
+        <p>To create a new variable (column) in a dataframe, you use the assignment operator (`&lt;-`) with the `$` notation to specify the new column within your dataframe. The general structure of the command is:</p>
+        <p><code>dataframe$new_variable_name &lt;- dataframe$variable1 - dataframe$variable2</code></p>
+        <p>Where:</p>
+        <ul>
+            <li><code>dataframe</code>: The name of your dataset (e.g., `omni_data`).</li>
+            <li><code>new_variable_name</code>: The name you want to give your new difference variable (e.g., `quiz_difference`).</li>
+            <li><code>variable1</code> and <code>variable2</code>: The existing variables from your dataframe that you want to subtract.</li>
+        </ul>
+        <p>For our example, to create the `quiz_difference` variable (post-course minus pre-course), you would use this command:</p>
+        <pre><code>omni_data$quiz_difference &lt;- omni_data$quiz_score_post - omni_data$quiz_score_pre</code></pre>
+        <p>After running this command in your R console or script, a new column named `quiz_difference` will be added to your `omni_data` dataframe.</p>
+
+        <h3>Descriptive Statistics for the Difference Variable:</h3>
+        <p>Once the difference variable is created, it's important to get its descriptive statistics, especially skewness and kurtosis, to assess normality.</p>
+        <pre><code>describe(omni_data$quiz_difference)</code></pre>
+        <p>Example Output for `describe(omni_data$quiz_difference)`:</p>
+        <pre><code>
+       vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+X1    1 100  5.03 3.62    5.03    5.03 3.71  -3  13    16  0.00153 0.465   0.36
+        </code></pre>
+        <p>From this output, we can see the skewness is 0.00153 and kurtosis is 0.465 for the `quiz_difference` variable.</p>
+
+        <h3>Checking Normality of the Difference Variable in R:</h3>
+        <p>Now that you have created the difference variable, you can check its normality using both visual methods (histograms, Q-Q plots) and a statistical test (Shapiro-Wilk).</p>
+
+        <h4>1. Visual Inspection (Histogram and Q-Q Plot):</h4>
+        <p>To create a histogram of the difference scores, use the `hist()` function:</p>
+        <pre><code>hist(omni_data$quiz_difference, main="Histogram of Quiz Score Differences", xlab="Difference Score", col="skyblue", border="black")</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li><code>hist()</code>: This is the function to create a histogram.</li>
+            <li><code>omni_data$quiz_difference</code>: Specifies the variable for which to create the histogram.</li>
+            <li><code>main</code>: Sets the main title of the plot.</li>
+            <li><code>xlab</code>: Sets the label for the x-axis.</li>
+            <li><code>col</code>: Sets the color of the histogram bars.</li>
+            <li><code>border</code>: Sets the color of the borders around the bars.</li>
+        </ul>
+
+        <p>To create a Normal Q-Q plot and add a reference line, use `qqnorm()` and `qqline()`:</p>
+        <pre><code>qqnorm(omni_data$quiz_difference)
+qqline(omni_data$quiz_difference, col="red")</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li><code>qqnorm()</code>: This function generates a Normal Q-Q plot, which plots the quantiles of your data against the quantiles of a theoretical normal distribution. If the data is normally distributed, the points should fall approximately along a straight line.</li>
+            <li><code>qqline()</code>: This function adds a theoretical line to the Q-Q plot to help assess normality.</li>
+            <li><code>omni_data$quiz_difference</code>: Specifies the variable for the Q-Q plot.</li>
+            <li><code>col</code>: Sets the color of the line.</li>
+        </ul>
+        <p>Visually, if the histogram appears roughly bell-shaped and the points on the Q-Q plot closely follow the line, it suggests normality.</p>
+
+        <h4>2. Shapiro-Wilk Normality Test:</h4>
+        <p>To perform the Shapiro-Wilk test on the difference scores, use the `shapiro.test()` function:</p>
+        <pre><code>shapiro.test(omni_data$quiz_difference)</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li><code>shapiro.test()</code>: This function performs the Shapiro-Wilk test for normality.</li>
+            <li><code>omni_data$quiz_difference</code>: Specifies the variable to test for normality.</li>
+        </ul>
+        <p>The output will provide a W statistic and a p-value. An example output would look like this:</p>
+        <pre><code>
+        Shapiro-Wilk normality test
+
+data:  omni_data$quiz_difference
+W = 0.987, p-value = 0.447
+        </code></pre>
+        <p>From the descriptive statistics and Shapiro-Wilk test for `quiz_difference`:</p>
+        <ul>
+            <li>The Shapiro-Wilk p-value is 0.447. Since this is greater than 0.05, the Shapiro-Wilk test is non-significant, indicating that the distribution of the differences is not significantly different from a normal distribution.</li>
+            <li>Using the output from `describe(omni_data$quiz_difference)` (skewness 0.00153, kurtosis 0.465), you can calculate z-scores for skewness and kurtosis manually by dividing the skewness/kurtosis value by its standard error. For large samples (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>&gt;</mo><mn>50</mn></mrow><annotation encoding="MathML-Content"><mi>N</mi><mo>&gt;</mo><mn>50</mn></annotation></semantics></math>), the standard errors can be approximated using the following formulas:
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </annotation>
+                  </semantics>
+                </math>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </annotation>
+                  </semantics>
+                </math>
+                <p>For our sample size of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="MathML-Content"><mi>N</mi><mo>=</mo><mn>100</mn></annotation></semantics></math>:</p>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.06</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.245</mn>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.06</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.245</mn>
+                    </annotation>
+                  </semantics>
+                </math>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.24</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.490</mn>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.24</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.490</mn>
+                    </annotation>
+                  </semantics>
+                </math>
+                <p>Using the example values for skewness (0.00153) and kurtosis (0.465) from our data, and these approximate standard errors:</p>
+                <ul>
+                    <li>Z-score for skewness: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.00153</mn><mo>/</mo><mn>0.245</mn><mo>≈</mo><mn>0.006</mn></mrow><annotation encoding="MathML-Content"><mn>0.00153</mn><mo>/</mo><mn>0.245</mn><mo>&#x2248;</mo><mn>0.006</mn></annotation></semantics></math></li>
+                    <li>Z-score for kurtosis: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.465</mn><mo>/</mo><mn>0.490</mn><mo>≈</mo><mn>0.949</mn></mrow><annotation encoding="MathML-Content"><mn>0.465</mn><mo>/</mo><mn>0.490</mn><mo>&#x2248;</mo><mn>0.949</mn></annotation></semantics></math></li>
+                </ul>
+            </li>
+        </ul>
+        <p>Both the calculated z-scores for skewness (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.006</mn></mrow><annotation encoding="MathML-Content"><mn>0.006</mn></annotation></semantics></math>) and kurtosis (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.949</mn></mrow><annotation encoding="MathML-Content"><mn>0.949</mn></annotation></semantics></math>) are well within the <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math> range (for a 0.05 significance level), further supporting the assumption of normality for the difference scores. Therefore, the assumption of normality for the differences has been met.</p>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Given that the calculation for the difference is post course minus pre course, does the positive 5.03 mean score indicate that students improved or got worse on average?</li>
+                <li>Do the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>A positive mean difference of 5.03 (quiz_score_post - quiz_score_pre) indicates that, on average, students' quiz scores improved after the course.</li>
+                <li>Yes, the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met for the difference scores. The Shapiro-Wilk p-value (0.447) is greater than 0.05, and the z-scores for skewness and kurtosis are within the acceptable range of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math>.</li>
+            </ul>
+        </div>
+
+        <h2>Paired-Samples T-Test Procedure in R Studio</h2>
+        <p>To perform the paired-samples t-test in R, you will use the <code>t.test()</code> function.</p>
+        <h3>Procedure:</h3>
+        <p>The basic syntax for a paired-samples t-test in R is:</p>
+        <pre><code>t.test(variable1, variable2, paired = TRUE, alternative = "two.sided", conf.level = 0.95)</code></pre>
+        <p>Where:</p>
+        <ul>
+            <li><code>variable1</code>: The first variable in your pair (e.g., <code>omni_data$quiz_score_post</code>).</li>
+            <li><code>variable2</code>: The second variable in your pair (e.g., <code>omni_data$quiz_score_pre</code>). Note: The order matters for the mean difference calculation. If you want "post - pre", put `post` first.</li>
+            <li><code>paired = TRUE</code>: This argument tells R to perform a paired t-test. This is crucial for within-subjects designs.</li>
+            <li><code>alternative</code>: This argument specifies the type of hypothesis test you are performing:
+                <ul>
+                    <li><code>"two.sided"</code>: This is used when you are interested in detecting a difference between the two measures, but you don't have a specific prediction about the <em>direction</em> of that difference (i.e., whether scores will increase or decrease). For example, your research question might be: "Is there a difference in quiz scores before and after the course?" This is the most common approach in research.</li>
+                    <li><code>"less"</code>: This is used for a <strong>one-tailed test</strong> when you have a specific, directional hypothesis that <code>variable1</code> will be <em>less than</em> <code>variable2</code>. For example, you might hypothesize: "Quiz scores after the course will be lower than before the course."</li>
+                    <li><code>"greater"</code>: This is used for a <strong>one-tailed test</strong> when you have a specific, directional hypothesis that <code>variable1</code> will be <em>greater than</em> <code>variable2</code>. For example, you might hypothesize: "Quiz scores after the course will be higher than before the course."</li>
+                </ul>
+                <p>For most general research questions, where you are simply looking for a difference, the two-sided test is the appropriate one to use.</p>
+            </li>
+            <li><code>conf.level = 0.95</code>: Sets the confidence level for the confidence interval of the mean difference (e.g., 0.95 for a 95% CI).</li>
+        </ul>
+        <p>For our example, to test if there's a difference between post-course and pre-course quiz scores, you would use this command:</p>
+        <pre><code>t.test(omni_data$quiz_score_post, omni_data$quiz_score_pre, paired = TRUE, alternative = "two.sided", conf.level = 0.95)</code></pre>
+        <p>The output will appear in your R console.</p>
+
+        <h2>Interpretation of Results</h2>
+
+        <h3>Example R Output for t.test():</h3>
+        <pre><code>
+        Paired t-test
+
+data:  omni_data$quiz_score_post and omni_data$quiz_score_pre
+t = 13.90, df = 99, p-value < 2.2e-16
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 4.314285 5.745715
+sample estimates:
+mean of the differences
+               5.03
+        </code></pre>
+        <p>Here's what these values mean:</p>
+        <ul>
+            <li><strong>t = 13.90:</strong> This is the calculated t-value for the paired-samples t-test. The positive sign indicates that the mean of `quiz_score_post` is higher than `quiz_score_pre`, as `post` was entered as the first variable.</li>
+            <li><strong>df = 99:</strong> These are the degrees of freedom, calculated as N - 1 (where N is the number of pairs). In this case, 100 - 1 = 99.</li>
+            <li><strong>p-value < 2.2e-16:</strong> This is the p-value. A value like "2.2e-16" means 2.2 multiplied by 10 to the power of -16, which is an extremely small number (effectively <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>0.001</mn></mrow><annotation encoding="MathML-Content"><mo>&lt;</mo><mn>0.001</mn></annotation></semantics></math>). Since <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0.001</mn></mrow><annotation encoding="MathML-Content"><mi>p</mi><mo>&lt;</mo><mn>0.001</mn></annotation></semantics></math>, which is less than our conventional significance level of 0.05, we reject the null hypothesis. This indicates that there is a statistically significant difference between the pre-course and post-course quiz scores.</li>
+            <li><strong>95 percent confidence interval: 4.314285 to 5.745715:</strong> This interval provides a range within which the true mean difference in the population is likely to fall, with 95% confidence. Since this interval does not contain zero, it supports the finding of a statistically significant difference.</li>
+            <li><strong>sample estimates: mean of the differences: 5.03:</strong> This is the average difference between `quiz_score_post` and `quiz_score_pre`. A positive value here means that `quiz_score_post` was, on average, higher than `quiz_score_pre`.</li>
+        </ul>
+
+        <h3>Calculating Cohen's d (Effect Size) in R</h3>
+        <p>R does not include Cohen's d directly in the standard <code>t.test()</code> output. You can calculate it using a dedicated package like <code>effsize</code>.</p>
+        <h4>Procedure:</h4>
+        <p>First, you need to install and load the <code>effsize</code> package if you haven't already:</p>
+        <pre><code>install.packages("effsize")  # Only run this once to install the package
+library(effsize)             # Run this every time you start a new R session and want to use the package</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li><code>install.packages()</code>: This function installs packages from CRAN (Comprehensive R Archive Network). You only need to run this command once per package on your machine.</li>
+            <li><code>library()</code>: This function loads an installed package into your current R session, making its functions available for use. You need to run this every time you start a new R session and want to use functions from that package.</li>
+        </ul>
+        <p>Once the package is loaded, you can calculate Cohen's d using the <code>cohen.d()</code> function:</p>
+        <pre><code>cohen.d(omni_data$quiz_score_post, omni_data$quiz_score_pre, paired = TRUE)</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li><code>cohen.d()</code>: This function from the <code>effsize</code> package calculates Cohen's d.</li>
+            <li><code>omni_data$quiz_score_post</code>, <code>omni_data$quiz_score_pre</code>: The two variables for which to calculate the effect size.</li>
+            <li><code>paired = TRUE</code>: Specifies that this is a paired design.</li>
+        </ul>
+        <p>Example Output for <code>cohen.d()</code>:</p>
+        <pre><code>
+Cohen's d
+
+d estimate: 1.394017
+95 percent confidence interval:
+      lower     upper
+   1.116499 1.668482
+        </code></pre>
+        <p><strong>Cohen's d</strong> is a standardized measure of effect size that quantifies the difference between two means in standard deviation units. It tells you how large the difference is, independent of sample size. A larger absolute value of Cohen's d indicates a stronger effect.</p>
+        <ul>
+            <li><strong>Interpretation Guidelines (Cohen, 1988):</strong>
+                <ul>
+                    <li>Small effect: d = 0.2</li>
+                    <li>Medium effect: d = 0.5</li>
+                    <li>Large effect: d = 0.8</li>
+                </ul>
+            </li>
+        </ul>
+        <p>In this case, Cohen's d = 1.394 (from the "d estimate" in the output). The positive sign reflects the direction of the difference (post-score was higher than pre-score). An absolute value of 1.394 indicates a <strong>very large effect size</strong>, meaning the training course had a substantial impact on students' quiz scores.</p>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Given that the calculation for the difference is post course minus pre course, does the positive 5.03 mean score indicate that students improved or got worse on average?</li>
+                <li>Do the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>A positive mean difference of 5.03 (quiz_score_post - quiz_score_pre) indicates that, on average, students' quiz scores improved after the course.</li>
+                <li>Yes, the descriptive statistics and Shapiro-Wilk test provide evidence that the assumption of normality has been met for the difference scores. The Shapiro-Wilk p-value (0.447) is greater than 0.05, and the z-scores for skewness and kurtosis are within the acceptable range of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math>.</li>
+            </ul>
+        </div>
+
+        <h2>Write-up Results</h2>
+        <h3>Example write-up of this analysis:</h3>
+        <div class="write-up-template">
+            <p>A paired-samples t-test was conducted to evaluate whether a training course improved students' performance on a quiz. To check the normality assumption, a difference score variable (post-course minus pre-course) was computed. The Shapiro-Wilk test on this difference variable was non-significant (W = 0.987, <i>p</i> = 0.447), indicating that the assumption was met. Descriptive statistics showed that the mean quiz score before the course was 66.0 (<i>SD</i> = 9.36), and after the course, it increased to 71.0 (<i>SD</i> = 9.69).</p>
+            <p>The paired-samples t-test revealed a statistically significant improvement in quiz scores after the training course, <i>t</i>(99) = 13.9, <i>p</i> < 0.001. The mean difference in scores was 5.03 (95% CI [4.31, 5.75]), with post-course scores being higher. Cohen's d was 1.394, indicating a very large effect size, suggesting a substantial practical significance of the training course on quiz performance.</p>
+        </div>
+    </div>
+</body>
+</html>

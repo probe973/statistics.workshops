@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paired-Samples T-Test Using Stata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- No MathJax. Using MathML directly. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #0056b3;
+            font-size: 1em;
+            margin-top: 25px;
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre {
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            margin-bottom: 1em; /* Consistent spacing */
+        }
+        li {
+            margin-bottom: 0.5em; /* Spacing between list items */
+        }
+        p {
+            margin-bottom: 1em; /* Consistent paragraph spacing */
+        }
+        .reflection-question {
+            background-color: #f0f8ff;
+            border-left: 5px solid #add8e6;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .write-up-template {
+            background-color: #e9f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .write-up-template p {
+            margin-bottom: 10px;
+        }
+        .solution-section {
+            background-color: #f0fff0;
+            border-left: 5px solid #6b8e23;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .solution-section h4 {
+            color: #6b8e23;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .button-group a {
+            background-color: #004085;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .button-group a:hover {
+            background-color: #002c5a;
+            transform: translateY(-2px);
+        }
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="../index.html">Home</a>
+        <a href="../stata.html">Stata Guides</a>
+    </div>
+    <div class="container">
+        <h1>Paired-Samples T-Test Using Stata</h1>
+        <p class="subtitle">A Guide to Understanding and Performing a Paired-Samples T-Test with Stata</p>
+
+        <p>The paired-samples t-test is an example of a repeated measures or within-subjects design. A within-subjects design is when you are looking for differences in individuals across a series of measurements. In the guides for the independent-samples t-test and one-way ANOVA you were looking at between-subjects design, where individuals belonged to a particular group and differences were being examined between these groups. When there are two measurements per individual, for example a pre and post score, then we can make use of the paired-samples t-test.</p>
+        <p>Some examples of within-subject designs include:</p>
+        <ul>
+            <li>
+                <strong>For 2 repeated measures:</strong>
+                <ul>
+                    <li>Measuring participants' anxiety levels before and after a mindfulness intervention.</li>
+                    <li>Comparing a patient's blood pressure readings before and after administering a new medication.</li>
+                    <li>Assessing a student's test score on a pre-test versus a post-test for the same course.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>For 2+ repeated measures (leading to Repeated Measures ANOVA):</strong>
+                <ul>
+                    <li>Tracking participants' reaction times across three different task conditions (e.g., low, medium, high cognitive load).</li>
+                    <li>Measuring plant growth at weekly intervals over a month.</li>
+                    <li>Evaluating the effectiveness of different therapeutic techniques on depression scores measured at baseline, mid-treatment, and post-treatment.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Assumptions of the Paired-Samples T-Test</h2>
+        <p>For a paired-samples t-test, there are several key assumptions that should ideally be met for the results to be reliable. It's important to check these before interpreting your Stata output:</p>
+        <ol>
+            <li><strong>Dependent Variable:</strong> The dependent variable should be measured on a continuous scale (i.e., interval or ratio level). Examples include scores on a test, reaction time in milliseconds, or temperature in degrees Celsius.</li>
+            <li><strong>Independence of Observations:</strong> The observations <em>within each pair</em> are dependent (e.g., pre-score and post-score from the same person), but the <em>pairs themselves</em> must be independent of each other. This means that the data from one participant (or pair) should not influence the data from another participant (or pair). This is usually ensured by the study design.</li>
+            <li><strong>Normality of the Differences:</strong> The distribution of the <em>differences</em> between the two related groups should be approximately normally distributed. This is the most crucial assumption for the paired-samples t-test.
+                <ul>
+                    <li><strong>How to check:</strong> In Stata, you will need to manually create a difference variable and then check its normality using descriptive statistics and normality tests (e.g., Shapiro-Wilk) and visual plots (histograms, Q-Q plots).
+                        <ul>
+                            <li><strong>Visually inspecting a histogram:</strong> Look for a roughly bell-shaped curve.</li>
+                            <li><strong>Examining Q-Q plots:</strong> Check if data points fall close to the diagonal line.</li>
+                            <li><strong>Using the Shapiro-Wilk test:</strong> A non-significant p-value (typically p > 0.05) indicates that the assumption of normality is met.</li>
+                            <li><strong>Calculating z-scores for skewness and kurtosis:</strong> Divide the skewness/kurtosis value by its standard error. Absolute z-scores within approximately <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math> (for a 0.05 significance level) suggest normality.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2>Does a training course improve students’ performance on a quiz?</h2>
+        <p>In this guide you will be making use of the `quiz_score_pre` and `quiz_score_post` variables from your dataset. We will assume your dataset has been loaded into Stata. If you are unsure how to load data into Stata, please refer to our <a href="../loading_the_data/guide_st.html">earlier Stata guides on data loading</a>.</p>
+
+        <h2>Null and Alternative Hypotheses of the Paired-Samples T-Test</h2>
+        <p>The null hypothesis (H<sub>0</sub>) of a paired-samples t-test states that there is no statistically significant difference between the means of the two related groups (or that the mean difference is zero).</p>
+        <p style="text-align: center;">H<sub>0</sub>: &#x03BC;<sub>pre</sub> = &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> = 0</p>
+        <p>The alternative hypothesis (H<sub>1</sub>) states that there is a statistically significant difference between the means of the two related groups (or that the mean difference is not zero).</p>
+        <p style="text-align: center;">H<sub>1</sub>: &#x03BC;<sub>pre</sub> &#x2260; &#x03BC;<sub>post</sub>  or  &#x03BC;<sub>difference</sub> &#x2260; 0</p>
+        <p>The t-test is carried out and produces a t-statistic and a p-value. If this p-value is less than a defined amount, normally 0.05 is used, then this gives evidence of there being a difference between the groups. If this is not the case then we have not found enough evidence that the groups make a difference to the score.</p>
+
+        <h2>Descriptive Statistics in Stata</h2>
+        <p>It's always a good practice to examine descriptive statistics for your variables before performing inferential tests. This gives you an initial understanding of your data, including means, standard deviations, and sample sizes.</p>
+        <h3>Procedure for Descriptive Statistics:</h3>
+        <h4>Command-driven:</h4>
+        <p>To get basic descriptive statistics (mean, standard deviation, min, max, count), use the `summarize` command. For more detailed statistics, including skewness and kurtosis, use `summarize, detail`.</p>
+        <pre><code>summarize quiz_score_pre quiz_score_post
+summarize quiz_score_pre quiz_score_post, detail</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li>`summarize`: Displays descriptive statistics.</li>
+            <li>`quiz_score_pre quiz_score_post`: Specifies the variables for which to display statistics.</li>
+            <li>`, detail`: Provides additional statistics like skewness, kurtosis, and percentiles.</li>
+        </ul>
+
+        <h4>Menu-driven:</h4>
+        <p>Go to `Statistics > Summaries, tables, and tests > Summary and descriptive statistics > Summary statistics`.</p>
+        <p>In the dialog box:</p>
+        <ol>
+            <li>Select `quiz_score_pre` and `quiz_score_post` from the "Variables" dropdown.</li>
+            <li>Check the "Display additional statistics (e.g., skewness, kurtosis)" box for detailed output.</li>
+            <li>Click "OK".</li>
+        </ol>
+        <p>Example Output for `summarize quiz_score_pre, detail`:</p>
+        <pre><code>
+-------------------------------------------------------------
+      Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+-------------------------------------------------------
+quiz_score_pre |        100       65.99    9.363043         46         86
+
+                Percentiles     Smallest
+           1%           46           46
+           5%           48           46
+          10%           52           47       Obs                  100
+          25%           60           47       Sum of Wgt.          100
+          50%           67                      Mean                 65.99
+          75%           71       Largest        Std. Dev.      9.363043
+          90%           78.5         81       Variance       87.66657
+          95%           81           84       Skewness      -0.2229022
+          99%           86           86       Kurtosis       2.636066
+-------------------------------------------------------------
+        </code></pre>
+        <p>Example Output for `summarize quiz_score_post, detail`:</p>
+        <pre><code>
+-------------------------------------------------------------
+      Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+-------------------------------------------------------
+quiz_score_post |        100       71.02    9.692213         49         95
+
+                Percentiles     Smallest
+           1%           49.5         49
+           5%           53           50
+          10%           56           51       Obs                  100
+          25%           65.5         53       Sum of Wgt.          100
+          50%           71                      Mean                 71.02
+          75%           77       Largest        Std. Dev.      9.692213
+          90%           84           87       Variance       93.93899
+          95%           87           87       Skewness      -0.2148622
+          99%           91.5         95       Kurtosis       2.746421
+-------------------------------------------------------------
+        </code></pre>
+        <p>From these descriptive statistics:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>N</th>
+                    <th>Mean</th>
+                    <th>Median</th>
+                    <th>SD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>quiz_score_pre</td>
+                    <td>100</td>
+                    <td>65.99</td>
+                    <td>67.0</td>
+                    <td>9.363</td>
+                </tr>
+                <tr>
+                    <td>quiz_score_post</td>
+                    <td>100</td>
+                    <td>71.02</td>
+                    <td>71.0</td>
+                    <td>9.692</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>These descriptives clearly show an increase in the mean score from pre-course (65.99) to post-course (71.02).</p>
+
+        <h2>Creating the Difference Variable in Stata (for Normality Check)</h2>
+        <p>To check the normality assumption for the paired-samples t-test, it is necessary to create a new variable that represents the difference between your two measures. This variable can then be used to perform normality tests and create visual plots.</p>
+        <h3>Procedure to create the difference variable in Stata:</h3>
+        <h4>Command-driven:</h4>
+        <p>Use the `generate` or `gen` command to create a new variable (column) by subtracting one variable from another. To ensure consistency with the R guide's interpretation of a positive difference meaning improvement, we will calculate `post - pre`:</p>
+        <pre><code>gen quiz_difference = quiz_score_post - quiz_score_pre</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li>`gen`: Short for `generate`, creates a new variable.</li>
+            <li>`quiz_difference`: The name of your new difference variable.</li>
+            <li>`quiz_score_post - quiz_score_pre`: The calculation for the new variable.</li>
+        </ul>
+
+        <h4>Menu-driven:</h4>
+        <p>Go to `Data > Create or change data > Create new variable (generate)`.</p>
+        <p>In the dialog box:</p>
+        <ol>
+            <li>In the "New variable name" field, type `quiz_difference`.</li>
+            <li>In the "Contents of new variable (expression)" field, type `quiz_score_post - quiz_score_pre`.</li>
+            <li>Click "OK".</li>
+        </ol>
+        <p>After running this command, a new variable named `quiz_difference` will be added to your dataset.</p>
+
+        <h3>Descriptive Statistics for the Difference Variable:</h3>
+        <p>Once the difference variable is created, it's important to get its descriptive statistics, especially skewness and kurtosis, to assess normality.</p>
+        <h4>Command-driven:</h4>
+        <p>
+        <pre><code>summarize quiz_difference, detail</code></pre>
+        </p>
+        <h4>Menu-driven:</h4>
+        <p>Go to `Statistics > Summaries, tables, and tests > Summary and descriptive statistics > Summary statistics`.</p>
+        <p>In the dialog box:</p>
+        <ol>
+            <li>Select `quiz_difference` from the "Variables" dropdown.</li>
+            <li>Check the "Display additional statistics (e.g., skewness, kurtosis)" box for detailed output.</li>
+            <li>Click "OK".</li>
+        </ol>
+        <p>Example Output for `summarize quiz_difference, detail`:</p>
+        <pre><code>
+-------------------------------------------------------------
+      Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+-------------------------------------------------------
+quiz_difference |        100        5.03    3.608226         -6         15
+
+                Percentiles     Smallest
+           1%           -4.5         -6
+           5%           -0.5         -3
+          10%            1           -2       Obs                  100
+          25%            3           -2       Sum of Wgt.          100
+          50%            4.5                   Mean                 5.03
+          75%            8       Largest        Std. Dev.       3.608226
+          90%            9.5         12       Variance       13.01929
+          95%           11           12       Skewness       0.0015117
+          99%           14           15       Kurtosis       3.382506
+-------------------------------------------------------------
+        </code></pre>
+        <p>From this output, we can see the skewness is 0.0015117 and kurtosis is 3.382506 for the `quiz_difference` variable.</p>
+
+        <h3>Checking Normality of the Difference Variable in Stata:</h3>
+        <p>Now that you have created the difference variable, you can check its normality using both visual methods (histograms, Q-Q plots) and a statistical test (Shapiro-Wilk).</p>
+
+        <h4>1. Visual Inspection (Histogram and Q-Q Plot):</h4>
+        <h4>Command-driven:</h4>
+        <p>To create a histogram of the difference scores, use the `histogram` command:</p>
+        <pre><code>histogram quiz_difference, normal title("Histogram of Quiz Score Differences") xtitle("Difference Score")</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li>`histogram`: Creates a histogram.</li>
+            <li>`quiz_difference`: Specifies the variable for the histogram.</li>
+            <li>`, normal`: Overlays a normal density curve on the histogram.</li>
+            <li>`title()`: Sets the main title of the plot.</li>
+            <li>`xtitle()`: Sets the label for the x-axis.</li>
+        </ul>
+
+        <p>To create a Normal Q-Q plot, use the `qnorm` command:</p>
+        <pre><code>qnorm quiz_difference, title("Normal Q-Q Plot of Quiz Score Differences")</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li>`qnorm`: Generates a Normal Quantile-Quantile plot.</li>
+            <li>`quiz_difference`: Specifies the variable for the Q-Q plot.</li>
+            <li>`title()`: Sets the main title of the plot.</li>
+        </ul>
+        <p>Visually, if the histogram appears roughly bell-shaped and the points on the Q-Q plot closely follow the diagonal line, it suggests normality.</p>
+
+        <h4>Menu-driven:</h4>
+        <p>For Histogram: Go to `Graphics > Histogram`.</p>
+        <ol>
+            <li>Select `quiz_difference` from the "Variable" dropdown.</li>
+            <li>Check "Plot normal density" under "Add plots to graph".</li>
+            <li>Set "Title" and "X-axis title" as desired.</li>
+            <li>Click "OK".</li>
+        </ol>
+        <p>For Q-Q Plot: Go to `Statistics > Summaries, tables, and tests > Distributional plots and tests > Quantile-normal plot`.</p>
+        <ol>
+            <li>Select `quiz_difference` from the "Variable" dropdown.</li>
+            <li>Set "Title" as desired.</li>
+            <li>Click "OK".</li>
+        </ol>
+
+        <h4>2. Shapiro-Wilk Normality Test & Skewness/Kurtosis Tests:</h4>
+        <h4>Command-driven:</h4>
+        <p>To perform the Shapiro-Wilk test, use the `swilk` command. For tests of skewness and kurtosis, use the `sktest` command.</p>
+        <pre><code>swilk quiz_difference
+sktest quiz_difference</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li>`swilk`: Performs the Shapiro-Wilk W test for normality.</li>
+            <li>`sktest`: Performs tests for skewness and kurtosis, and a combined test for normality.</li>
+            <li>`quiz_difference`: Specifies the variable to test for normality.</li>
+        </ul>
+        <p>Example Output for `swilk quiz_difference`:</p>
+        <pre><code>
+        Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V    z       Prob>z
+-------------+--------------------------------------------------
+quiz_difference |        100    0.99524    0.393    -2.071    0.98082
+        </code></pre>
+        <p>Example Output for `sktest quiz_difference`:</p>
+        <pre><code>
+                 Skewness/Kurtosis tests for Normality
+-------------------------------------------------------------------
+Variable |  Obs  Pr(Skewness)  Pr(Kurtosis)  adj chi2(2)  Prob>chi2
+-------------+-----------------------------------------------------
+quiz_difference |  100     0.9948        0.2925        1.13      0.5678
+        </code></pre>
+        <p>From the descriptive statistics and normality tests for `quiz_difference`:</p>
+        <ul>
+            <li>The Shapiro-Wilk p-value (from `Prob>z` for `swilk`) is 0.98082. Since this is greater than 0.05, the Shapiro-Wilk test is non-significant, indicating that the distribution of the differences is not significantly different from a normal distribution.</li>
+            <li>The p-values for Skewness (0.9948) and Kurtosis (0.2925) from `sktest` are both greater than 0.05, further supporting the assumption of normality.</li>
+            <li>To calculate z-scores for skewness and kurtosis manually, you would divide the skewness/kurtosis value by its standard error. For large samples (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>&gt;</mo><mn>50</mn></mrow><annotation encoding="MathML-Content"><mi>N</mi><mo>&gt;</mo><mn>50</mn></annotation></semantics></math>), the standard errors can be approximated using the following formulas:
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </annotation>
+                  </semantics>
+                </math>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mi>N</mi>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                    </annotation>
+                  </semantics>
+                </math>
+                <p>For our sample size of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="MathML-Content"><mi>N</mi><mo>=</mo><mn>100</mn></annotation></semantics></math>:</p>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.06</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.245</mn>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Skewness</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>6</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.06</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.245</mn>
+                    </annotation>
+                  </semantics>
+                </math>
+                <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+                  <semantics>
+                    <mrow>
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.24</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.490</mn>
+                    </mrow>
+                    <annotation encoding="MathML-Content">
+                      <mtext>Standard Error of Kurtosis</mtext>
+                      <mo>&#x2248;</mo>
+                      <msqrt>
+                        <mrow>
+                          <mfrac>
+                            <mn>24</mn>
+                            <mn>100</mn>
+                          </mfrac>
+                        </mrow>
+                      </msqrt>
+                      <mo>=</mo>
+                      <msqrt>
+                        <mrow>
+                          <mn>0.24</mn></mrow>
+                      </msqrt>
+                      <mo>&#x2248;</mo>
+                      <mn>0.490</mn>
+                    </annotation>
+                  </semantics>
+                </math>
+                <p>Using the example values for skewness (0.0015117) and kurtosis (3.382506) from our data, and these approximate standard errors:</p>
+                <ul>
+                    <li>Z-score for skewness: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0015117</mn><mo>/</mo><mn>0.245</mn><mo>≈</mo><mn>0.006</mn></mrow><annotation encoding="MathML-Content"><mn>0.0015117</mn><mo>/</mo><mn>0.245</mn><mo>&#x2248;</mo><mn>0.006</mn></annotation></semantics></math></li>
+                    <li>Z-score for kurtosis: <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>(</mo><mn>3.382506</mn><mo>−</mo><mn>3</mn><mo>)</mo><mo>/</mo><mn>0.490</no>&#x2248;</mo><mn>0.781</mn></annotation></semantics></math></li>
+                </ul>
+            </li>
+        </ul>
+        <p>Both the calculated z-scores for skewness (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.006</mn></mrow><annotation encoding="MathML-Content"><mn>0.006</mn></annotation></semantics></math>) and kurtosis (<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.781</mn></mrow><annotation encoding="MathML-Content"><mn>0.781</mn></annotation></semantics></math>) are well within the <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math> range (for a 0.05 significance level), further supporting the assumption of normality for the difference scores. Therefore, the assumption of normality for the differences has been met.</p>
+
+        <h4>Menu-driven:</h4>
+        <p>For Shapiro-Wilk and Skewness/Kurtosis tests: Go to `Statistics > Summaries, tables, and tests > Distributional plots and tests > Shapiro-Wilk normality test` or `Skewness and kurtosis test for normality`.</p>
+        <ol>
+            <li>Select `quiz_difference` from the "Variable" dropdown.</li>
+            <li>Click "OK".</li>
+        </ol>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Given that the calculation for the difference is post course minus pre course, does the positive 5.03 mean score indicate that students improved or got worse on average?</li>
+                <li>Do the descriptive statistics and normality tests provide evidence that the assumption of normality has been met?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>A positive mean difference of 5.03 (quiz_score_post - quiz_score_pre) indicates that, on average, students' quiz scores improved after the course.</li>
+                <li>Yes, the descriptive statistics and normality tests provide evidence that the assumption of normality has been met for the difference scores. The Shapiro-Wilk p-value (0.98082) is greater than 0.05, and the p-values for skewness (0.9948) and kurtosis (0.2925) are also non-significant. The z-scores for skewness and kurtosis are within the acceptable range of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math>.</li>
+            </ul>
+        </div>
+
+        <h2>Paired-Samples T-Test Procedure in Stata</h2>
+        <h3>Procedure:</h3>
+        <h4>Command-driven:</h4>
+        <p>To perform the paired-samples t-test, compare `quiz_score_post` to `quiz_score_pre`.</p>
+        <pre><code>ttest quiz_score_post == quiz_score_pre, level(95)</code></pre>
+        <p><strong>Syntax Explanation:</strong></p>
+        <ul>
+            <li>`ttest`: The command to perform a t-test.</li>
+            <li>`quiz_score_post == quiz_score_pre`: Specifies the two variables to compare.</li>
+            <li>`level(95)`: Sets the confidence level for the confidence interval (e.g., 95 for a 95% CI).</li>
+        </ul>
+        <p><strong>Understanding One-tailed vs. Two-tailed P-values in Stata Output:</strong></p>
+        <p>The Stata `ttest` output directly provides the p-values for different alternative hypotheses at the bottom of the results:</p>
+        <pre><code>
+    Ha: diff < 0             Ha: diff != 0             Ha: diff > 0
+    Pr(T < t) = 0.0000       Pr(|T| > |t|) = 0.0000    Pr(T > t) = 1.0000
+        </code></pre>
+        <ul>
+            <li><strong>`Pr(|T| > |t|)` (Two-tailed p-value):</strong> This is the most commonly reported p-value. It tests the null hypothesis that there is no difference between the means against the alternative hypothesis that there is a difference (either positive or negative). If this p-value is less than your chosen significance level (e.g., 0.05), you reject the null hypothesis and conclude there is a statistically significant difference. In our example, `Pr(|T| > |t|) = 0.0000` (which implies p < 0.001), indicating a significant difference.</li>
+            <li><strong>`Pr(T < t)` (One-tailed p-value, "less than"):</strong> This tests the null hypothesis that there is no difference or that `diff` is greater than or equal to zero, against the alternative that `diff` is less than zero (i.e., `quiz_score_post` is less than `quiz_score_pre`). You would use this if you specifically hypothesized a decrease in score. In our example, `Pr(T < t) = 0.0000` is shown because our calculated mean difference (post - pre) is positive, making a negative difference extremely unlikely.</li>
+            <li><strong>`Pr(T > t)` (One-tailed p-value, "greater than"):</strong> This tests the null hypothesis that there is no difference or that `diff` is less than or equal to zero, against the alternative that `diff` is greater than zero (i.e., `quiz_score_post` is greater than `quiz_score_pre`). You would use this if you specifically hypothesized an increase in score. In our example, `Pr(T > t) = 1.0000` is shown because our calculated mean difference (post - pre) is positive, making a positive difference very likely.</li>
+        </ul>
+        <p>For most general research questions, where you are simply looking for any difference, the two-sided test (`Pr(|T| > |t|)`) is the appropriate one to use.</p>
+
+        <h4>Menu-driven:</h4>
+        <p>Go to `Statistics > Summaries, tables, and tests > Classical tests of hypotheses > t tests (mean-comparison tests)`.</p>
+        <p>In the dialog box, ensure "Paired" is selected via the radio button under "Type of t test".</p>
+        <ol>
+            <li>For "First variable", select `quiz_score_post`.</li>
+            <li>For "Second variable", select `quiz_score_pre`.</li>
+            <li>You can adjust the confidence level under the "Confidence level" tab if needed.</li>
+            <li>Click "OK".</li>
+        </ol>
+        <p>The output will appear in your Stata Results window.</p>
+
+        <h3>Example Stata Output for `ttest` (paired):</h3>
+        <p>The output below reflects the results when comparing `quiz_score_post` to `quiz_score_pre`:</p>
+        <pre><code>
+Paired t test
+------------------------------------------------------------------------------
+    Variable |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+quiz_score_post |     100       71.02   .9692213   9.692213    69.09685   72.94315
+quiz_score_pre |     100       65.99   .9363043   9.363043    64.13217   67.84783
+-------------+----------------------------------------------------------------
+    diff |     100        5.03   .3608226   3.608226    4.31405   5.74595
+------------------------------------------------------------------------------
+    diff = mean(quiz_score_post - quiz_score_pre)                 t = 13.9404
+Ho: diff = 0                                       Degrees of freedom =     99
+
+    Ha: diff < 0             Ha: diff != 0             Ha: diff > 0
+    Pr(T < t) = 0.0000       Pr(|T| > |t|) = 0.0000    Pr(T > t) = 1.0000
+        </code></pre>
+        <p>Here's what these values mean:</p>
+        <ul>
+            <li><strong>Mean of `diff` (5.03):</strong> This is the average difference between `quiz_score_post` and `quiz_score_pre`. A positive value here means that `quiz_score_post` was, on average, higher than `quiz_score_pre`.</li>
+            <li><strong>Std. Err. of `diff` (0.3608226):</strong> The standard error of the mean difference.</li>
+            <li><strong>t = 13.9404:</strong> This is the calculated t-value for the paired-samples t-test. The positive sign indicates that the mean of `quiz_score_post` is higher than `quiz_score_pre`.</li>
+            <li><strong>Degrees of freedom = 99:</strong> These are the degrees of freedom, calculated as N - 1 (where N is the number of pairs). In this case, 100 - 1 = 99.</li>
+            <li><strong>Pr(|T| > |t|)` (Two-tailed p-value):</strong> This is the most commonly reported p-value. It tests the null hypothesis that there is no difference between the means against the alternative hypothesis that there is a difference (either positive or negative). If this p-value is less than your chosen significance level (e.g., 0.05), you reject the null hypothesis and conclude there is a statistically significant difference. In our example, `Pr(|T| > |t|) = 0.0000` (which implies p < 0.001), indicating a significant difference.</li>
+            <li><strong>95% Conf. Interval (4.31405 to 5.74595):</strong> This interval provides a range within which the true mean difference in the population is likely to fall, with 95% confidence. Since this interval does not contain zero, it supports the finding of a statistically significant difference.</li>
+        </ul>
+
+        <h3>Calculating Cohen's d (Effect Size) in Stata</h3>
+        <p>Since the `esize ttest` command may not be available or may require specific syntax depending on your Stata version, we will calculate Cohen's d manually using the values from the `ttest` output. Cohen's d for a paired t-test is calculated by dividing the mean of the differences by the standard deviation of the differences.</p>
+        <p>Formula:</p>
+        <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+          <semantics>
+            <mrow>
+              <mi>d</mi>
+              <mo>=</mo>
+              <mfrac>
+                <mrow>
+                  <mtext>Mean of Differences</mtext>
+                </mrow>
+                <mrow>
+                  <mtext>Standard Deviation of Differences</mtext>
+                </mrow>
+              </mfrac>
+            </annotation>
+          </semantics>
+        </math>
+        <p>Using the values from the `ttest` output for `diff`:</p>
+        <ul>
+            <li>Mean of Differences = 5.03</li>
+            <li>Standard Deviation of Differences = 3.608226</li>
+        </ul>
+        <p>Calculation:</p>
+        <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+          <semantics>
+            <mrow>
+              <mi>d</mi>
+              <mo>=</mo>
+              <mfrac>
+                <mrow>
+                  <mn>5.03</mn></mrow>
+                <mrow>
+                  <mn>3.608226</mn></mrow>
+              </mfrac>
+              <mo>&#x2248;</mo>
+              <mn>1.394</mn>
+            </annotation>
+          </semantics>
+        </math>
+        <p><strong>Cohen's d</strong> is a standardized measure of effect size that quantifies the difference between two means in standard deviation units. It tells you how large the difference is, independent of sample size. A larger absolute value of Cohen's d indicates a stronger effect.</p>
+        <ul>
+            <li><strong>Interpretation Guidelines (Cohen, 1988):</strong>
+                <ul>
+                    <li>Small effect: d = 0.2</li>
+                    <li>Medium effect: d = 0.5</li>
+                    <li>Large effect: d = 0.8</li>
+                </ul>
+            </li>
+        </ul>
+        <p>In this case, Cohen's d = 1.394. This indicates a <strong>very large effect size</strong>, meaning the training course had a substantial impact on students' quiz scores.</p>
+
+        <div class="reflection-question">
+            <h4>Questions:</h4>
+            <ul>
+                <li>Given that the calculation for the difference is post course minus pre course, does the positive 5.03 mean score indicate that students improved or got worse on average?</li>
+                <li>Do the descriptive statistics and normality tests provide evidence that the assumption of normality has been met?</li>
+            </ul>
+            <h4>Answers:</h4>
+            <ul>
+                <li>A positive mean difference of 5.03 (quiz_score_post - quiz_score_pre) indicates that, on average, students' quiz scores improved after the course.</li>
+                <li>Yes, the descriptive statistics and normality tests provide evidence that the assumption of normality has been met for the difference scores. The Shapiro-Wilk p-value (0.98082) is greater than 0.05, and the p-values for skewness (0.9948) and kurtosis (0.2925) are also non-significant. The z-scores for skewness and kurtosis are within the acceptable range of <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1.96</mn></mrow><annotation encoding="MathML-Content"><mtext>&#xB1;1.96</mtext></annotation></semantics></math>.</li>
+            </ul>
+        </div>
+
+        <h2>Write-up Results</h2>
+        <h3>Example write-up of this analysis:</h3>
+        <div class="write-up-template">
+            <p>A paired-samples t-test was conducted to evaluate whether a training course improved students' performance on a quiz. To check the normality assumption, a difference score variable (post-course minus pre-course) was computed. The Shapiro-Wilk test on this difference variable was non-significant (W = 0.995, <i>p</i> = 0.981), indicating that the assumption was met. Descriptive statistics showed that the mean quiz score before the course was 65.99 (<i>SD</i> = 9.36), and after the course, it increased to 71.02 (<i>SD</i> = 9.69).</p>
+            <p>The paired-samples t-test revealed a statistically significant improvement in quiz scores after the training course, <i>t</i>(99) = 13.94, <i>p</i> < 0.001. The mean difference in scores was 5.03 (95% CI [4.31, 5.75]), with post-course scores being higher. Cohen's d was 1.39, indicating a very large effect size, suggesting a substantial practical significance of the training course on quiz performance.</p>
+        </div>
+    </div>
+</body>
+</html>
