@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics Glossary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- General Body and Container Styles (from index.html) --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #222;
+            background-color: #f8f8f8;
+            line-height: 1.6;
+        }
+        .container {
+            padding: 25px;
+            max-width: 960px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        /* --- Heading Styles (from index.html) --- */
+        h1 {
+            color: #004085;
+            border-bottom: 3px solid #004085;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            text-align: center;
+        }
+        h2 {
+            color: #004085;
+            margin-top: 35px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0056b3;
+            margin-top: 25px;
+            font-size: 1.2em;
+            border-bottom: 1px solid #eee;
+        }
+        h4 { /* Used for "Example Calculation for..." */
+            color: #0056b3;
+            margin-top: 20px; /* Spacing before each example */
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        /* --- Code and Pre Styles (from index.html) --- */
+        code {
+            background-color: #eef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            color: #c00;
+        }
+        pre { /* Keeping this style, but not using it for examples */
+            background-color: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", Courier, monospace;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        /* --- Table Styles (from index.html) --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* --- Top Navigation Styles (from index.html) --- */
+        .top-nav {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .top-nav span {
+            color: white;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .top-nav a {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            background-color: rgba(255, 255, 255, 0.2); /* Default background for guide links */
+        }
+        .top-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Specific style for Home link */
+        .top-nav .home-link {
+            background-color: #28a745; /* Green */
+        }
+        .top-nav .home-link:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Specific style for Glossary link */
+        .top-nav .glossary-link {
+            background-color: #ffc107; /* Orange/Gold */
+            color: #333; /* Darker text for better contrast on light background */
+        }
+        .top-nav .glossary-link:hover {
+            background-color: #e0a800; /* Darker orange on hover */
+        }
+
+
+        /* Specific style for UEA LET link background - ONLY this one is black */
+        .top-nav .uea-let-link {
+            background-color: black;
+        }
+
+        /* --- Button Group Styles (from index.html) --- */
+        .button-group {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .button-group a {
+            background-color: #004085;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .button-group a:hover {
+            background-color: #002c5a;
+            transform: translateY(-2px);
+        }
+
+        /* --- Horizontal Rule Style (from index.html) --- */
+        hr {
+            border: 0;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 40px 0;
+        }
+
+        /* --- General Paragraph Style (from index.html) --- */
+        p {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* --- Specific Styles for Glossary Content --- */
+        .glossary-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        .glossary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .term {
+            font-weight: bold;
+            color: #0056b3;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .definition {
+            margin-left: 20px;
+            color: #444;
+        }
+        /* Example text styling - no box, just clear text */
+        .example-line { /* For individual lines within an example */
+            margin-left: 40px; /* Indent for clarity */
+            margin-bottom: 5px;
+            line-height: 1.5;
+            color: #333;
+        }
+        .definition ul {
+            margin-left: 20px;
+            padding-left: 0;
+            list-style-type: disc; /* Ensure standard bullet points */
+        }
+        .definition ul li {
+            margin-bottom: 5px;
+        }
+        .chart-image {
+            max-width: 100%; /* Keep responsive behavior */
+            height: auto; /* Maintain aspect ratio */
+            display: block;
+            margin: 15px auto; /* Center the image and provide vertical spacing */
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Styles for horizontal histogram images */
+        .histogram-row {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            justify-content: space-around; /* Distribute space evenly */
+            gap: 15px; /* Space between items */
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        .histogram-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center image and label */
+            flex: 1; /* Allow items to grow and shrink */
+            min-width: 280px; /* Minimum width before wrapping */
+            max-width: 320px; /* Max width for each item */
+            text-align: center;
+        }
+        .histogram-item .image-label {
+            margin-top: 8px; /* Space between image and label */
+            font-size: 0.95em;
+            color: #555;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <span>Links to:</span>
+        <a href="index.html" class="home-link">Home</a>
+        <a href="jamovi.html">jamovi Guides</a>
+        <a href="r.html">R Studio Guides</a>
+        <a href="spss.html">SPSS Guides</a>
+        <a href="stata.html">Stata Guides</a>
+        <a href="glossary.html" class="glossary-link">Glossary</a>
+        <a href="https://my.uea.ac.uk/divisions/library-and-learning-enhancement/learning-enhancement" target="_blank" class="uea-let-link">UEA LET</a>
+    </div>
+
+    <div class="container">
+        <h1>Statistics Glossary</h1>
+
+        <h2>Descriptive Statistics</h2>
+
+        <h3>Measures of Average</h3>
+        <div class="glossary-item">
+            <div class="term">Mean</div>
+            <div class="definition">The mean is the average of a dataset. It is calculated by summing all the values and dividing by the number of values.
+                <math display="block">
+                    <mover>
+                        <mi>x</mi>
+                        <mo>&OverBar;</mo>
+                    ></mover>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mrow>
+                            <mo>&sum;</mo>
+                            <mi>x</mi>
+                        </mrow>
+                        <mi>n</mi>
+                    </mfrac>
+                </math>
+            </div>
+        </div>
+
+        <div class="glossary-item">
+            <div class="term">Median</div>
+            <div class="definition">The median is the middle value in a dataset when the values are arranged in order. If there is an even number of observations, the median is the average of the two middle numbers.</div>
+        </div>
+
+        <div class="glossary-item">
+            <div class="term">Mode</div>
+            <div class="definition">The mode is the value that appears most frequently in a dataset. A dataset can have one mode, multiple modes, or no mode.</div>
+        </div>
+
+        <h4>Example Calculations for Measures of Average</h4>
+        <div class="example-line">Example Data: 12, 15, 15, 18, 20, 22, 25</div>
+        <br>
+        <h3>Mean:</h3>
+        <div class="example-line">Sum = 12 + 15 + 15 + 18 + 20 + 22 + 25 = 127</div>
+        <div class="example-line">Count = 7</div>
+        <div class="example-line">Mean = 127 / 7 &#8776; 18.14</div>
+        <br>
+        <h3>Median:</h3>
+        <div class="example-line">Steps to find the Median:</div>
+        <div class="example-line">1. Order the data from smallest to largest: 12, 15, 15, 18, 20, 22, 25</div>
+        <div class="example-line">2. Since there are 7 data points (an odd number), the median is the middle value.</div>
+        <div class="example-line">   Position of Median = (n + 1) / 2 = (7 + 1) / 2 = 4th position.</div>
+        <div class="example-line">3. The value at the 4th position is 18.</div>
+        <div class="example-line">Median = 18</div>
+        <br>
+        <h3>Mode:</h3>
+        <div class="example-line">Example Data: 12, 15, 15, 18, 20, 22, 25</div>
+        <div class="example-line">The value 15 appears most frequently (twice).</div>
+        <div class="example-line">Mode = 15</div>
+
+
+        <h3>Measures of Dispersion</h3>
+        <div class="glossary-item">
+            <div class="term">Range</div>
+            <div class="definition">The range is the difference between the highest and lowest values in a dataset.
+                <math display="block">
+                    <mi>Range</mi>
+                    <mo>=</mo>
+                    <msub>
+                        <mi>X</mi>
+                        <mrow>
+                            <mi>max</mi>
+                        </mrow>
+                    ></msub>
+                    <mo>-</mo>
+                    <msub>
+                        <mi>X</mi>
+                        <mrow>
+                            <mi>min</mi>
+                        </mrow>
+                    ></msub>
+                </math>
+            </div>
+        </div>
+
+        <div class="glossary-item">
+            <div class="term">Inter-Quartile Range (IQR)</div>
+            <div class="definition">The IQR is the range of the middle 50% of the data. It is calculated as the difference between the third quartile (Q3) and the first quartile (Q1).
+                <math display="block">
+                    <mi>IQR</mi>
+                    <mo>=</mo>
+                    <mi>Q3</mi>
+                    <mo>-</mo>
+                    <mi>Q1</mi>
+                </math>
+            </div>
+        </div>
+
+        <div class="glossary-item">
+            <div class="term">Variance</div>
+            <div class="definition">Variance measures how far a set of numbers is spread out from their average value. It is the average of the squared differences from the Mean.
+                <math display="block">
+                    <msup>
+                        <mi>s</mi>
+                        <mn>2</mn>
+                    ></msup>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mrow>
+                            <mo>&sum;</mo>
+                            <msup>
+                                <mrow>
+                                    <mo>(</mo>
+                                    <msub>
+                                        <mi>x</mi>
+                                        <mi>i</mi>
+                                    ></msub>
+                                    <mo>-</mo>
+                                    <mover>
+                                        <mi>x</mi>
+                                        <mo>&OverBar;</mo>
+                                    ></mover>
+                                    <mo>)</mo>
+                                </mrow>
+                                <mn>2</mn>
+                            </msup>
+                        </mrow>
+                        <mrow>
+                            <mi>n</mi>
+                            <mo>-</mo>
+                            <mn>1</mn>
+                        </mrow>
+                    </mfrac>
+                </math>
+            </div>
+        </div>
+
+        <div class="glossary-item">
+            <div class="term">Standard Deviation</div>
+            <div class="definition">Standard deviation is a measure of the amount of variation or dispersion of a set of values. It is the square root of the variance.
+                <math display="block">
+                    <mi>s</mi>
+                    <mo>=</mo>
+                    <msqrt>
+                        <mfrac>
+                            <mrow>
+                                <mo>&sum;</mo>
+                                <msup>
+                                    <mrow>
+                                        <mo>(</mo>
+                                        <msub>
+                                            <mi>x</mi>
+                                            <mi>i</mi>
+                                        ></msub>
+                                        <mo>-</mo>
+                                        <mover>
+                                            <mi>x</mi>
+                                            <mo>&OverBar;</mo>
+                                        ></mover>
+                                    <mo>)</mo>
+                                </mrow>
+                                <mn>2</mn>
+                            </msup>
+                        </mrow>
+                        <mrow>
+                            <mi>n</mi>
+                            <mo>-</mo>
+                            <mn>1</mn>
+                        </mrow>
+                    </msqrt>
+                </math>
+            </div>
+        </div>
+
+        <h4>Example Calculations for Measures of Dispersion</h4>
+        <div class="example-line">Example Data: 12, 15, 15, 18, 20, 22, 25</div>
+        <div class="example-line">Mean = 18.14</div>
+        <br>
+        <h3>Range:</h3>
+        <div class="example-line">Highest value = 25</div>
+        <div class="example-line">Lowest value = 12</div>
+        <div class="example-line">Range = 25 - 12 = 13</div>
+        <br>
+        <h3>Inter-Quartile Range (IQR):</h3>
+        <div class="example-line">Steps to find Q1 and Q3:</div>
+        <div class="example-line">1. Order the data: 12, 15, 15, 18, 20, 22, 25</div>
+        <div class="example-line">2. Find the median (Q2) first: The median is 18.</div>
+        <div class="example-line">3. Q1 is the median of the lower half of the data (excluding the overall median if n is odd):</div>
+        <div class="example-line">   Lower half: 12, 15, 15</div>
+        <div class="example-line">   Q1 = 15</div>
+        <div class="example-line">4. Q3 is the median of the upper half of the data (excluding the overall median if n is odd):</div>
+        <div class="example-line">   Upper half: 20, 22, 25</div>
+        <div class="example-line">   Q3 = 22</div>
+        <div class="example-line">IQR = Q3 - Q1 = 22 - 15 = 7</div>
+        <br>
+        <h3>Variance:</h3>
+        <div class="example-line">Steps:</div>
+        <div class="example-line">1. Find the difference from the mean for each data point and square it:</div>
+        <div class="example-line">(12 - 18.14)&sup2; = (-6.14)&sup2; &#8776; 37.70</div>
+        <div class="example-line">(15 - 18.14)&sup2; = (-3.14)&sup2; &#8776; 9.86</div>
+        <div class="example-line">(15 - 18.14)&sup2; = (-3.14)&sup2; &#8776; 9.86</div>
+        <div class="example-line">(18 - 18.14)&sup2; = (-0.14)&sup2; &#8776; 0.02</div>
+        <div class="example-line">(20 - 18.14)&sup2; = (1.86)&sup2; &#8776; 3.46</div>
+        <div class="example-line">(22 - 18.14)&sup2; = (3.86)&sup2; &#8776; 14.90</div>
+        <div class="example-line">(25 - 18.14)&sup2; = (6.86)&sup2; &#8776; 47.06</div>
+        <div class="example-line">2. Sum these squared differences:</div>
+        <div class="example-line">37.70 + 9.86 + 9.86 + 0.02 + 3.46 + 14.90 + 47.06 = 122.86</div>
+        <div class="example-line">3. Divide by (Count - 1) for sample variance:</div>
+        <div class="example-line">Variance = 122.86 / (7 - 1) = 122.86 / 6 &#8776; 20.48</div>
+        <br>
+        <h3>Standard Deviation:</h3>
+        <div class="example-line">Variance = 20.48 (from previous calculation)</div>
+        <div class="example-line">Standard Deviation = &#8730;20.48 &#8776; 4.525</div>
+
+        <h2>Statistical Charts</h2>
+        <div class="glossary-item">
+            <div class="term">Box Plot</div>
+            <div class="definition">A box plot (or box-and-whisker plot) is a standardised way of displaying the distribution of data based on a five-number summary:
+                <ul>
+                    <li>Minimum: The smallest value in the dataset.</li>
+                    <li>First Quartile (Q1): The 25th percentile, marking the end of the first quarter of the data.</li>
+                    <li>Median (Q2): The middle value of the dataset, also the 50th percentile.</li>
+                    <li>Third Quartile (Q3): The 75th percentile, marking the end of the third quarter of the data.</li>
+                    <li>Maximum: The largest value in the dataset.</li>
+                </ul>
+                It is particularly useful for:
+                <ul>
+                    <li>Visualising the spread, skewness, and potential outliers of a dataset.</li>
+                    <li>Comparing distributions between different groups or categories at a glance.</li>
+                </ul>
+                <img src="images/glossary/box_plot.png" alt="Vertical box plot, with labels top to bottom of max, Q3 (75%), Median (50%), Q1(25%), and Min." class="chart-image" width="800" height="489">
+            </div>
+        </div>
+        <div class="glossary-item">
+            <div class="term">Mean Plot</div>
+            <div class="definition">A mean plot displays the mean (average) of a variable for different categories or groups. It typically includes error bars, which provide a visual representation of the variability or uncertainty around each mean.
+                <ul>
+                    <li>These error bars commonly represent the Standard Error of the Mean (SEM), indicating how much the sample mean is likely to vary from the true population mean. A smaller SEM suggests a more precise estimate of the population mean.</li>
+                    <li>They can also represent the Standard Deviation (SD), showing the typical amount of variation or dispersion of individual data points around the mean.</li>
+                    <li>Alternatively, error bars can represent a Confidence Interval (e.g., 95% CI), which provides a range within which the true population mean is likely to fall with a certain level of confidence.</li>
+                </ul>
+                Mean plots are useful for:
+                <ul>
+                    <li>Visualising averages across different groups.</li>
+                    <li>Assessing the statistical significance of differences between group means; if the error bars (especially confidence intervals) of two groups do not overlap, it often suggests a statistically significant difference.</li>
+                </ul>
+                <img src="images/glossary/means_plot.png" alt="Means plot with 95% confidence intervals. There are two plots, on the left for group A on the right for group B. The mean for group B is higher than group A, the error bars do not overlap." class="chart-image" width="800" height="489">
+            </div>
+        </div>
+        <div class="glossary-item">
+            <div class="term">Histogram</div>
+            <div class="definition">A histogram is a graphical representation of the distribution of numerical data. It uses bars to show the frequency of data points within specified intervals (bins). The height of each bar indicates the frequency or count of observations falling into that range.
+                Histograms are useful for understanding:
+                <ul>
+                    <li>The shape of a dataset (e.g., normal, skewed, bimodal).</li>
+                    <li>The centre and spread of the data.</li>
+                    <li>The presence of outliers or unusual patterns.</li>
+                </ul>
+                Skewness in Histograms:
+                <ul>
+                    <li>Normal Distribution: A perfectly symmetrical, bell-shaped distribution where the mean, median, and mode are approximately equal and located at the centre.</li>
+                    <li>Skewness: Describes the asymmetry of the distribution.
+                        <ul>
+                            <li>Positive Skew (Right-skewed): The tail of the distribution extends to the right, meaning there are more extreme high values. The bulk of the data is on the left, and the mean is typically greater than the median.</li>
+                            <li>Negative Skew (Left-skewed): The tail of the distribution extends to the left, meaning there are more extreme low values. The bulk of the data is on the right, and the mean is typically less than the median.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="histogram-row">
+                <div class="histogram-item">
+                    <img src="images/glossary/hist_norm.png" alt="Histogram showing a normally distributed variable" class="chart-image" width="320" height="196">
+                    <p class="image-label">Normal Distribution</p>
+                </div>
+                <div class="histogram-item">
+                    <img src="images/glossary/hist_pos_skew.png" alt="Histogram showing a tail to the right, a positive skew" class="chart-image" width="320" height="196">
+                    <p class="image-label">Positive Skew</p>
+                </div>
+                <div class="histogram-item">
+                    <img src="images/glossary/hist_neg_skew.png" alt="Histogram showing a tail to the left, a negative skew" class="chart-image" width="320" height="196">
+                    <p class="image-label">Negative Skew</p>
+                </div>
+            </div>
+        </div>
+        <div class="glossary-item">
+            <div class="term">Scatter Plot</div>
+            <div class="definition">A scatter plot (or scatter diagram) displays the relationship between two numerical variables. Each point on the plot represents an individual observation, with its position determined by its values on the two variables (one on the X-axis, one on the Y-axis).
+                Scatter plots are highly useful for:
+                <ul>
+                    <li>Identifying patterns and trends (e.g., linear, non-linear).</li>
+                    <li>Visualising the direction and strength of correlations (positive, negative, or no correlation).</li>
+                    <li>Detecting outliers that deviate from the general pattern.</li>
+                </ul>
+                <img src="images/glossary/scatter.png" alt="Scatter diagram of variable x against variable y. There is a moderate positive correlation shown, with points scattered from bottom left to top right." class="chart-image" width="800" height="489">
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
