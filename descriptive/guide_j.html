@@ -121,7 +121,8 @@
         .solution-section h4 {
             color: #6b8e23;
         }
-        .top-nav { /* New style for top navigation */
+        /* Top navigation style - Updated to match glossary and index.html */
+        .top-nav {
             display: flex;
             justify-content: flex-start; /* Align to start */
             gap: 15px;
@@ -156,6 +157,29 @@
             background-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-1px);
         }
+
+        /* Specific style for Home link */
+        .top-nav .home-link {
+            background-color: #28a745; /* Green */
+        }
+        .top-nav .home-link:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Specific style for Glossary link */
+        .top-nav .glossary-link {
+            background-color: #ffc107; /* Orange/Gold */
+            color: #333; /* Darker text for better contrast on light background */
+        }
+        .top-nav .glossary-link:hover {
+            background-color: #e0a800; /* Darker orange on hover */
+        }
+
+        /* Specific style for UEA LET link background - ONLY this one is black */
+        .top-nav .uea-let-link {
+            background-color: black;
+        }
+
         .button-group { /* Existing style for button groups, keep separate */
             display: flex;
             flex-wrap: nowrap;
@@ -193,8 +217,13 @@
 <body>
     <div class="top-nav">
         <span>Links to:</span>
-        <a href="../index.html">Home</a>
+        <a href="../index.html" class="home-link">Home</a>
         <a href="../jamovi.html">jamovi Guides</a>
+        <a href="../r.html">R Studio Guides</a>
+        <a href="../spss.html">SPSS Guides</a>
+        <a href="../stata.html">Stata Guides</a>
+        <a href="../glossary.html" class="glossary-link">Glossary</a>
+        <a href="https://my.uea.ac.uk/divisions/library-and-learning-enhancement/learning-enhancement" target="_blank" class="uea-let-link">UEA LET</a>
     </div>
     <div class="container">
         <h1>Descriptive Statistics in jamovi</h1>
@@ -208,7 +237,7 @@
         <ul>
             <li><code>final_exam_score</code>: Represents the numerical score achieved by students on a final exam.</li>
             <li><code>study_hours_per_week</code>: Indicates the number of hours a student reported studying each week.</li>
-            <li><code>preferred_study_method</code>: Describes a student's chosen study strategy (e.g., 'Flashcards', 'Summarizing', 'Practice Tests').</li>
+            <li><code>preferred_study_method</code>: Describes a student's chosen study strategy (e.g., 'Summarizing', 'Practice Tests', 'Flashcards').</li>
             <li><code>study_session_group</code>: A categorical variable indicating the type of study session group a student was assigned to (e.g., 'High', 'Medium', 'Low').</li>
             <li><code>used_study_support_services</code>: A categorical variable indicating whether a student utilized study support services (Yes/No). This variable will be used to demonstrate splitting analyses by groups.</li>
         </ul>
@@ -255,16 +284,16 @@
             <li><strong>Minimum &amp; Maximum:</strong> The smallest and largest values observed in your dataset for that variable. This gives you the range of your data.</li>
             <li><strong>Skewness:</strong> Indicates the symmetry of the distribution.
                 <ul>
-                    <li>If **Skewness is close to 0**, the distribution is relatively symmetrical (e.g., a bell curve). In symmetrical distributions, the mean, median, and mode are often very close to each other.</li>
-                    <li>If **Skewness is positive (>0)**, the tail of the distribution extends to the right (positive direction). This typically means there are more lower values, with a few higher, extreme values pulling the mean to the right of the median. In this case, the Mean > Median.</li>
-                    <li>If **Skewness is negative (<0)**, the tail extends to the left (negative direction). This typically means there are more higher values, with a few lower, extreme values pulling the mean to the left of the median. In this case, the Mean < Median.</li>
+                    <li>If <strong>Skewness is close to 0</strong>, the distribution is relatively symmetrical (e.g., a bell curve). In symmetrical distributions, the mean, median, and mode are often very close to each other.</li>
+                    <li>If <strong>Skewness is positive (>0)</strong>, the tail of the distribution extends to the right (positive direction). This typically means there are more lower values, with a few higher, extreme values pulling the mean to the right of the median. In this case, the Mean > Median.</li>
+                    <li>If <strong>Skewness is negative (<0)</strong>, the tail extends to the left (negative direction). This typically means there are more higher values, with a few lower, extreme values pulling the mean to the left of the median. In this case, the Mean < Median.</li>
                 </ul>
             </li>
             <li><strong>Kurtosis:</strong> Indicates the "tailedness" or peakedness of the distribution compared to a normal distribution.
                 <ul>
-                    <li>If **Kurtosis is positive (>0)** (leptokurtic), it suggests heavier tails and a more peaked distribution, potentially indicating more outliers (extreme values).</li>
-                    <li>If **Kurtosis is negative (<0)** (platykurtic), it suggests lighter tails and a flatter distribution, with fewer extreme values than a normal distribution.</li>
-                    <li>If **Kurtosis is close to 0** (mesokurtic), it resembles the tailedness and peakedness of a normal distribution.</li>
+                    <li>If <strong>Kurtosis is positive (>0)</strong> (leptokurtic), it suggests heavier tails and a more peaked distribution, potentially indicating more outliers (extreme values).</li>
+                    <li>If <strong>Kurtosis is negative (<0)</strong> (platykurtic), it suggests lighter tails and a flatter distribution, with fewer extreme values than a normal distribution.</li>
+                    <li>If <strong>Kurtosis is close to 0</strong> (mesokurtic), it resembles the tailedness and peakedness of a normal distribution.</li>
                 </ul>
             </li>
         </ul>
@@ -283,10 +312,10 @@
             <li><strong>Histogram:</strong> Displays the shape of the distribution, showing where values are concentrated, identifying peaks (modes), gaps, and overall symmetry or skewness. Each bar represents a range of values (or "bin"), and its height shows the frequency of scores within that range.</li>
             <li><strong>Box Plot:</strong> Provides a clear visual representation of the "five-number summary": minimum, first quartile (Q1), median (Q2), third quartile (Q3), and maximum. It is particularly effective for identifying outliers.
                 <ul>
-                    <li>The box itself represents the **Interquartile Range (IQR)**, which contains the middle 50% of your data (between Q1 and Q3).</li>
-                    <li>The line inside the box is the **median**.</li>
+                    <li>The box itself represents the <strong>Interquartile Range (IQR)</strong>, which contains the middle 50% of your data (between Q1 and Q3).</li>
+                    <li>The line inside the box is the <strong>median</strong>.</li>
                     <li>The "whiskers" typically extend to the most extreme data points within 1.5 times the IQR from the box.</li>
-                    <li>Individual points (often shown as dots or asterisks) beyond the whiskers are considered **outliers**, meaning they are unusually far from the rest of the data.</li>
+                    <li>Individual points (often shown as dots or asterisks) beyond the whiskers are considered <strong>outliers</strong>, specifically those falling more than 1.5 times the IQR below Q1 or above Q3. These points represent values unusually far from the rest of the data.</li>
                 </ul>
             </li>
         </ul>
@@ -297,16 +326,16 @@
                 <li>For the final exam scores, compare the Mean (74.71) and Median (75.00). Based on the explanation of skewness in Section 1.2, what does the relationship between these two values suggest about the symmetry of the final exam score distribution?</li>
                 <li>Consider the Skewness value (0.00) and Kurtosis value (-0.13) for the final exam scores. How do these numerical values, along with the visual information from the histogram, help you describe the overall shape of this distribution? Is it symmetrical, and does it appear peaked or relatively flat compared to a typical bell curve?</li>
                 <li>Examine the box plot for the final exam scores. Do you see any individual points plotted outside the main "whiskers" of the box plot? If so, what do these points represent in the context of our data?</li>
-                <li><strong>Task:</strong> Now, apply the steps from Sections 1.1 to 1.4 to the variable `study_hours_per_week` in your jamovi file. What are its mean, median, and standard deviation? How does its distribution (shape, spread, symmetry) compare to that of the final exam scores, both numerically and visually?</li>
+                <li><strong>Task:</strong> Now, apply the steps from Sections 1.1 to 1.4 to the variable `study_hours_per_week` in your jamovi file. What are its mean, median, and standard deviation?</li>
             </ol>
         </div>
 
         <div class="solution-section">
             <h4>Suggested Solutions for Reflection Questions (Part 1):</h4>
             <ol>
-                <li>For the final exam scores, the Mean (74.71) and Median (75.00) are very close. This indicates that the distribution of final exam scores is quite **symmetrical**, as neither the mean nor the median is significantly pulled in one direction by extreme values.</li>
-                <li>The Skewness value of 0.00 suggests that the distribution of final exam scores is almost perfectly symmetrical. A Kurtosis value of -0.13, which is close to 0 but slightly negative, indicates that the distribution is slightly **platykurtic** (a bit flatter than a normal distribution), meaning it has slightly lighter tails and fewer extreme values. The histogram should visually confirm this: a roughly bell-shaped curve with no pronounced long tail on either side.</li>
-                <li>For the final exam scores, the box plot **does not show any individual points** beyond the whiskers. This signifies that there are no statistical **outliers** detected in this dataset for final exam scores, based on the 1.5 IQR rule. If points were present, they would represent unusually high or low scores compared to the majority of the data.</li>
+                <li>For the final exam scores, the Mean (74.71) and Median (75.00) are very close. This indicates that the distribution of final exam scores is quite <strong>symmetrical</strong>, as neither the mean nor the median is significantly pulled in one direction by extreme values.</li>
+                <li>The Skewness value of 0.00 suggests that the distribution of final exam scores is almost perfectly symmetrical. A Kurtosis value of -0.13, which is close to 0 but slightly negative, indicates that the distribution is slightly <strong>platykurtic</strong> (a bit flatter than a normal distribution), meaning it has slightly lighter tails and fewer extreme values. The histogram should visually confirm this: a roughly bell-shaped curve with no pronounced long tail on either side.</li>
+                <li>For the final exam scores, the box plot <strong>does show one individual point</strong> beyond the top whisker. This signifies that there is one statistical <strong>outlier</strong> detected in this dataset for final exam scores, based on the 1.5 IQR rule. This point represents an unusually high score compared to the majority of the data.</li>
                 <li><strong>Task Solution (for <code>study_hours_per_week</code>):</strong>
                     <ul>
                         <li><strong>N:</strong> 100</li>
@@ -319,7 +348,6 @@
                         <li><strong>Maximum:</strong> 40.0</li>
                         <li><strong>Skewness:</strong> 0.38 (Slightly positively skewed - the tail extends slightly to the right, meaning a few students study a lot more hours).</li>
                         <li><strong>Kurtosis:</strong> 0.07 (Very slightly leptokurtic, near normal peakedness, suggesting the tails are not excessively heavy or light).</li>
-                        <li>**Comparison:** Compared to the final exam scores, the study hours per week variable has a larger standard deviation (7.39 vs. 5.76), indicating more variability in the reported study hours among students. While the final exam scores distribution is highly symmetrical, the study hours per week variable shows a slight positive skew (Mean 19.28 > Median 18.50), indicating a slight tendency for more students to study fewer hours, with a tail extending towards higher study hours.</li>
                     </ul>
                 </li>
             </ol>
@@ -327,7 +355,7 @@
 
         <div class="write-up-template">
             <h4>Write-Up Template for Interval/Ratio Variable (Example)</h4>
-            <p>To describe the distribution of final exam scores, descriptive statistics were computed. The sample consisted of N = 100 participants. The mean final exam score was 74.71 (SD = 5.76), with scores ranging from a minimum of 60 to a maximum of 89. The median score was 75.00. The distribution of final exam scores appeared highly symmetrical with a slightly light-tailed distribution, as indicated by the skewness (0.00) and kurtosis (-0.13) values, respectively. A histogram and box plot further illustrate these characteristics, showing a unimodal distribution with no apparent outliers.</p>
+            <p>To describe the distribution of final exam scores, descriptive statistics were computed. The sample consisted of N = 100 participants. The mean final exam score was 74.71 (SD = 5.76), with scores ranging from a minimum of 60 to a maximum of 89. The median score was 75.00. The distribution of final exam scores appeared highly symmetrical with a slightly light-tailed distribution, as indicated by the skewness (0.00) and kurtosis (-0.13) values, respectively. A histogram and box plot further illustrate these characteristics, showing a unimodal distribution with one apparent outlier.</p>
         </div>
 
         <hr>
@@ -338,12 +366,10 @@
         <h3>2.1 Obtaining Frequency Tables for Categorical Variables (e.g., preferred_study_method)</h3>
         <ol>
             <li>In the jamovi ribbon, click on the <code>Analyses</code> tab.</li>
-            <li>Go to <code>Frequencies</code> and select <code>Frequency Tables</code>.</li>
-            <li><p>A new window will appear. On the left, find your categorical variable (e.g., <code>preferred_study_method</code>) and move it to the <code>Variables</code> box on the right.</p>
+            <li>Go to <code>Exploration</code> and select <code>Descriptives</code>.</li>
+            <li><p>A new window will appear. On the left, find your categorical variable (e.g., <code>preferred_study_method</code>) and move it to the <code>Variables</code> box on the right using the arrow button.</p>
             </li>
-            <li>By default, jamovi will usually show the frequency table in the output panel. Ensure <code>Frequency tables</code> is checked under the <code>Tables</code> section if it's not already. You will see columns for "Count" and "Percent".</li>
-            <li><p>You can also select options under the <code>Statistics</code> section like <code>N</code> and <code>Missing</code> if you wish to confirm the total number of cases for this variable.</p>
-            </li>
+            <li>Check the <code>Frequency tables</code> box. You will see columns for "Count" and "Percent" appear in the output panel.</li>
         </ol>
 
         <h3>2.2 Interpreting Frequency Tables for Categorical Variables</h3>
@@ -363,14 +389,14 @@
                     <td>36.0%</td>
                 </tr>
                 <tr>
-                    <td>Summarizing</td>
-                    <td>33</td>
-                    <td>33.0%</td>
-                </tr>
-                <tr>
                     <td>Practice Tests</td>
                     <td>31</td>
                     <td>31.0%</td>
+                </tr>
+                <tr>
+                    <td>Summarizing</td>
+                    <td>33</td>
+                    <td>33.0%</td>
                 </tr>
             </tbody>
         </table>
@@ -380,43 +406,39 @@
             <li>Note: "Cumulative %" is sometimes shown for ordinal data (where categories have an order), but it is generally less meaningful for nominal data where there is no inherent order.</li>
         </ul>
 
-        <h3>2.3 Creating Graphs for Categorical Variables (Bar Charts & Pie Charts)</h3>
-        <p>Bar charts and pie charts are effective ways to visually represent the distribution of categorical variables.</p>
+        <h3>2.3 Creating Graphs for Categorical Variables (Bar Charts)</h3>
+        <p>Graphs provide powerful visual insights into the distribution of your data, complementing the numerical summaries.</p>
         <ol>
-            <li>Continuing from the <code>Frequencies</code> analysis window, look for the <code>Plots</code> section.</li>
-            <li>Select <code>Bar plot</code> and <code>Pie plot</code>.</li>
-            <li><p>Jamovi will instantly update the output panel with these plots.</p>
+            <li>Continuing from the <code>Descriptives</code> analysis window, look for the <code>Plots</code> section.</li>
+            <li>Select <code>Bar plot</code>.</li>
+            <li><p>Jamovi will instantly update the output panel with this plot.</p>
             </li>
         </ol>
 
         <h3>2.4 Interpreting Graphs for Categorical Variables</h3>
         <ul>
             <li><strong>Bar Chart:</strong> Each bar represents a distinct category, and its height (or length) corresponds to the frequency or percentage of observations in that category. Bar charts are generally preferred over pie charts for clarity and ease of comparison, especially when comparing frequencies across multiple categories or when categories have similar proportions.</li>
-            <li><strong>Pie Chart:</strong> The entire circle represents 100% of the data, and each slice represents a category's proportion of the whole. While visually intuitive for showing parts of a whole, it can be challenging to accurately compare the sizes of slices when categories have similar proportions or when there are many categories.</li>
         </ul>
 
         <div class="reflection-question">
             <h4>Reflection Questions & Tasks:</h4>
             <ol>
                 <li>Based on the frequency table for 'preferred study method', identify the study method that was most frequently reported. What was its exact count and percentage of the total sample?</li>
-                <li>Think about the visual strengths of a bar chart versus a pie chart. If you were presenting the distribution of 'preferred study method' to an audience, which type of graph do you think would be more effective for conveying information clearly, and why?</li>
-                <li>Why do we use counts and percentages (frequency tables and bar/pie charts) for a variable like 'preferred study method', but avoid calculating a "mean" or "standard deviation"? Consider the nature of this variable.</li>
-                <li><strong>Task:</strong> Apply the steps from Sections 2.1 to 2.4 to the categorical variable <code>study_session_group</code>. Obtain its frequency table and plots. How does the distribution of students across study session groups compare to the distribution of preferred study methods?</li>
+                <li>Why do we use counts and percentages (frequency tables and bar charts) for a variable like 'preferred study method', but avoid calculating a "mean" or "standard deviation"? Consider the nature of this variable.</li>
+                <li><strong>Task:</strong> Apply the steps from Sections 2.1 to 2.4 to the categorical variable <code>study_session_group</code>. Obtain its frequency table and plots.</li>
             </ol>
         </div>
 
         <div class="solution-section">
             <h4>Suggested Solutions for Reflection Questions (Part 2):</h4>
             <ol>
-                <li>For 'preferred study method', "Flashcards" was the most frequently reported method, with a **Count of 36** participants, representing **36.0%** of the total sample.</li>
-                <li>A **bar chart** would generally be more effective for conveying information clearly, especially for comparing the proportions of different study methods. This is because it is easier for the human eye to accurately compare the heights of bars than to compare the angles or areas of slices in a pie chart, particularly when the percentages are similar (as they are here).</li>
-                <li>We avoid calculating a "mean" or "standard deviation" for 'preferred study method' because it is a **nominal categorical variable**. Its categories ("Flashcards", "Summarizing", "Practice Tests") are simply labels; they do not represent quantities or have a numerical order. Therefore, performing mathematical operations like averaging these categories would be meaningless and illogical. Mean and standard deviation are statistics designed for numerical data.</li>
+                <li>For 'preferred study method', "Flashcards" was the most frequently reported method, with a <strong>Count of 36</strong> participants, representing <strong>36.0%</strong> of the total sample.</li>
+                <li>We avoid calculating a "mean" or "standard deviation" for 'preferred study method' because it is a <strong>nominal categorical variable</strong>. Its categories ("Flashcards", "Summarizing", "Practice Tests") are simply labels; they do not represent quantities or have a numerical order. Therefore, performing mathematical operations like averaging these categories would be meaningless and illogical. Mean and standard deviation are statistics designed for numerical data.</li>
                 <li><strong>Task Solution (for <code>study_session_group</code>):</strong>
                     <ul>
                         <li><strong>Medium:</strong> Count = 36, Percent = 36.0%</li>
                         <li><strong>Low:</strong> Count = 33, Percent = 33.0%</li>
                         <li><strong>High:</strong> Count = 31, Percent = 31.0%</li>
-                        <li><strong>Comparison:</strong> The distribution of study session groups is quite similar to preferred study methods in that all categories have a substantial proportion of participants. Both variables show a relatively even spread across their categories, though 'Medium' for study sessions is the most frequent, just as 'Flashcards' was for study methods.</li>
                     </ul>
                 </li>
             </ol>
@@ -449,10 +471,10 @@
         <div class="reflection-question">
             <h4>Reflection Questions & Tasks:</h4>
             <ol>
-                <li>Based on the grouped descriptive statistics for final exam scores when split by <code>used_study_support_services</code>, what is the mean final exam score for students who used support services (76.90) compared to those who did not (72.33)? What initial conclusion can you draw from this difference?</li>
+                <li>Based on the grouped descriptive statistics for final exam scores when split by <code>used_study_support_services</code>, what is the mean final exam score for students who used support services compared to those who did not? What initial conclusion can you draw from this difference?</li>
                 <li>Examine the standard deviations for both groups: 'Yes' (4.77) and 'No' (5.84). What does this difference imply about the consistency or variability of final exam scores within each group?</li>
                 <li>Look closely at the grouped histograms or box plots. Do the distributions of final exam scores appear to have similar shapes (e.g., symmetry, spread, presence of outliers) for both groups, or are there noticeable visual differences that stand out?</li>
-                <li><strong>Task:</strong> Conduct a similar analysis. Explore the numerical variable <code>quiz_score_post</code>, but this time, split it by the categorical variable <code>attended_peer_study_group</code>. Compare the descriptive statistics and plots for students who 'Yes' attended versus 'No' attended. What patterns do you observe regarding their post-quiz scores?</li>
+                <li><strong>Task:</strong> Conduct a similar analysis. Explore the numerical variable <code>quiz_score_post</code>, but this time, split it by the categorical variable <code>attended_peer_study_group</code>. What patterns do you observe regarding their post-quiz scores?</li>
             </ol>
         </div>
 
@@ -460,7 +482,7 @@
             <h4>Suggested Solutions for Reflection Questions (Part 3):</h4>
             <ol>
                 <li>The mean final exam score for students who used study support services is 76.90, which is higher than the mean of 72.33 for students who did not use support services. This suggests that, in this sample, students who utilized study support services tended to achieve higher final exam scores, on average.</li>
-                <li>The standard deviation for the 'Yes' group (4.77) is smaller than for the 'No' group (5.84). This implies that final exam scores among students who used study support services were generally **more consistent** (less spread out) compared to those who did not use study support services. The scores in the 'Yes' group were more clustered around their mean.</li>
+                <li>The standard deviation for the 'Yes' group (4.77) is smaller than for the 'No' group (5.84). This implies that final exam scores among students who used study support services were generally <strong>more consistent</strong> (less spread out) compared to those who did not use study support services. The scores in the 'Yes' group were more clustered around their mean.</li>
                 <li>For final exam scores split by <code>used_study_support_services</code>:
                     <ul>
                         <li><strong>'No' Group:</strong> N=48, Mean=72.33, Median=72.00, StdDev=5.84, Min=60, Max=89, Skewness=0.31, Kurtosis=0.31. Mode: [68, 69, 71, 78] (multimodal).</li>
@@ -469,17 +491,17 @@
                     Visually, the box plots will show that the 'Yes' group's distribution is centered at a higher score and its box (IQR) is narrower, indicating less variability. Both distributions appear relatively symmetrical, but the 'Yes' group might appear slightly flatter (more platykurtic) in its histogram, while the 'No' group is slightly more peaked.</li>
                 <li><strong>Task Solution (for <code>quiz_score_post</code> split by <code>attended_peer_study_group</code>):</strong>
                     <ul>
-                        <li><strong>Students who DID NOT attend peer study group ('No' group):</strong> You might find a Mean `quiz_score_post` of approximately 68.5 (SD ~7.2).</li>
-                        <li><strong>Students who DID attend peer study group ('Yes' group):</strong> You might find a Mean `quiz_score_post` of approximately 74.1 (SD ~6.5).</li>
+                        <li><strong>Students who DID NOT attend peer study group ('No' group):</strong> N=47, Mean=71.3, Median=71, SD=8.63, Minimum=50, Maximum=88, Skewness=-0.311, Kurtosis=-0.0276.</li>
+                        <li><strong>Students who DID attend peer study group ('Yes' group):</strong> N=53, Mean=70.8, Median=71, SD=10.62, Minimum=49, Maximum=95, Skewness=-0.148, Kurtosis=-0.3650.</li>
                     </ul>
-                    Based on these example numbers, students who attended peer study groups would tend to have a higher average post-quiz score and potentially slightly less variability in their scores compared to those who did not attend. This indicates a positive association between attending peer study groups and post-quiz performance in this sample.
+                    Based on these numbers, students who attended peer study groups ('Yes' group) had a slightly lower mean post-quiz score (70.8) compared to those who did not attend ('No' group, 71.3). The 'Yes' group also shows a larger standard deviation (10.62 vs 8.63), indicating more variability in their post-quiz scores. Both distributions appear slightly negatively skewed and slightly platykurtic. This suggests that in this sample, attending peer study groups did not lead to higher average post-quiz scores and was associated with more varied performance.
                 </li>
             </ol>
         </div>
 
         <div class="write-up-template">
             <h4>Write-Up Template for Grouped Interval/Ratio Variable (Example)</h4>
-            <p>To compare final exam performance based on study support service usage, descriptive statistics for final exam scores were computed, split by study support service usage. Students who reported using study support services (N = 52) had a mean final exam score of 76.90 (SD = 4.77), a median of 76.00, and scores ranging from 68 to 87. In contrast, students who did not use study support services (N = 48) had a mean final exam score of 72.33 (SD = 5.84), a median of 72.00, and scores ranging from 60 to 89. This suggests that students utilizing support services achieved, on average, higher and more consistent final exam scores. Further visual inspection of the grouped histograms and box plots provides additional insights into the distributions of scores for both groups. For instance, the 'Yes' group's distribution appears slightly narrower and centered at a higher score, with less variability than the 'No' group. Both distributions were relatively symmetrical, with the 'No' group having a skewness of 0.31 and kurtosis of 0.31, while the 'Yes' group had a skewness of 0.20 and kurtosis of -0.56.</p>
+            <p>To compare final exam performance based on study support service usage, descriptive statistics for final exam scores were computed, split by study support service usage. Students who reported using study support services (N = 52) had a mean final exam score of 76.90 (SD = 4.77), a median of 76.00, and scores ranging from 68 to 87. In contrast, students who did not use study support services (N = 48) had a mean final exam score of 72.33 (SD = 5.84), a median of 72.00, and scores ranging from 60 to 89. This suggests that students utilizing support services achieved, on average, higher and more consistent final exam scores. Further visual inspection of the grouped histograms and box plots provides additional insights into the distributions of scores for both groups. For instance, the 'Yes' group's distribution appears slightly narrower and centered at a higher score, with less variability than the 'No' group. Both distributions were relatively symmetrical, with the 'No' group having a skewness of 0.31 and kurtosis of 0.31, while the 'Yes' group had a skewness of 0.20 and kurtosis = -0.56.</p>
         </div>
 
         <hr>
