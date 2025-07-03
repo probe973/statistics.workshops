@@ -147,7 +147,6 @@
             background-color: #e0a800; /* Darker orange on hover */
         }
 
-
         /* Specific style for UEA LET link background - ONLY this one is black */
         .top-nav .uea-let-link {
             background-color: black;
@@ -267,6 +266,26 @@
             font-weight: 500;
         }
     </style>
+    <!-- MathJax Configuration and Script -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [], // Explicitly disable inline $...$
+          displayMath: [['$$', '$$'], ['\\[', '\\]']], // Only enable block math
+          processEscapes: true, // Allow for escaping $ if needed in text
+          tags: 'ams' // Optional, for equation numbering if needed later
+        },
+        options: {
+          // Do not process content inside these tags
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          // Ignore processing content with this class
+          ignoreHtmlClass: 'tex2jax_ignore',
+          // Explicitly process content with this class (if needed, but not used here for simplicity)
+          processHtmlClass: 'tex2jax_process'
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
 
@@ -290,20 +309,7 @@
         <div class="glossary-item">
             <div class="term">Mean</div>
             <div class="definition">The mean is the average of a dataset. It is calculated by summing all the values and dividing by the number of values.
-                <math display="block">
-                    <mover>
-                        <mi>x</mi>
-                        <mo>&OverBar;</mo>
-                    ></mover>
-                    <mo>=</mo>
-                    <mfrac>
-                        <mrow>
-                            <mo>&sum;</mo>
-                            <mi>x</mi>
-                        </mrow>
-                        <mi>n</mi>
-                    </mfrac>
-                </math>
+                $$ \bar{x} = \frac{\sum x}{n} $$
             </div>
         </div>
 
@@ -343,112 +349,28 @@
         <div class="glossary-item">
             <div class="term">Range</div>
             <div class="definition">The range is the difference between the highest and lowest values in a dataset.
-                <math display="block">
-                    <mi>Range</mi>
-                    <mo>=</mo>
-                    <msub>
-                        <mi>X</mi>
-                        <mrow>
-                            <mi>max</mi>
-                        </mrow>
-                    ></msub>
-                    <mo>-</mo>
-                    <msub>
-                        <mi>X</mi>
-                        <mrow>
-                            <mi>min</mi>
-                        </mrow>
-                    ></msub>
-                </math>
+                $$ \text{Range} = X_{\text{max}} - X_{\text{min}} $$
             </div>
         </div>
 
         <div class="glossary-item">
             <div class="term">Inter-Quartile Range (IQR)</div>
             <div class="definition">The IQR is the range of the middle 50% of the data. It is calculated as the difference between the third quartile (Q3) and the first quartile (Q1).
-                <math display="block">
-                    <mi>IQR</mi>
-                    <mo>=</mo>
-                    <mi>Q3</mi>
-                    <mo>-</mo>
-                    <mi>Q1</mi>
-                </math>
+                $$ \text{IQR} = Q3 - Q1 $$
             </div>
         </div>
 
         <div class="glossary-item">
             <div class="term">Variance</div>
             <div class="definition">Variance measures how far a set of numbers is spread out from their average value. It is the average of the squared differences from the Mean.
-                <math display="block">
-                    <msup>
-                        <mi>s</mi>
-                        <mn>2</mn>
-                    ></msup>
-                    <mo>=</mo>
-                    <mfrac>
-                        <mrow>
-                            <mo>&sum;</mo>
-                            <msup>
-                                <mrow>
-                                    <mo>(</mo>
-                                    <msub>
-                                        <mi>x</mi>
-                                        <mi>i</mi>
-                                    ></msub>
-                                    <mo>-</mo>
-                                    <mover>
-                                        <mi>x</mi>
-                                        <mo>&OverBar;</mo>
-                                    ></mover>
-                                    <mo>)</mo>
-                                </mrow>
-                                <mn>2</mn>
-                            </msup>
-                        </mrow>
-                        <mrow>
-                            <mi>n</mi>
-                            <mo>-</mo>
-                            <mn>1</mn>
-                        </mrow>
-                    </mfrac>
-                </math>
+                $$ s^2 = \frac{\sum(x-\bar{x})^2}{n-1} $$
             </div>
         </div>
 
         <div class="glossary-item">
             <div class="term">Standard Deviation</div>
             <div class="definition">Standard deviation is a measure of the amount of variation or dispersion of a set of values. It is the square root of the variance.
-                <math display="block">
-                    <mi>s</mi>
-                    <mo>=</mo>
-                    <msqrt>
-                        <mfrac>
-                            <mrow>
-                                <mo>&sum;</mo>
-                                <msup>
-                                    <mrow>
-                                        <mo>(</mo>
-                                        <msub>
-                                            <mi>x</mi>
-                                            <mi>i</mi>
-                                        ></msub>
-                                        <mo>-</mo>
-                                        <mover>
-                                            <mi>x</mi>
-                                            <mo>&OverBar;</mo>
-                                        ></mover>
-                                    <mo>)</mo>
-                                </mrow>
-                                <mn>2</mn>
-                            </msup>
-                        </mrow>
-                        <mrow>
-                            <mi>n</mi>
-                            <mo>-</mo>
-                            <mn>1</mn>
-                        </mrow>
-                    </msqrt>
-                </math>
+                $$ s = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}} $$
             </div>
         </div>
 
