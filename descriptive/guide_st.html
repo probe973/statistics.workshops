@@ -10,45 +10,45 @@
     <style>
         /* Merged Styles */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif; /* Prioritize Inter from second style for general body */
             margin: 0;
             padding: 0;
-            color: #222;
-            background-color: #f8f8f8;
+            color: #222; /* From second style */
+            background-color: #f8f8f8; /* From second style */
             line-height: 1.6;
         }
         .container {
             padding: 25px;
-            max-width: 960px;
-            margin: 30px auto;
-            background-color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            max-width: 960px; /* From second style */
+            margin: 30px auto; /* From second style */
+            background-color: white; /* From second style */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* From second style */
+            border-radius: 10px; /* From second style */
         }
         h1 {
-            color: #004085;
-            border-bottom: 3px solid #004085;
+            color: #004085; /* From second style */
+            border-bottom: 3px solid #004085; /* From second style */
             padding-bottom: 10px;
             margin-bottom: 20px;
-            font-size: 2.2em;
+            font-size: 2.2em; /* From second style */
         }
         h2 {
-            color: #004085;
+            color: #004085; /* From second style */
             margin-top: 35px;
-            font-size: 1.8em;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 5px;
+            font-size: 1.8em; /* From second style */
+            border-bottom: 2px solid #eee; /* Merged from first style */
+            padding-bottom: 5px; /* Merged from first style */
         }
         h3 {
-            color: #0056b3;
-            font-size: 1.2em;
-            border-bottom: 1px solid #eee;
-            margin-top: 25px;
+            color: #0056b3; /* From first style */
+            font-size: 1.2em; /* From first style */
+            border-bottom: 1px solid #eee; /* From first style */
+            margin-top: 25px; /* From first style */
         }
         h4 {
-            color: #0056b3;
-            font-size: 1em;
-            margin-top: 25px;
+            color: #0056b3; /* From first style */
+            font-size: 1em; /* From first style */
+            margin-top: 25px; /* From first style */
         }
         .subtitle {
             color: #444;
@@ -56,38 +56,38 @@
             margin-bottom: 25px;
         }
         code {
-            background-color: #eef;
+            background-color: #eef; /* From first style */
             padding: 2px 4px;
             border-radius: 4px;
-            font-family: "Courier New", Courier, monospace;
-            color: #c00;
+            font-family: "Courier New", Courier, monospace; /* From first style */
+            color: #c00; /* From first style */
         }
         pre {
-            background-color: #eef;
+            background-color: #eef; /* From first style */
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
-            font-family: "Courier New", Courier, monospace;
-            color: #333;
-            border: 1px solid #ddd;
+            font-family: "Courier New", Courier, monospace; /* From first style */
+            color: #333; /* From first style */
+            border: 1px solid #ddd; /* From first style */
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 20px; /* From second style */
+            margin-bottom: 20px; /* From second style */
         }
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #ddd; /* From second style */
         }
         th, td {
-            padding: 10px;
+            padding: 10px; /* From second style */
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
-            color: #333;
-            font-weight: bold;
+            background-color: #f2f2f2; /* From second style */
+            color: #333; /* From second style */
+            font-weight: bold; /* From first style */
         }
         ul {
             list-style-type: disc;
@@ -98,14 +98,14 @@
             margin-left: 20px;
         }
         .reflection-question {
-            background-color: #f0f8ff;
-            border-left: 5px solid #add8e6;
+            background-color: #f0f8ff; /* From first style */
+            border-left: 5px solid #add8e6; /* From first style */
             padding: 10px 15px;
             margin: 15px 0;
         }
         .write-up-template {
-            background-color: #e9f5e9;
-            border-left: 5px solid #4CAF50;
+            background-color: #e9f5e9; /* Light green background */
+            border-left: 5px solid #4CAF50; /* Green border */
             padding: 15px;
             margin: 20px 0;
         }
@@ -113,38 +113,37 @@
             margin-bottom: 10px;
         }
         .solution-section {
-            background-color: #f0fff0;
-            border-left: 5px solid #6b8e23;
+            background-color: #f0fff0; /* Very light green */
+            border-left: 5px solid #6b8e23; /* Olive green */
             padding: 10px 15px;
             margin: 15px 0;
         }
         .solution-section h4 {
             color: #6b8e23;
         }
+        /* Top navigation style - Updated to match glossary and index.html */
         .top-nav {
-             display: flex;
-    justify-content: flex-start; /* Align to start */
-    gap: 15px;
-    padding: 15px;
-    background-color: #004085; /* Match button background */
-    border-bottom-left-radius: 10px; /* Rounded corners for the bottom */
-    border-bottom-right-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    align-items: center; /* Vertically align text and links */
-    /* --- ADD/EDIT THESE LINES --- */
-    position: sticky; /* Make header sticky */
-    top: 0; /* Stick to the top */
-    width: 100%; /* Ensure it spans full width */
-    z-index: 1000; /* Ensure it stays on top of other content */
-    flex-wrap: wrap; /* Allow items to wrap to next line */
-    /* --------------------------- */
+            display: flex;
+            justify-content: flex-start; /* Align to start */
+            gap: 15px;
+            padding: 15px;
+            background-color: #004085; /* Match button background */
+            border-bottom-left-radius: 10px; /* Rounded corners for the bottom */
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center; /* Vertically align text and links */
+            position: sticky; /* Make header sticky */
+            top: 0; /* Stick to the top */
+            width: 100%; /* Ensure it spans full width */
+            z-index: 1000; /* Ensure it stays on top of other content */
+            flex-wrap: wrap; /* Allow items to wrap to next line */
         }
-        .top-nav span {
+        .top-nav span { /* Style for the 'Links to:' text */
             color: white;
             font-weight: bold;
-            margin-right: 5px;
+            margin-right: 5px; /* Space between text and buttons */
         }
-        .top-nav a {
+        .top-nav a { /* Styling for links in top nav */
             color: white;
             padding: 8px 15px;
             border-radius: 20px;
@@ -152,20 +151,43 @@
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.2s ease;
             white-space: nowrap;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white for buttons */
         }
         .top-nav a:hover {
             background-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-1px);
         }
-        .button-group {
+
+        /* Specific style for Home link */
+        .top-nav .home-link {
+            background-color: #28a745; /* Green */
+        }
+        .top-nav .home-link:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Specific style for Glossary link */
+        .top-nav .glossary-link {
+            background-color: #ffc107; /* Orange/Gold */
+            color: #333; /* Darker text for better contrast on light background */
+        }
+        .top-nav .glossary-link:hover {
+            background-color: #e0a800; /* Darker orange on hover */
+        }
+
+        /* Specific style for UEA LET link background - ONLY this one is black */
+        .top-nav .uea-let-link {
+            background-color: black;
+        }
+
+        .button-group { /* Existing style for button groups, keep separate */
             display: flex;
             flex-wrap: nowrap;
             gap: 15px;
             margin-top: 20px;
             justify-content: center;
         }
-        .button-group a {
+        .button-group a { /* Existing style for buttons within button-group */
             background-color: #004085;
             color: white;
             padding: 14px 25px;
@@ -180,11 +202,11 @@
             letter-spacing: 0.5px;
             white-space: nowrap;
         }
-        .button-group a:hover {
+        .button-group a:hover { /* From second style */
             background-color: #002c5a;
             transform: translateY(-2px);
         }
-        hr {
+        hr { /* From second style */
             border: 0;
             height: 2px;
             background: #e0e0e0;
@@ -195,149 +217,125 @@
 <body>
     <div class="top-nav">
         <span>Links to:</span>
-        <a href="../index.html">Home</a>
+        <a href="../index.html" class="home-link">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
+        <a href="../r.html">R Studio Guides</a>
+        <a href="../spss.html">SPSS Guides</a>
         <a href="../stata.html">Stata Guides</a>
+        <a href="../glossary.html" class="glossary-link">Glossary</a>
+        <a href="https://my.uea.ac.uk/divisions/library-and-learning-enhancement/learning-enhancement" target="_blank" class="uea-let-link">UEA LET</a>
     </div>
     <div class="container">
         <h1>Descriptive Statistics in Stata</h1>
-        <p class="subtitle">A Guide to Understanding and Summarising Data using Stata</p>
+        <p class="subtitle">A Guide to Understanding and Summarizing Data</p>
 
         <p>This guide will walk you through the process of obtaining summary statistics and creating relevant graphs for different types of variables using Stata. Understanding descriptive statistics is a foundational skill in data analysis, providing essential insights into the characteristics of your dataset.</p>
 
         <p>Descriptive statistics help us understand the basic features of the data in a study. They provide simple summaries about the sample and the measures, forming the basis of virtually every quantitative analysis.</p>
 
-        <p>Before you begin, ensure you have your <code>omni.dta</code> file available. Throughout this guide, we will use specific variables from your dataset to illustrate the concepts. You will also be prompted to apply the steps to other relevant variables:</p>
+        <p>Before you begin, ensure you have your <code>omni.dta</code> file available. You can enter commands directly into the Stata Command window (the bottom-right pane in Stata by default) or by creating a Do-file (<code>File > New > Do-file Editor</code>). Using a Do-file is highly recommended for saving your commands and making your work reproducible.</p>
+
+        <p>In the code examples below, lines starting with `*` are comments. These are notes within the code that explain what the commands are doing. They are very useful for keeping track of your analysis steps in a Do-file. If you are entering commands directly into the Stata Command window, you do not need to copy the * or the comments after it.</p>
+
+        <p>First, we need to load the data. We will use the `use` command for this. Before loading your data, ensure your `omni.dta` file is in your Stata working directory. You can set your working directory using the Stata menu: <code>File > Change Working Directory...</code></p>
+
+        <pre><code>use "omni.dta", clear
+* This command loads the Stata data file named "omni.dta" into Stata's memory.
+* The `clear` option clears any data currently in memory before loading.</code></pre>
+        <p>Your data is now loaded into Stata. You can refer to variables by their names as they appear in the Data Editor or Variables window.</p>
+        <p>For more detailed instructions on loading data into Stata, please refer to the <a href="../loading_the_data/guide_st.html">Loading Data into Stata Guide</a>.</p>
+
+        <p>Throughout this guide, we will use specific variables from your dataset to illustrate the concepts. You will also be prompted to apply the steps to other relevant variables:</p>
         <ul>
             <li><code>final_exam_score</code>: Represents the numerical score achieved by students on a final exam.</li>
             <li><code>study_hours_per_week</code>: Indicates the number of hours a student reported studying each week.</li>
-            <li><code>preferred_study_method</code>: Describes a student's chosen study strategy (e.g., 'Flashcards', 'Summarising', 'Practice Tests'). This variable will have already been converted to a numerical nominal format with value labels attached.</li>
-            <li><code>study_session_group</code>: A categorical variable indicating the type of study session group a student was assigned to (e.g., 'High', 'Medium', 'Low'). This variable will also have already been converted to a numerical nominal format with value labels attached.</li>
-            <li><code>used_study_support_services</code>: A categorical variable indicating whether a student utilised study support services (Yes/No). This variable will be used to demonstrate splitting analyses by groups, and will also have been converted to a numerical nominal format.</li>
+            <li><code>preferred_study_method</code>: Describes a student's chosen study strategy (e.g., 'Summarizing', 'Practice Tests', 'Flashcards').</li>
+            <li><code>study_session_group</code>: A categorical variable indicating the type of study session group a student was assigned to (e.g., 'High', 'Medium', 'Low').</li>
+            <li><code>used_study_support_services</code>: A categorical variable indicating whether a student utilized study support services (Yes/No). This variable will be used to demonstrate splitting analyses by groups.</li>
         </ul>
-        <p>To open your data in Stata:</p>
-        <ol>
-            <li>Launch Stata.</li>
-            <li>**Menu Driven:** Go to <code>File > Open...</code>, navigate to your <code>omni.dta</code> file, select it, and click <code>Open</code>.</li>
-            <li>**Command:** In the Command window, type:
-                <pre><code>
-use "omni.dta", clear
-                </code></pre>
-                <p>
-                    The `use` command loads a Stata dataset (`.dta` file) into memory. `"omni.dta"` is the name of your data file. The `clear` option tells Stata to clear any data currently in memory before loading the new dataset. This is useful to prevent errors if you have another dataset open.
-                </p>
-            </li>
-        </ol>
 
         <hr>
 
-        <h2>Part 1: Analysing Interval/Ratio Variables</h2>
-        <p>Interval/ratio variables are numerical variables where the differences between values are meaningful. For example, a 10-point difference in exam scores means the same regardless of the score range. Ratio variables also have a true zero point (e.g., age, income, test scores, study hours), where zero indicates an absence of the quantity. For these types of variables, we typically examine measures of central tendency (mean, median, mode) and dispersion (standard deviation, variance, range).</p>
+        <h2>Part 1: Analyzing Interval/Ratio Variables</h2>
+        <p>Interval/ratio variables are numerical variables where the differences between values are meaningful. For example, a 10-point difference in exam scores means the same regardless of the score range. Ratio variables also have a true zero point (e.g., age, income, test scores, study hours), where zero indicates an absence of the quantity. For these types of variables, we typically examine measures of central tendency (mean, median) and dispersion (standard deviation, variance, range).</p>
 
         <h3>1.1 Obtaining Summary Statistics for Interval/Ratio Variables (e.g., final_exam_score)</h3>
+        <p>You can obtain descriptive statistics using the <code>summarize</code> command for basic statistics or the <code>summarize, detail</code> command for a more comprehensive summary.</p>
         <ol>
-            <li>With your <code>omni.dta</code> file open in Stata.</li>
-            <li>To get a quick summary of a numerical variable, including N, Mean, Standard Deviation, Min, and Max:</li>
-            <li>**Menu Driven:** Go to <code>Statistics > Summaries, tables, and tests > Summary and descriptive statistics > Summary statistics</code>. In the dialog box, move <code>final_exam_score</code> to the <code>Variables:</code> box and click <code>OK</code>.</li>
-            <li>**Command:** In the Command window, type:
-                <pre><code>
-summarize final_exam_score
-                </code></pre>
-                <p>
-                    The `summarize` command provides basic descriptive statistics for numerical variables. `final_exam_score` is the variable you want to summarise.
-                </p>
+            <li><strong>Using `summarize` (Basic Statistics):</strong>
+                <p>To get basic statistics like count, mean, standard deviation, minimum, and maximum for a variable like <code>final_exam_score</code>, use the <code>summarize</code> command.</p>
+                <pre><code>summarize final_exam_score</code></pre>
+                <p>This command will output a table with the number of observations (Obs), Mean, Standard Deviation (Std. Dev.), Minimum (Min), and Maximum (Max) for the specified variable.</p>
             </li>
-            <li>For more detailed statistics, including Median, Skewness, and Kurtosis:</li>
-            <li>**Menu Driven:** Go to <code>Statistics > Summaries, tables, and tests > Summary and descriptive statistics > Summary statistics</code>. In the dialog box, move <code>final_exam_score</code> to the <code>Variables:</code> box. Click on the <code>Details</code> tab, then check <code>Display additional statistics (includes skewness and kurtosis)</code>. Click <code>OK</code>.</li>
-            <li>**Command:** In the Command window, type:
-                <pre><code>
-summarize final_exam_score, detail
-                </code></pre>
-                <p>
-                    Adding the `, detail` option to the `summarize` command provides a more extensive table of descriptive statistics, including percentiles (which includes the median), variance, skewness, and kurtosis.
-                </p>
+            <li><strong>Using `summarize, detail` (Comprehensive Summary):</strong>
+                <p>For a more comprehensive set of descriptive statistics, including N, mean, standard deviation, variance, skewness, kurtosis, and various percentiles (including the median), use the <code>summarize</code> command with the <code>detail</code> option.</p>
+                <pre><code>summarize final_exam_score, detail</code></pre>
+                <p>This command provides a much richer output, including the mean, standard deviation, variance, skewness, and kurtosis. It also lists the smallest and largest values, along with various percentiles, giving you a detailed picture of the variable's distribution.</p>
             </li>
-            <p>Example Output (for `summarize final_exam_score, detail` - your exact values might vary slightly):</p>
-            <pre><code>
-                      final_exam_score
--------------------------------------------------------------
-      Percentiles      Smallest
- 1%           60             60
- 5%           67             61
-10%           68             62       Obs                  100
-25%           70             63       Sum of Wgt.          100
-
-50%           75                      Mean               74.71
-                        Largest       Std. Dev.        5.760775
-75%           79             87
-90%           83             87       Variance         33.18636
-95%           85             88       Skewness        .00000000000000455
-99%           89             89       Kurtosis         -.130882
-            </code></pre>
         </ol>
 
         <h3>1.2 Interpreting Summary Statistics for Interval/Ratio Variables</h3>
-        <p>Here's what each statistic tells us:</p>
+        <p>Here's what each statistic (as provided by <code>summarize, detail</code>) tells us:</p>
         <ul>
-            <li><strong>Obs (Observations):</strong> The total number of valid observations for the variable. Stata automatically handles missing values for these calculations.</li>
-            <li><strong>Mean:</strong> The arithmetic average of all values. It is calculated by summing all values and dividing by the number of observations. The mean is sensitive to extreme values (outliers), meaning it can be pulled towards very high or very low scores.</li>
-            <li><strong>Median (50th Percentile):</strong> The middle value when data is ordered from smallest to largest. It's the value at which 50% of the data falls below it and 50% above it. The median is less affected by outliers than the mean, making it a good measure of typical value in skewed distributions.</li>
-            <li><strong>Mode:</strong> The value that appears most frequently in the dataset. Stata's `summarize, detail` does not directly report the mode, but you can find it using other commands or by inspecting frequency tables for discrete data. For continuous data, it's often more about identifying peaks in a histogram.</li>
-            <li><strong>Std. Dev. (Standard Deviation):</strong> A measure of the typical distance data points are from the mean. A smaller standard deviation indicates data points are clustered closely around the mean, while a larger one indicates more spread or variability in the data.</li>
-            <li><strong>Variance:</strong> The average of the squared differences from the Mean. It is the square of the standard deviation. It gives a numerical value describing the spread of data points.</li>
-            <li><strong>Smallest & Largest (Min & Max):</strong> The smallest and largest values observed in your dataset for that variable. This gives you the range of your data.</li>
+            <li><strong>Percentiles:</strong> Values below which a certain percentage of observations fall (e.g., 50th percentile is the median).</li>
+            <li><strong>Smallest/Largest:</strong> The minimum and maximum values in your dataset.</li>
+            <li><strong>Obs:</strong> The total number of valid observations (N).</li>
+            <li><strong>Mean:</strong> The arithmetic average of all values. It is calculated by summing all values and dividing by the number of observations. It is sensitive to extreme values (outliers).</li>
+            <li><strong>Std. Dev.:</strong> Standard Deviation. A measure of the typical distance data points are from the mean. A smaller standard deviation indicates data points are clustered closely around the mean, while a larger one indicates more spread or variability in the data.</li>
+            <li><strong>Variance:</strong> The average of the squared differences from the mean. It's the square of the standard deviation.</li>
             <li><strong>Skewness:</strong> Indicates the symmetry of the distribution.
                 <ul>
-                    <li>If **Skewness is close to 0**, the distribution is relatively symmetrical (e.g., a bell curve). In symmetrical distributions, the mean, median, and mode are often very close to each other.</li>
-                    <li>If **Skewness is positive (>0)**, the tail of the distribution extends to the right (positive direction). This typically means there are more lower values, with a few higher, extreme values pulling the mean to the right of the median. In this case, the Mean > Median.</li>
-                    <li>If **Skewness is negative (<0)**, the tail extends to the left (negative direction). This typically means there are more higher values, with a few lower, extreme values pulling the mean to the left of the median. In this case, the Mean < Median.</li>
+                    <li>If Skewness is close to 0, the distribution is relatively symmetrical.</li>
+                    <li>If Skewness is positive (>0), the tail of the distribution extends to the right (positive direction). The Mean > Median.</li>
+                    <li>If Skewness is negative (<0), the tail extends to the left (negative direction). The Mean < Median.</li>
                 </ul>
             </li>
-            <li><strong>Kurtosis:</strong> Indicates the "tailedness" or peakedness of the distribution compared to a normal distribution.
+            <li>Kurtosis: Indicates the "tailedness" or peakedness of the distribution compared to a normal distribution. Stata's <code>summarize, detail</code> reports raw kurtosis.
                 <ul>
-                    <li>If **Kurtosis is positive (>0)** (leptokurtic), it suggests heavier tails and a more peaked distribution, potentially indicating more outliers (extreme values).</li>
-                    <li>If **Kurtosis is negative (<0)** (platykurtic), it suggests lighter tails and a flatter distribution, with fewer extreme values than a normal distribution.</li>
-                    <li>If **Kurtosis is close to 0** (mesokurtic), it resembles the tailedness and peakedness of a normal distribution.</li>
+                    <li>If Kurtosis is close to 3, it resembles the tailedness and peakedness of a normal distribution (mesokurtic).</li>
+                    <li>If Kurtosis is greater than 3 (leptokurtic), it suggests heavier tails and a more peaked distribution, potentially indicating more outliers.</li>
+                    <li>If Kurtosis is less than 3 (platykurtic), it suggests lighter tails and a flatter distribution, with fewer extreme values than a normal distribution.</li>
                 </ul>
+                <p>Note: Different statistical software or packages may use slightly different computational algorithms or default settings for calculating skewness and kurtosis. This can lead to minor variations in the reported numerical values, but the general interpretation of the shape (e.g., positive skew, platykurtic) remains consistent.</p>
             </li>
         </ul>
 
         <h3>1.3 Creating Graphs for Interval/Ratio Variables (Histograms & Box Plots)</h3>
-        <p>Graphs provide powerful visual insights into the distribution of your data, complementing the numerical summaries. In Stata, plots will appear in a separate Graph window.</p>
+        <p>Graphs provide powerful visual insights into the distribution of your data, complementing the numerical summaries.</p>
         <ol>
-            <li>For a Histogram:
-                <li>**Menu Driven:** Go to <code>Graphics > Histogram</code>. In the dialog box, move <code>final_exam_score</code> to the <code>Variable:</code> box. You can also select the `Normal density plot` checkbox to overlay a normal curve. Click <code>OK</code>.</li>
-                <li>**Command:** In the Command window, type:
-                    <pre><code>
-histogram final_exam_score, normal
-                    </code></pre>
-                    <p>
-                        The `histogram` command creates a histogram. `final_exam_score` is the variable. The `, normal` option overlays a normal density curve on the histogram, which helps visually assess normality.
-                    </p>
-                </li>
+            <li><strong>For Histograms:</strong>
+                <p>Use the <code>histogram</code> command. This command creates a histogram of the specified numerical variable.
+                <ul>
+                    <li><code>histogram final_exam_score</code>: This is the basic command to generate a histogram for <code>final_exam_score</code>.</li>
+                    <li><code>normal</code>: (Optional) Adds a normal density curve to the histogram, useful for visual comparison.</li>
+                    <li><code>title("Final Exam Scores")</code>: Sets the main title of the plot.</li>
+                    <li><code>xtitle("Final Exam Score")</code>: Sets the label for the x-axis.</li>
+                    <li><code>ytitle("Density")</code>: Sets the label for the y-axis (Stata's default for histograms is density).</li>
+                </ul>
+                </p>
+                <pre><code>histogram final_exam_score, normal title("Final Exam Scores") xtitle("Final Exam Score") ytitle("Density")</code></pre>
             </li>
-            <li>For a Box Plot:
-                <li>**Menu Driven:** Go to <code>Graphics > Box plot</code>. In the dialog box, move <code>final_exam_score</code> to the <code>Variable for y axis:</code> box. Click <code>OK</code>.</li>
-                <li>**Command:** In the Command window, type:
-                    <pre><code>
-graph box final_exam_score
-                    </code></pre>
-                    <p>
-                        The `graph box` command creates a box plot. `final_exam_score` is the numerical variable for which to create the plot.
-                    </p>
-                </li>
+            <li><strong>For Box Plots:</strong>
+                <p>Use the <code>graph box</code> command. This command creates a box and whisker plot for the specified numerical variable.
+                <ul>
+                    <li><code>graph box final_exam_score</code>: This is the basic command to generate a box plot for <code>final_exam_score</code>.</li>
+                    <li><code>title("Final Exam Scores")</code>: Sets the main title of the plot.</li>
+                    <li><code>ytitle("Final Exam Score")</code>: Sets the label for the y-axis.</li>
+                </ul>
+                </p>
+                <pre><code>graph box final_exam_score, title("Final Exam Scores") ytitle("Final Exam Score")</code></pre>
             </li>
-            <p>Stata will generate these plots in separate Graph windows.</p>
         </ol>
 
         <h3>1.4 Interpreting Graphs for Interval/Ratio Variables</h3>
         <ul>
-            <li><strong>Histogram:</strong> Displays the shape of the distribution, showing where values are concentrated, identifying peaks (modes), gaps, and overall symmetry or skewness. Each bar represents a range of values (or "bin"), and its height shows the frequency of scores within that range.</li>
+            <li><strong>Histogram:</strong> Displays the shape of the distribution, showing where values are concentrated, identifying peaks (modes), gaps, and overall symmetry or skewness. Each bar represents a range of values (or "bin"), and its height shows the frequency (or density) of scores within that range.</li>
             <li><strong>Box Plot:</strong> Provides a clear visual representation of the "five-number summary": minimum, first quartile (Q1), median (Q2), third quartile (Q3), and maximum. It is particularly effective for identifying outliers.
                 <ul>
-                    <li>The box itself represents the **Interquartile Range (IQR)**, which contains the middle 50% of your data (between Q1 and Q3).</li>
-                    <li>The line inside the box is the **median**.</li>
+                    <li>The box itself represents the <strong>Interquartile Range (IQR)</strong>, which contains the middle 50% of your data (between Q1 and Q3).</li>
+                    <li>The line inside the box is the <strong>median</strong>.</li>
                     <li>The "whiskers" typically extend to the most extreme data points within 1.5 times the IQR from the box.</li>
-                    <li>Individual points (often shown as dots or asterisks) beyond the whiskers are considered **outliers**, meaning they are unusually far from the rest of the data.</li>
+                    <li>Individual points (often shown as dots or asterisks) beyond the whiskers are considered <strong>outliers</strong>, specifically those falling more than 1.5 times the IQR below Q1 or above Q3. These points represent values unusually far from the rest of the data.</li>
                 </ul>
             </li>
         </ul>
@@ -345,32 +343,29 @@ graph box final_exam_score
         <div class="reflection-question">
             <h4>Reflection Questions & Tasks:</h4>
             <ol>
-                <li>For the final exam scores, compare the Mean (74.71) and Median (75.00) from your Stata output. Based on the explanation of skewness in Section 1.2, what does the relationship between these two values suggest about the symmetry of the final exam score distribution?</li>
-                <li>Consider the Skewness value (0.00) and Kurtosis value (-0.13) for the final exam scores from your Stata output. How do these numerical values, along with the visual information from the histogram, help you describe the overall shape of this distribution? Is it symmetrical, and does it appear peaked or relatively flat compared to a typical bell curve?</li>
+                <li>For the final exam scores, compare the Mean (74.71) and Median (75.00). Based on the explanation of skewness in Section 1.2, what does the relationship between these two values suggest about the symmetry of the final exam score distribution?</li>
+                <li>Consider the Skewness value (0.00) and Kurtosis value (2.82) for the final exam scores. How do these numerical values, along with the visual information from the histogram, help you describe the overall shape of this distribution? Is it symmetrical, and does it appear peaked or relatively flat compared to a typical bell curve?</li>
                 <li>Examine the box plot for the final exam scores. Do you see any individual points plotted outside the main "whiskers" of the box plot? If so, what do these points represent in the context of our data?</li>
-                <li><strong>Task:</strong> Now, apply the steps from Sections 1.1 to 1.4 to the variable `study_hours_per_week` in Stata. What are its mean, median, and standard deviation? How does its distribution (shape, spread, symmetry) compare to that of the final exam scores, both numerically and visually?</li>
+                <li><strong>Task:</strong> Now, apply the steps from Sections 1.1 to 1.4 to the variable <code>study_hours_per_week</code> in your Stata environment. What are its mean, median, and standard deviation?</li>
             </ol>
         </div>
 
         <div class="solution-section">
             <h4>Suggested Solutions for Reflection Questions (Part 1):</h4>
             <ol>
-                <li>For the final exam scores, the Mean (74.71) and Median (75.00) are very close. This indicates that the distribution of final exam scores is quite **symmetrical**, as neither the mean nor the median is significantly pulled in one direction by extreme values.</li>
-                <li>The Skewness value of 0.00 suggests that the distribution of final exam scores is almost perfectly symmetrical. A Kurtosis value of -0.13, which is close to 0 but slightly negative, indicates that the distribution is slightly **platykurtic** (a bit flatter than a normal distribution), meaning it has slightly lighter tails and fewer extreme values. The histogram should visually confirm this: a roughly bell-shaped curve with no pronounced long tail on either side.</li>
-                <li>For the final exam scores, the box plot **does not show any individual points** beyond the whiskers. This signifies that there are no statistical **outliers** detected in this dataset for final exam scores, based on the 1.5 IQR rule. If points were present, they would represent unusually high or low scores compared to the majority of the data.</li>
-                <li><strong>Task Solution (for `study_hours_per_week`):</strong>
+                <li>For the final exam scores, the Mean (74.71) and Median (75.00) are very close. This indicates that the distribution of final exam scores is quite <strong>symmetrical</strong>, as neither the mean nor the median is significantly pulled in one direction by extreme values.</li>
+                <li>The Skewness value of 0.00 suggests that the distribution of final exam scores is almost perfectly symmetrical. A Kurtosis value of 2.82, which is less than 3, indicates that the distribution is slightly <strong>platykurtic</strong> (a bit flatter than a normal distribution), meaning it has slightly lighter tails and fewer extreme values. The histogram should visually confirm this: a roughly bell-shaped curve with no pronounced long tail on either side.</li>
+                <li>For the final exam scores, the box plot <strong>does not show any individual points</strong> beyond the whiskers. This signifies that there are no statistical <strong>outliers</strong> detected in this dataset for final exam scores, based on the 1.5 IQR rule. If points were present, they would represent unusually high or low scores compared to the majority of the data.</li>
+                <li><strong>Task Solution (for <code>study_hours_per_week</code>):</strong>
                     <ul>
-                        <li><strong>N:</strong> 100</li>
+                        <li><strong>Obs:</strong> 100</li>
                         <li><strong>Mean:</strong> 19.28</li>
-                        <li><strong>Median:</strong> 18.50</li>
-                        <li><strong>Mode:</strong> [16.7, 20.1] (This is bimodal, meaning these two values appear with the highest frequency. Stata might only show one or indicate multiple.)</li>
-                        <li><strong>Standard Deviation:</strong> 7.39</li>
-                        <li><strong>Variance:</strong> 54.66</li>
+                        <li><strong>Median:</strong> 18.50 (50th percentile)</li>
+                        <li><strong>Std. Dev.:</strong> 7.39</li>
                         <li><strong>Minimum:</strong> 0.0</li>
                         <li><strong>Maximum:</strong> 40.0</li>
-                        <li><strong>Skewness:</strong> 0.38 (Slightly positively skewed - the tail extends slightly to the right, meaning a few students study a lot more hours).</li>
-                        <li><strong>Kurtosis:</strong> 0.07 (Very slightly leptokurtic, near normal peakedness, suggesting the tails are not excessively heavy or light).</li>
-                        <li>**Comparison:** Compared to the final exam scores, the study hours per week variable has a larger standard deviation (7.39 vs. 5.76), indicating more variability in the reported study hours among students. While the final exam scores distribution is highly symmetrical, the study hours per week variable shows a slight positive skew (Mean 19.28 > Median 18.50), indicating a slight tendency for more students to study fewer hours, with a tail extending towards higher study hours.</li>
+                        <li><strong>Skewness:</strong> 0.37 (Slightly positively skewed - the tail extends slightly to the right, meaning a few students study a lot more hours).</li>
+                        <li><strong>Kurtosis:</strong> 3.01 (Very slightly platykurtic, near normal peakedness, suggesting the tails are not excessively heavy or light).</li>
                     </ul>
                 </li>
             </ol>
@@ -378,40 +373,23 @@ graph box final_exam_score
 
         <div class="write-up-template">
             <h4>Write-Up Template for Interval/Ratio Variable (Example)</h4>
-            <p>To describe the distribution of final exam scores, descriptive statistics were computed. The sample consisted of N = 100 participants. The mean final exam score was 74.71 (SD = 5.76), with scores ranging from a minimum of 60 to a maximum of 89. The median score was 75.00. The distribution of final exam scores appeared highly symmetrical with a slightly light-tailed distribution, as indicated by the skewness (0.00) and kurtosis (-0.13) values, respectively. A histogram and box plot further illustrate these characteristics, showing a unimodal distribution with no apparent outliers.</p>
+            <p>To describe the distribution of final exam scores, descriptive statistics were computed. The sample consisted of N = 100 participants. The mean final exam score was 74.71 (SD = 5.76), with scores ranging from a minimum of 60 to a maximum of 89. The median score was 75.00. The distribution of final exam scores appeared highly symmetrical with a slightly light-tailed distribution, as indicated by the skewness (0.00) and kurtosis (2.82) values, respectively. A histogram and box plot further illustrate these characteristics, showing a unimodal distribution with no apparent outliers.</p>
         </div>
 
         <hr>
 
-        <h2>Part 2: Analysing Categorical Variables</h2>
-        <p>Categorical variables represent types of data which can be divided into groups or categories. This includes nominal variables (categories without inherent order, e.g., 'preferred study method') and ordinal variables (categories with a meaningful order, e.g., satisfaction ratings like 'Low', 'Medium', 'High'). For categorical variables, we focus on frequencies and proportions rather than means and standard deviations, as these mathematical operations are not meaningful for non-numerical categories.</p>
+        <h2>Part 2: Analyzing Categorical Variables</h2>
+        <p>Categorical variables represent types of data which can be divided into groups or categories. This includes nominal variables (categories without inherent order, e.g., 'preferred study method', where 'Flashcards' is not "better" or "more" than 'Summarizing') and ordinal variables (categories with a meaningful order, e.g., satisfaction ratings like 'Low', 'Medium', 'High'). For categorical variables, we focus on frequencies and proportions rather than means and standard deviations, as these mathematical operations are not meaningful for non-numerical categories.</p>
 
         <h3>2.1 Obtaining Frequency Tables for Categorical Variables (e.g., preferred_study_method)</h3>
         <ol>
-            <li>With your <code>omni.dta</code> file open.</li>
-            <li>**Menu Driven:** Go to <code>Statistics > Summaries, tables, and tests > Frequency tables > One-way table</code>. In the dialog box, move <code>preferred_study_method</code> to the <code>Categorical variable:</code> box. Click <code>OK</code>.</li>
-            <li>**Command:** In the Command window, type:
-                <pre><code>
-tabulate preferred_study_method
-                </code></pre>
-                <p>
-                    The `tabulate` command (or `tab` for short) creates one-way frequency tables for categorical variables. It shows the frequency, percentage, and cumulative percentage for each category.
-                </p>
-            </li>
-            <p>Example Output (for `tabulate preferred_study_method`):</p>
-            <pre><code>
-preferred_study_method |      Freq.     Percent        Cum.
------------------------+-----------------------------------
-            Flashcards |         36       36.00       36.00
-       Practice Tests  |         31       31.00       67.00
-          Summarising  |         33       33.00      100.00
------------------------+-----------------------------------
-             Total |        100      100.00
-            </code></pre>
+            <li>To get a frequency table for a categorical variable like <code>preferred_study_method</code>, use the <code>tabulate</code> command. This will give you the counts and percentages for each category.</li>
+            <pre><code>tabulate preferred_study_method</code></pre>
+            <p>This command will output a table showing the frequency (count), percentage, and cumulative percentage for each category of the <code>preferred_study_method</code> variable.</p>
         </ol>
 
         <h3>2.2 Interpreting Frequency Tables for Categorical Variables</h3>
-        <p>A frequency table lists each category of your variable and shows how many times it appears in your data (Frequency or Count) and its proportion relative to the total (Percent or Percentage).</p>
+        <p>A frequency table lists each category of your variable and shows how many times it appears in your data (Frequency) and its proportion relative to the total (Percent).</p>
         <table>
             <thead>
                 <tr>
@@ -429,84 +407,79 @@ preferred_study_method |      Freq.     Percent        Cum.
                     <td>36.00</td>
                 </tr>
                 <tr>
-                    <td>Summarising</td>
-                    <td>33</td>
-                    <td>33.00</td>
-                    <td>69.00</td>
-                </tr>
-                <tr>
                     <td>Practice Tests</td>
                     <td>31</td>
                     <td>31.00</td>
+                    <td>67.00</td>
+                </tr>
+                <tr>
+                    <td>Summarizing</td>
+                    <td>33</td>
+                    <td>33.00</td>
                     <td>100.00</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>100</td>
+                    <td>100.00</td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
         <ul>
             <li><strong>Frequency:</strong> The number of participants who selected or fall into each specific category.</li>
-            <li><strong>Percent:</strong> The percentage of participants in each category out of the total valid cases.</li>
-            <li><strong>Cumulative:</strong> The running total of percentages. This is more meaningful for ordinal variables where categories have an inherent order.</li>
+            <li><strong>Percent:</strong> The percentage of participants in each category out of the total valid cases (excluding missing values).</li>
+            <li><strong>Cumulative:</strong> The running total of percentages, useful for ordinal data but less meaningful for nominal data.</li>
         </ul>
 
-        <h3>2.3 Creating Graphs for Categorical Variables (Bar Charts & Pie Charts)</h3>
-        <p>Bar charts and pie charts are effective ways to visually represent the distribution of categorical variables.</p>
+        <h3>2.3 Creating Graphs for Categorical Variables (Bar Charts)</h3>
+        <p>Graphs provide powerful visual insights into the distribution of your data, complementing the numerical summaries.</p>
         <ol>
-            <li>For a Bar Chart:
-                <li>**Menu Driven:** Go to <code>Graphics > Bar chart</code>. Select <code>Simple</code> and then <code>Bars represent: Counts of observations</code>. In the <code>Categories (x axis):</code> tab, move <code>preferred_study_method</code> to the <code>Category variable:</code> box. Click <code>OK</code>.</li>
-                <li>**Command:** In the Command window, type:
-                    <pre><code>
-graph bar (count), over(preferred_study_method)
-                    </code></pre>
-                    <p>
-                        The `graph bar` command creates a bar chart. `(count)` tells Stata to plot the count of observations for each category. `over(preferred_study_method)` specifies that the bars should be created for each category of `preferred_study_method`.
-                    </p>
-                </li>
-            </li>
-            <li>For a Pie Chart:
-                <li>**Menu Driven:** Go to <code>Graphics > Pie chart</code>. Select <code>Pie chart for counts of unique values</code>. In the dialog box, move <code>preferred_study_method</code> to the <code>Category variable:</code> box. Click <code>OK</code>.</li>
-                <li>**Command:** In the Command window, type:
-                    <pre><code>
-graph pie, over(preferred_study_method)
-                    </code></pre>
-                    <p>
-                        The `graph pie` command creates a pie chart. `over(preferred_study_method)` tells Stata to create slices based on the categories of `preferred_study_method`.
-                    </p>
-                </li>
-            </li>
-            <p>Stata will generate these plots in separate Graph windows.</p>
+            <li>To create a bar chart for a categorical variable like <code>preferred_study_method</code>, use the <code>graph bar</code> command. You can choose to display counts or percentages.
+                <p>Use the <code>graph bar</code> command. This command creates a bar chart.
+                <ul>
+                    <li><code>(count)</code>: Specifies that the height of the bars should represent the frequency (count) of observations in each category. You could also use <code>(percent)</code> for percentages.</li>
+                    <li><code>over(preferred_study_method)</code>: This option tells Stata to create separate bars for each category of the <code>preferred_study_method</code> variable.</li>
+                    <li><code>title("Preferred Study Methods")</code>: Sets the main title of the plot.</li>
+                    <li><code>ytitle("Frequency")</code>: Sets the label for the y-axis.</li>
+                    <li><code>ylabel(, labsize(small))</code>: Adjusts the size of the y-axis labels.</li>
+                </ul>
+                </p>
+            <pre><code>graph bar (count), over(preferred_study_method) title("Preferred Study Methods") ytitle("Frequency") ylabel(, labsize(small))</code></pre>
         </ol>
 
         <h3>2.4 Interpreting Graphs for Categorical Variables</h3>
         <ul>
             <li><strong>Bar Chart:</strong> Each bar represents a distinct category, and its height (or length) corresponds to the frequency or percentage of observations in that category. Bar charts are generally preferred over pie charts for clarity and ease of comparison, especially when comparing frequencies across multiple categories or when categories have similar proportions.</li>
-            <li><strong>Pie Chart:</strong> The entire circle represents 100% of the data, and each slice represents a category's proportion of the whole. While visually intuitive for showing parts of a whole, it can be challenging to accurately compare the sizes of slices when categories have similar proportions or when there are many categories.</li>
         </ul>
 
         <div class="reflection-question">
             <h4>Reflection Questions & Tasks:</h4>
             <ol>
-                <li>Based on the frequency table for 'preferred study method' from your Stata output, identify the study method that was most frequently reported. What was its exact count and percentage of the total sample?</li>
-                <li>Think about the visual strengths of a bar chart versus a pie chart. If you were presenting the distribution of 'preferred study method' to an audience, which type of graph do you think would be more effective for conveying information clearly, and why?</li>
-                <li>Why do we use counts and percentages (frequency tables and bar/pie charts) for a variable like 'preferred study method', but avoid calculating a "mean" or "standard deviation"? Consider the nature of this variable.</li>
-                <li><strong>Task:</strong> Apply the steps from Sections 2.1 to 2.4 to the categorical variable `study_session_group`. Obtain its frequency table and plots in Stata. How does the distribution of students across study session groups compare to the distribution of preferred study methods?</li>
+                <li>Based on the frequency table for 'preferred study method', identify the study method that was most frequently reported. What was its exact count and percentage of the total sample?</li>
+                <li>Why do we use counts and percentages (frequency tables and bar charts) for a variable like 'preferred study method', but avoid calculating a "mean" or "standard deviation"? Consider the nature of this variable.</li>
+                <li><strong>Task:</strong> Apply the steps from Sections 2.1 to 2.4 to the categorical variable <code>study_session_group</code>. Obtain its frequency table and plots.</li>
             </ol>
         </div>
 
         <div class="solution-section">
             <h4>Suggested Solutions for Reflection Questions (Part 2):</h4>
             <ol>
-                <li>For 'preferred study method', "Flashcards" was the most frequently reported method, with a **Count of 36** participants, representing **36.0%** of the total sample.</li>
-                <li>A **bar chart** would generally be more effective for conveying information clearly, especially for comparing the proportions of different study methods. This is because it is easier for the human eye to accurately compare the heights of bars than to compare the angles or areas of slices in a pie chart, particularly when the percentages are similar (as they are here).</li>
-                <li>We avoid calculating a "mean" or "standard deviation" for 'preferred study method' because it is a **nominal categorical variable**. Its categories ("Flashcards", "Summarising", "Practice Tests") are simply labels; they do not represent quantities or have a numerical order. Therefore, performing mathematical operations like averaging these categories would be meaningless and illogical. Mean and standard deviation are statistics designed for numerical data.</li>
-                <li><strong>Task Solution (for `study_session_group`):</strong>
+                <li>For 'preferred study method', "Flashcards" was the most frequently reported method, with a <strong>Frequency of 36</strong> participants, representing <strong>36.00%</strong> of the total sample.</li>
+                <li>We avoid calculating a "mean" or "standard deviation" for 'preferred study method' because it is a <strong>nominal categorical variable</strong>. Its categories ("Flashcards", "Summarizing", "Practice Tests") are simply labels; they do not represent quantities or have a numerical order. Therefore, performing mathematical operations like averaging these categories would be meaningless and illogical. Mean and standard deviation are statistics designed for numerical data.</li>
+                <li><strong>Task Solution (for <code>study_session_group</code>):</strong>
                     <ul>
-                        <li><strong>Medium:</strong> Count = 36, Percent = 36.0%</li>
-                        <li><strong>Low:</strong> Count = 33, Percent = 33.0%</li>
-                        <li><strong>High:</strong> Count = 31, Percent = 31.0%</li>
-                        <li><strong>Comparison:</strong> The distribution of study session groups is quite similar to preferred study methods in that all categories have a substantial proportion of participants. Both variables show a relatively even spread across their categories, though 'Medium' for study sessions is the most frequent, just as 'Flashcards' was for study methods.</li>
+                        <li><strong>Medium:</strong> Frequency = 36, Percent = 36.00%</li>
+                        <li><strong>Low:</strong> Frequency = 33, Percent = 33.00%</li>
+                        <li><strong>High:</strong> Frequency = 31, Percent = 31.00%</li>
                     </ul>
                 </li>
             </ol>
+        </div>
+
+        <div class="write-up-template">
+            <h4>Write-Up Template for Categorical Variable (Example)</h4>
+            <p>To describe the distribution of preferred study methods, a frequency analysis was conducted. Among the 100 participants, 36% (N=36) reported 'Flashcards' as their preferred method, 33% (N=33) preferred 'Summarizing', and 31% (N=31) chose 'Practice Tests'. A bar chart visually confirms these proportions, showing 'Flashcards' as the most frequent study method.</p>
         </div>
 
         <hr>
@@ -514,31 +487,64 @@ graph pie, over(preferred_study_method)
         <h2>Part 3: Descriptive Statistics by Groups (Splitting Data by Factors)</h2>
         <p>In data analysis, it is often insightful to understand if a numerical variable's distribution differs across distinct categories of another variable. This is known as "splitting" or "grouping" your data. For example, we might want to see if the final exam scores vary between students who used study support services and those who did not.</p>
 
-        <h3>3.1 Analysing Interval/Ratio Variable by a Categorical Factor (e.g., final exam scores by used_study_support_services)</h3>
+        <h3>3.1 Analyzing Interval/Ratio Variable by a Categorical Factor (e.g., final exam scores by used_study_support_services)</h3>
+        <p>To obtain descriptive statistics for a numerical variable, grouped by a categorical variable, you have two main approaches: using the <code>bysort</code> prefix with <code>summarize, detail</code> for a comprehensive output, or using the <code>tabstat</code> command with its <code>by()</code> option for more selective statistics.</p>
+
+        <h4>Method 1: Using `bysort` with `summarize, detail`</h4>
+        <p>The <code>bysort</code> prefix in Stata allows you to repeat a command for each unique group within a specified variable. When combined with <code>summarize, detail</code>, it provides a full set of descriptive statistics for your numerical variable, broken down by the categories of your grouping variable.</p>
+        <p>The general syntax is <code>bysort group_variable: command</code>.</p>
+        <pre><code>bysort used_study_support_services: summarize final_exam_score, detail</code></pre>
+        <p>Let's break down what each part of this command does:</p>
+        <ul>
+            <li><code>bysort used_study_support_services:</code>: This prefix tells Stata to sort the data by the <code>used_study_support_services</code> variable first, and then to run the subsequent command (<code>summarize final_exam_score, detail</code>) separately for each unique value (group) of <code>used_study_support_services</code>.</li>
+            <li><code>summarize final_exam_score, detail</code>: This is the command that is executed for each group. As explained in Part 1.1, the <code>detail</code> option provides a comprehensive summary including mean, standard deviation, skewness, and kurtosis.</li>
+        </ul>
+        <p>This command will produce separate detailed summary tables for <code>final_exam_score</code> for students who 'No' used study support services and those who 'Yes' used study support services.</p>
+
+        <h4>Method 2: Using `tabstat` with `by()`</h4>
+        <p>The <code>tabstat</code> command is highly flexible and allows you to specify exactly which statistics you want to display for one or more variables, and it can easily group these statistics by a categorical variable using the <code>by()</code> option.</p>
+        <pre><code>tabstat final_exam_score, by(used_study_support_services) stats(N mean sd median min max skewness kurtosis)</code></pre>
+        <p>Let's break down what each part of this command does:</p>
+        <ul>
+            <li><code>tabstat final_exam_score</code>: This specifies that you want to calculate statistics for the <code>final_exam_score</code> variable.</li>
+            <li><code>by(used_study_support_services)</code>: This option tells Stata to calculate the statistics separately for each category within the <code>used_study_support_services</code> variable.</li>
+            <li><code>stats(N mean sd median min max skewness kurtosis)</code>: This option specifies exactly which statistics you want to see in the output.
+                <ul>
+                    <li><code>N</code>: Number of observations.</li>
+                    <li><code>mean</code>: Mean.</li>
+                    <li><code>sd</code>: Standard deviation.</li>
+                    <li><code>median</code>: Median (50th percentile).</li>
+                    <li><code>min</code>: Minimum value.</li>
+                    <li><code>max</code>: Maximum value.</li>
+                    <li><code>skewness</code>: Skewness.</li>
+                    <li><code>kurtosis</code>: Kurtosis.</li>
+                </ul>
+            </li>
+        </ul>
+        <p>This command will produce a single table showing the specified summary statistics for <code>final_exam_score</code>, broken down by <code>used_study_support_services</code>.</p>
+
+        <h4>Creating Grouped Graphs</h4>
+        <p>Stata also allows you to easily create grouped histograms and box plots using the <code>by()</code> option with the respective graphing commands.</p>
         <ol>
-            <li>With your <code>omni.dta</code> file open.</li>
-            <li>To get summary statistics for a numerical variable for each group of a categorical variable:</li>
-            <li>**Menu Driven:** Go to <code>Statistics > Summaries, tables, and tests > Summary and descriptive statistics > Summary statistics</code>. In the dialog box, move <code>final_exam_score</code> to the <code>Variables:</code> box. Then, move <code>used_study_support_services</code> to the <code>By/If/In:</code> box. Click on the <code>Details</code> tab and check <code>Display additional statistics (includes skewness and kurtosis)</code>. Click <code>OK</code>.</li>
-            <li>**Command:** In the Command window, use the `bysort` prefix:
-                <pre><code>
-bysort used_study_support_services: summarize final_exam_score, detail
-                </code></pre>
-                <p>
-                    The `bysort` prefix tells Stata to perform the subsequent command (here, `summarize final_exam_score, detail`) separately for each unique category of the `used_study_support_services` variable. This generates grouped summary statistics.
+            <li><strong>For Grouped Histograms:</strong>
+                <p>Use the <code>histogram</code> command with the <code>by()</code> option to create separate histograms for each group.
+                <ul>
+                    <li><code>histogram final_exam_score, by(used_study_support_services)</code>: This creates separate histograms for <code>final_exam_score</code>, one for each category of <code>used_study_support_services</code>.</li>
+                    <li><code>xtitle("Final Exam Score")</code>: Sets the label for the x-axis within each histogram.</li>
+                    <li><code>ytitle("Density")</code>: Sets the label for the y-axis within each histogram.</li>
+                </ul>
                 </p>
+                <pre><code>histogram final_exam_score, by(used_study_support_services) xtitle("Final Exam Score") ytitle("Density")</code></pre>
             </li>
-            <p>Stata will output separate summary tables for each group of 'used study support services'.</p>
-            <li>To create grouped Box Plots (excellent for visual comparison):</li>
-            <li>**Menu Driven:** Go to <code>Graphics > Box plot</code>. Move <code>final_exam_score</code> to the <code>Variable for y axis:</code> box. Then, move <code>used_study_support_services</code> to the <code>Categories (x axis):</code> box. Click <code>OK</code>.</li>
-            <li>**Command:** In the Command window, type:
-                <pre><code>
-graph box final_exam_score, over(used_study_support_services)
-                </code></pre>
-                <p>
-                    The `graph box` command creates box plots. The `over()` option specifies a categorical variable whose categories will be used to create separate box plots, allowing for easy visual comparison between groups.
+            <li><strong>For Grouped Box Plots:</strong>
+                <p>Use the <code>graph box</code> command with the <code>by()</code> option to create separate box plots for each group.
+                <ul>
+                    <li><code>graph box final_exam_score, by(used_study_support_services)</code>: This creates separate box plots for <code>final_exam_score</code> for each category of <code>used_study_support_services</code>.</li>
+                    <li><code>ytitle("Final Exam Score")</code>: Sets the label for the y-axis.</li>
+                </ul>
                 </p>
+                <pre><code>graph box final_exam_score, by(used_study_support_services) ytitle("Final Exam Score")</code></pre>
             </li>
-            <p>Stata will generate the grouped box plot in a separate Graph window.</p>
         </ol>
 
         <h3>3.2 Interpreting Grouped Descriptive Statistics</h3>
@@ -546,148 +552,52 @@ graph box final_exam_score, over(used_study_support_services)
         <ul>
             <li><strong>Comparison of Means/Medians:</strong> Observe if the average exam scores are different for students who used support services compared to those who did not.</li>
             <li><strong>Comparison of Standard Deviations:</strong> Determine if the variability (consistency) in exam scores is different between the two groups. A larger standard deviation suggests more diverse scores within that group.</li>
-            <li><strong>Comparison of Skewness/Kurtosis:</strong> Analyse if the shapes of the exam score distributions differ between the 'Yes' and 'No' groups (e.g., is one group's scores more skewed or more peaked?).</li>
+            <li><strong>Comparison of Skewness/Kurtosis:</strong> Analyze if the shapes of the exam score distributions differ between the 'Yes' and 'No' groups (e.g., is one group's scores more skewed or more peaked?).</li>
             <li><strong>Box Plots:</strong> Visually compare the median lines, the size of the boxes (IQR), and the presence or absence of outliers between the groups. This provides a quick visual summary of potential group differences.</li>
         </ul>
 
         <div class="reflection-question">
             <h4>Reflection Questions & Tasks:</h4>
             <ol>
-                <li>Based on the grouped descriptive statistics for final exam scores when split by used study support services, what is the mean final exam score for students who used support services (76.90) compared to those who did not (72.33)? What initial conclusion can you draw from this difference?</li>
+                <li>Based on the grouped descriptive statistics for final exam scores when split by <code>used_study_support_services</code>, what is the mean final exam score for students who used support services compared to those who did not? What initial conclusion can you draw from this difference?</li>
                 <li>Examine the standard deviations for both groups: 'Yes' (4.77) and 'No' (5.84). What does this difference imply about the consistency or variability of final exam scores within each group?</li>
                 <li>Look closely at the grouped histograms or box plots. Do the distributions of final exam scores appear to have similar shapes (e.g., symmetry, spread, presence of outliers) for both groups, or are there noticeable visual differences that stand out?</li>
-                <li><strong>Task:</strong> Conduct a similar analysis. Explore the numerical variable `quiz_score_post`, but this time, split it by the categorical variable `attended_peer_study_group`. Compare the descriptive statistics and plots for students who 'Yes' attended versus 'No' attended. What patterns do you observe regarding their post-quiz scores?</li>
+                <li><strong>Task:</strong> Conduct a similar analysis. Explore the numerical variable <code>quiz_score_post</code>, but this time, split it by the categorical variable <code>attended_peer_study_group</code>. What patterns do you observe regarding their post-quiz scores?</li>
             </ol>
         </div>
 
         <div class="solution-section">
             <h4>Suggested Solutions for Reflection Questions (Part 3):</h4>
+            <p>Based on the Stata output (which reports raw kurtosis) from the images you provided:</p>
             <ol>
-                <li>The mean final exam score for students who used study support services is 76.90, which is higher than the mean of 72.33 for students who did not use study support services. This suggests that, in this sample, students who utilised study support services tended to achieve higher final exam scores, on average.</li>
-                <li>The standard deviation for the 'Yes' group (4.77) is smaller than for the 'No' group (5.84). This implies that final exam scores among students who used study support services were generally **more consistent** (less spread out) compared to those who did not use study support services. The scores in the 'Yes' group were more clustered around their mean.</li>
-                <li>For final exam scores split by used study support services:
+                <li>The mean final exam score for students who used study support services is 76.90, which is higher than the mean of 72.33 for students who did not use support services. This suggests that, in this sample, students who utilized study support services tended to achieve higher final exam scores, on average.</li>
+                <li>Examine the standard deviations for both groups: 'Yes' (4.77) and 'No' (5.84). This implies that final exam scores among students who used study support services were generally <strong>more consistent</strong> (less spread out) compared to those who did not use study support services. The scores in the 'Yes' group were more clustered around their mean.</li>
+                <li>For final exam scores split by <code>used_study_support_services</code>:
                     <ul>
-                        <li><strong>'No' Group:</strong> N=48, Mean=72.33, Median=72.00, StdDev=5.84, Min=60, Max=89, Skewness=0.31, Kurtosis=0.31. Mode: [68, 69, 71, 78] (multimodal).</li>
-                        <li><strong>'Yes' Group:</strong> N=52, Mean=76.90, Median=76.00, StdDev=4.77, Min=68, Max=87, Skewness=0.20, Kurtosis=-0.56. Mode: [76].</li>
+                        <li>'No' Group: N=48, Mean=72.33, Median=72.00, StdDev=5.84, Min=60, Max=89, Skewness=0.30, Kurtosis=3.16.</li>
+                        <li>'Yes' Group: N=52, Mean=76.90, Median=76.00, StdDev=4.77, Min=68, Max=87, Skewness=0.20, Kurtosis=2.38.</li>
                     </ul>
-                    Visually, the box plots will show that the 'Yes' group's distribution is centred at a higher score and its box (IQR) is narrower, indicating less variability. Both distributions appear relatively symmetrical, but the 'Yes' group might appear slightly flatter (more platykurtic) in its histogram, while the 'No' group is slightly more peaked.</li>
-                <li><strong>Task Solution (for `quiz_score_post` split by `attended_peer_study_group`):</strong>
+                    Visually, the box plots will show that the 'Yes' group's distribution is centered at a higher score and its box (IQR) is narrower, indicating less variability. Both distributions appear relatively symmetrical, but the 'Yes' group shows a more pronounced platykurtic (flatter) shape with a kurtosis of 2.38 (less than 3), while the 'No' group's kurtosis of 3.16 is slightly leptokurtic (greater than 3).</li>
+                <li><strong>Task Solution (for <code>quiz_score_post</code> split by <code>attended_peer_study_group</code>):</strong>
                     <ul>
-                        <li><strong>Students who DID NOT attend peer study group ('No' group):</strong> You might find a Mean of post-quiz scores of approximately 68.5 (SD ~7.2).</li>
-                        <li><strong>Students who DID attend peer study group ('Yes' group):</strong> You might find a Mean of post-quiz scores of approximately 74.1 (SD ~6.5).</li>
+                        <li>Students who DID NOT attend peer study group ('No' group): N=47, Mean=71.32, Median=71, SD=8.63, Minimum=50, Maximum=88, Skewness=-0.30, Kurtosis=2.85.</li>
+                        <li>Students who DID attend peer study group ('Yes' group): N=53, Mean=70.75, Median=71, SD=10.62, Minimum=49, Maximum=95, Skewness=-0.14, Kurtosis=2.56.</li>
                     </ul>
-                    Based on these example numbers, students who attended peer study groups would tend to have a higher average post-quiz score and potentially slightly less variability in their scores compared to those who did not attend. This indicates a positive association between attending peer study groups and post-quiz performance in this sample.
+                    Based on these numbers, students who attended peer study groups ('Yes' group) had a slightly lower mean post-quiz score (70.75) compared to those who did not attend ('No' group, 71.32). The 'Yes' group also shows a larger standard deviation (10.62 vs 8.63), indicating more variability in their post-quiz scores. Both distributions appear slightly negatively skewed and platykurtic (kurtosis less than 3), with the 'Yes' group showing a slightly more platykurtic shape. This suggests that in this sample, attending peer study groups did not lead to higher average post-quiz scores and was associated with more varied performance.
                 </li>
             </ol>
         </div>
 
         <div class="write-up-template">
             <h4>Write-Up Template for Grouped Interval/Ratio Variable (Example)</h4>
-            <p>To compare final exam performance based on study support service usage, descriptive statistics for final exam scores were computed, split by study support service usage. Students who reported using study support services (N = 52) had a mean final exam score of 76.90 (SD = 4.77), a median of 76.00, and scores ranging from 68 to 87. In contrast, students who did not use study support services (N = 48) had a mean final exam score of 72.33 (SD = 5.84), a median of 72.00, and scores ranging from 60 to 89. This suggests that students utilising support services achieved, on average, higher and more consistent final exam scores. Further visual inspection of the grouped histograms and box plots provides additional insights into the distributions of scores for both groups. For instance, the 'Yes' group's distribution appears slightly narrower and centred at a higher score, with less variability than the 'No' group. Both distributions were relatively symmetrical, with the 'No' group having a skewness of 0.31 and kurtosis of 0.31, while the 'Yes' group had a skewness of 0.20 and kurtosis of -0.56.</p>
+            <p>To compare final exam performance based on study support service usage, descriptive statistics for final exam scores were computed, split by study support service usage. Students who reported using study support services (N = 52) had a mean final exam score of 76.90 (SD = 4.77), a median of 76.00, and scores ranging from 68 to 87. In contrast, students who did not use study support services (N = 48) had a mean final exam score of 72.33 (SD = 5.84), a median of 72.00, and scores ranging from 60 to 89. This suggests that students utilizing support services achieved, on average, higher and more consistent final exam scores. Further visual inspection of the grouped histograms and box plots provides additional insights into the distributions of scores for both groups. For instance, the 'Yes' group's distribution appears slightly narrower and centered at a higher score, with less variability than the 'No' group. Both distributions were relatively symmetrical, with the 'No' group having a skewness of 0.30 and kurtosis of 3.16, while the 'Yes' group had a skewness of 0.20 and kurtosis = 2.38.</p>
         </div>
 
         <hr>
 
-        <h2>Part 4: Using Stata Do-Files for Reproducible Analysis</h2>
-        <p>A "do-file" in Stata is a text file containing a sequence of Stata commands. Running a do-file is like typing each command into the Command window one by one, but it allows you to automate your analysis, ensure reproducibility, and keep a clear record of your steps. This is a best practice in quantitative research.</p>
-
-        <h3>4.1 Creating and Running a Do-File</h3>
-        <ol>
-            <li><strong>Open a new Do-file Editor:</strong> In Stata, go to <code>Window > Do-file Editor > New Do-file Editor</code>, or click the "New Do-file Editor" icon on the toolbar (looks like a page with a pencil).</li>
-            <li><strong>Copy Commands:</strong> Copy all the Stata commands provided below into the new Do-file Editor window.</li>
-            <li><strong>Save the Do-file:</strong> Go to <code>File > Save As...</code> in the Do-file Editor. Save your do-file with a `.do` extension (e.g., `descriptive_stats_analysis.do`) in the same directory as your `omni.dta` file, or note its path.</li>
-            <li><strong>Run the Do-file:</strong>
-                <ul>
-                    <li>**To run specific lines:** Select the lines of code you want to run in the Do-file Editor, then click the "Execute (do)" icon (looks like a play button or a folder with a green arrow).</li>
-                    <li>**To run the entire file:** Go to <code>Tools > Do</code> in the Do-file Editor menu, or type `do descriptive_stats_analysis.do` (replacing with your file name) in the main Stata Command window and press Enter.</li>
-                </ul>
-            </li>
-            <p>Running the do-file will execute all the commands, producing the same output and graphs as if you typed them manually, but much faster and more reliably.</p>
-        </ol>
-
-        <h3>4.2 Commands for Your Do-File</h3>
-        <p>Below are all the Stata commands used throughout this guide, organised for easy copying into your do-file. Remember that lines starting with `*` are comments and will not be executed by Stata.</p>
-        <pre><code>
-* Descriptive Statistics Analysis Do-file
-
-* Clear any existing data from memory and load your dataset
-use "omni.dta", clear
-
-* --- Part 1: Analysing Interval/Ratio Variables (final_exam_score) ---
-
-* Basic summary statistics (N, Mean, Std. Dev., Min, Max)
-summarize final_exam_score
-
-* Detailed summary statistics (includes Median, Skewness, Kurtosis, Percentiles)
-summarize final_exam_score, detail
-
-* Create a histogram for final_exam_score with a normal curve overlay
-histogram final_exam_score, normal
-
-* Create a box plot for final_exam_score
-graph box final_exam_score
-
-* --- Part 1: Analysing Interval/Ratio Variables (study_hours_per_week - Task) ---
-
-* Basic summary statistics for study_hours_per_week
-summarize study_hours_per_week
-
-* Detailed summary statistics for study_hours_per_week
-summarize study_hours_per_week, detail
-
-* Create a histogram for study_hours_per_week
-histogram study_hours_per_week, normal
-
-* Create a box plot for study_hours_per_week
-graph box study_hours_per_week
-
-
-* --- Part 2: Analysing Categorical Variables (preferred_study_method) ---
-
-* One-way frequency table for preferred_study_method
-tabulate preferred_study_method
-
-* Create a bar chart for preferred_study_method (counts)
-graph bar (count), over(preferred_study_method)
-
-* Create a pie chart for preferred_study_method
-graph pie, over(preferred_study_method)
-
-* --- Part 2: Analysing Categorical Variables (study_session_group - Task) ---
-
-* One-way frequency table for study_session_group
-tabulate study_session_group
-
-* Create a bar chart for study_session_group (counts)
-graph bar (count), over(study_session_group)
-
-* Create a pie chart for study_session_group
-graph pie, over(study_session_group)
-
-
-* --- Part 3: Descriptive Statistics by Groups (final_exam_score by used_study_support_services) ---
-
-* Grouped detailed summary statistics for final_exam_score by used_study_support_services
-bysort used_study_support_services: summarize final_exam_score, detail
-
-* Grouped box plots for final_exam_score by used_study_support_services
-graph box final_exam_score, over(used_study_support_services)
-
-* --- Part 3: Descriptive Statistics by Groups (quiz_score_post by attended_peer_study_group - Task) ---
-
-* Grouped detailed summary statistics for quiz_score_post by attended_peer_study_group
-bysort attended_peer_study_group: summarize quiz_score_post, detail
-
-* Grouped box plots for quiz_score_post by attended_peer_study_group
-graph box quiz_score_post, over(attended_peer_study_group)
-
-        </code></pre>
-
-        <hr>
-
         <h2>Conclusion</h2>
-        <p>You have now explored fundamental techniques for obtaining and interpreting descriptive statistics and their corresponding visualisations in Stata. By working with numerical and categorical variables, both independently and by splitting your data into groups, you've gained valuable skills for summarising and understanding the core characteristics of your datasets.</p>
-        <p>The ability to use do-files will significantly enhance your efficiency and reproducibility in Stata. Continue practising these methods with various variables in your own datasets. The more you engage with data exploration, the more proficient you will become in uncovering meaningful insights.</p>
+        <p>You have now explored fundamental techniques for obtaining and interpreting descriptive statistics and their corresponding visualizations in Stata. By working with interval/ratio and categorical variables, both independently and by splitting your data into groups, you've gained valuable skills for summarizing and understanding the core characteristics of your datasets.</p>
+        <p>Continue practicing these methods with various variables in your own datasets. The more you engage with data exploration, the more proficient you will become in uncovering meaningful insights.</p>
     </div>
 </body>
 </html>
