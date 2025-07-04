@@ -50,16 +50,16 @@
             margin-bottom: 20px;
         }
         code {
-            background-color: #eef;
+            background-color: #eef; /* Standardized style */
             padding: 2px 4px;
             border-radius: 4px;
             font-family: "Courier New", Courier, monospace;
             color: #c00;
         }
         pre {
-            background-color: #f4f4f4;
+            background-color: #eef; /* Standardized style */
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ddd; /* Standardized style */
             overflow-x: auto;
             border-radius: 5px;
             font-family: "Courier New", Courier, monospace;
@@ -80,6 +80,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+            flex-wrap: wrap; /* Added for responsiveness */
         }
         .top-nav span {
             color: white;
@@ -100,13 +101,27 @@
             background-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-1px);
         }
-        /* Ensure general text within container is dark, overriding any unintended inheritance */
-        .container p,
-        .container ul li,
-        .container ol li {
-            color: #222;
+        /* Specific style for Home link */
+        .top-nav .home-link {
+            background-color: #28a745; /* Green */
+        }
+        .top-nav .home-link:hover {
+            background-color: #218838; /* Darker green on hover */
         }
 
+        /* Specific style for Glossary link */
+        .top-nav .glossary-link {
+            background-color: #ffc107; /* Orange/Gold */
+            color: #333; /* Darker text for better contrast on light background */
+        }
+        .top-nav .glossary-link:hover {
+            background-color: #e0a800; /* Darker orange on hover */
+        }
+
+        /* Specific style for UEA LET link background - ONLY this one is black */
+        .top-nav .uea-let-link {
+            background-color: black;
+        }
         /* Reflection and Write-up boxes (kept for consistency even if not used in this specific guide) */
         .reflection-box {
             background-color: #f0f8ff;
@@ -145,8 +160,13 @@
 <body>
     <div class="top-nav">
         <span>Links to:</span>
-        <a href="../index.html">Home</a>
+        <a href="../index.html" class="home-link">Home</a>
+        <a href="../jamovi.html">jamovi Guides</a>
         <a href="../r.html">R Studio Guides</a>
+        <a href="../spss.html">SPSS Guides</a>
+        <a href="../stata.html">Stata Guides</a>
+        <a href="../glossary.html" class="glossary-link">Glossary</a>
+        <a href="https://my.uea.ac.uk/divisions/library-and-learning-enhancement/learning-enhancement" target="_blank" class="uea-let-link">UEA LET</a>
     </div>
 
     <div class="container">
@@ -168,9 +188,10 @@
         <p>You will see a command generated in your Console window (e.g., <code>setwd("~/Your/File/Path")</code>). This confirms your working directory is set.</p>
 
         <h4>Method 2: Using Code</h4>
-        <p>You can also set your working directory directly with code. Open a new R Script (<code>File > New File > R Script</code>) and type the following command. Remember to replace <code>"Your/File/Path"</code> with the actual path to your folder. Use forward slashes (<code>/</code>) even on Windows.</p>
-        <pre><code>setwd("C:/Users/YourUsername/Documents/MyResearch") # Example path for Windows
-# Or: setwd("/Users/YourUsername/Documents/MyResearch") # Example path for Mac/Linux
+        <p>You can also set your working directory directly with code. Open a new R Script (<code>File > New File > R Script</code>) and type the following command. Remember to replace <code>"Your/File/Path"</code> with the actual path to your folder.</p>
+        <p>The first path is an example for Windows, and the second is an example for Mac/Linux.</p>
+        <pre><code>setwd("C:/Users/YourUsername/Documents/MyResearch")
+setwd("/Users/YourUsername/Documents/MyResearch")
 </code></pre>
         <p>To confirm, run <code>getwd()</code> in your console or script.</p>
 
@@ -187,45 +208,61 @@
                 <ul>
                     <li>Ensure "Heading" is set to "Yes" (as your file has column names).</li>
                     <li>Ensure "Separator" is set to "Comma".</li>
-                    <li>You can change the "Name" (e.g., to <code>my_data</code>) if you prefer.</li>
+                    <li>You can change the "Name" (e.g., to `omni_data`) if you prefer.</li>
                 </ul>
             </li>
             <li>Click <strong><code>Import</code></strong>.</li>
         </ol>
-        <p>Your data will now appear as a new object in your Environment pane, usually named <code>omni</code> (or whatever you specified), and a new tab will open showing a preview of your data.</p>
+        <p>Your data will now appear as a new object in your Environment pane, and a new tab will open showing a preview of your data. In these guides, we will consistently refer to your loaded dataset as `omni_data`.</p>
 
         <h4>Method 2: Using Code (Recommended for Reproducibility)</h4>
         <p>Open an R Script and type the following command to load your data into an object (we'll name it <code>omni_data</code>).</p>
-        <pre><code># Load the 'readr' package (install if you haven't already: install.packages("readr"))
+        <pre><code>install.packages("readr")
 library(readr)
-
-# Read the CSV file into a data frame
 omni_data &lt;- read_csv("omni.csv")
-
-# View the first few rows of the data
 head(omni_data)
-
-# View the entire dataset in a new tab (useful for larger datasets)
 View(omni_data)
-
-# View the structure of the data (variable types, etc.)
 str(omni_data)
 </code></pre>
         <p><strong>Explanation of the R Code:</strong></p>
         <ul>
-            <li><code>library(readr)</code>: This loads the 'readr' package, which provides the <code>read_csv()</code> function (a good, fast way to read CSVs). If you don't have this package installed, run <code>install.packages("readr")</code> once.</li>
-            <li><code>omni_data &lt;- read_csv("omni.csv")</code>:
-                <ul>
-                    <li><code>&lt;-</code>: This is the "assignment operator" in R. It means "assign the result of the right side to the object named on the left."</li>
-                    <li><code>read_csv("omni.csv")</code>: This function reads your CSV file. Because you set your working directory, R knows where to find "omni.csv".</li>
-                    <li><code>omni_data</code>: This is the name we're giving to our loaded dataset in R. You can choose any valid name.</li>
-                </ul>
-            </li>
+            <li><code>install.packages("readr")</code>: This command installs the 'readr' package from CRAN (the Comprehensive R Archive Network). You only need to run this once on your system.</li>
+            <li><code>library(readr)</code>: This loads the 'readr' package, which provides the <code>read_csv()</code> function (a good, fast way to read CSVs).</li>
+            <li><code>omni_data &lt;- read_csv("omni.csv")</code>: This assigns the data read from "omni.csv" to a new object named `omni_data`. The `&lt;-` is the assignment operator.</li>
             <li><code>head(omni_data)</code>: This function displays the first few rows of your loaded data, allowing you to quickly check if it loaded correctly.</li>
             <li><code>View(omni_data)</code>: This function opens a new tab in RStudio (similar to opening a spreadsheet) that displays the entire `omni_data` dataset. This is very useful for visually inspecting your data.</li>
-            <li><code>str(omni_data)</code>: This function displays the structure of your data, including variable names, types (numeric, character), and a snippet of values. Essential for checking data types.</li>
+            <li><code>str(omni_data)</code>: This function displays the structure of your data, including variable names, types (numeric, character), and a snippet of values. This is essential for checking data types.</li>
         </ul>
         <p>After running this code, your data will be loaded into the <code>omni_data</code> object in your R environment, ready for analysis.</p>
+
+        <hr>
+
+        <h3>Inspecting and Changing Variable Types in R</h3>
+        <p>After loading your data, it's crucial to verify that R has correctly identified the data type and measurement level for each of your variables. Incorrect variable types can lead to errors in your analysis or limit the options available to you. In R, categorical variables are typically stored as 'factors'.</p>
+
+        <h4>Common Functions for Data Inspection:</h4>
+        <ul>
+            <li><strong><code>View(your_data_frame)</code>:</strong>
+                <p>This command opens a spreadsheet-like data viewer in a new tab in RStudio, allowing you to visually inspect your entire dataset. It's great for a quick overview of your data's contents.</p>
+                <pre><code>View(omni_data)</code></pre>
+            </li>
+            <li><strong><code>head(your_data_frame)</code>:</strong>
+                <p>This function displays the first few rows (default is 6) of your data frame. It's useful for a quick check of the data's structure and content without opening the full viewer.</p>
+                <pre><code>head(omni_data)</code></pre>
+            </li>
+            <li><strong><code>str(your_data_frame)</code>:</strong>
+                <p>The `str()` (structure) function provides a compact summary of the internal structure of your R object, including the data type of each variable (e.g., `num` for numeric, `chr` for character, `Factor` for categorical). This is essential for confirming that R has interpreted your variables as expected.</p>
+                <pre><code>str(omni_data)</code></pre>
+            </li>
+        </ul>
+
+        <h4>Converting Variables to Factors (Categorical Data):</h4>
+        <p>In R, categorical variables (like `preferred_study_method` or `study_session_group`) should often be explicitly converted to 'factors'. Factors are R's way of storing categorical data, which is crucial for many statistical analyses and plotting functions to work correctly. If R imports a categorical variable as `chr` (character) or `num` (numeric) when it should be categorical, you'll need to convert it.</p>
+        <p>For example, if `preferred_study_method` was imported as a character variable, you would convert it to a factor like this:</p>
+        <pre><code>omni_data$preferred_study_method &lt;- as.factor(omni_data$preferred_study_method)
+</code></pre>
+        <p>This command converts the `preferred_study_method` column in `omni_data` to a factor. The `$` operator is used to access a specific column within a data frame.</p>
+        <p>It's good practice to run `str(omni_data)` again after converting variables to factors to confirm the changes.</p>
 
     </div>
 </body>

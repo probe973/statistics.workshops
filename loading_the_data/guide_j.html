@@ -80,6 +80,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+            flex-wrap: wrap; /* Added for responsiveness */
         }
         .top-nav span {
             color: white;
@@ -99,6 +100,27 @@
         .top-nav a:hover {
             background-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-1px);
+        }
+        /* Specific style for Home link */
+        .top-nav .home-link {
+            background-color: #28a745; /* Green */
+        }
+        .top-nav .home-link:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Specific style for Glossary link */
+        .top-nav .glossary-link {
+            background-color: #ffc107; /* Orange/Gold */
+            color: #333; /* Darker text for better contrast on light background */
+        }
+        .top-nav .glossary-link:hover {
+            background-color: #e0a800; /* Darker orange on hover */
+        }
+
+        /* Specific style for UEA LET link background - ONLY this one is black */
+        .top-nav .uea-let-link {
+            background-color: black;
         }
         /* Reflection and Write-up boxes (kept for consistency even if not used in this specific guide) */
         .reflection-box {
@@ -138,8 +160,13 @@
 <body>
     <div class="top-nav">
         <span>Links to:</span>
-        <a href="../index.html">Home</a>
+        <a href="../index.html" class="home-link">Home</a>
         <a href="../jamovi.html">jamovi Guides</a>
+        <a href="../r.html">R Studio Guides</a>
+        <a href="../spss.html">SPSS Guides</a>
+        <a href="../stata.html">Stata Guides</a>
+        <a href="../glossary.html" class="glossary-link">Glossary</a>
+        <a href="https://my.uea.ac.uk/divisions/library-and-learning-enhancement/learning-enhancement" target="_blank" class="uea-let-link">UEA LET</a>
     </div>
 
     <div class="container">
