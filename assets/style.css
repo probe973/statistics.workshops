@@ -1,7 +1,9 @@
 /* --- General Body and Container Styles --- */
 html {
-    scroll-behavior: smooth; /* Optional: for smooth scrolling effect */
-    /* Removed scroll-padding-top as it's for sticky, not fixed */
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+    /* This ensures that when you click a table of contents link,
+       the target heading isn't hidden behind the sticky navbar. */
+    scroll-padding-top: 70px; /* Adjust if your top-nav height changes */
 }
 body {
     font-family: 'Inter', sans-serif;
@@ -10,14 +12,12 @@ body {
     color: #222;
     background-color: #f8f8f8;
     line-height: 1.6;
-    /* Add padding-top to body to prevent content from going under fixed navbar */
-    padding-top: 70px; /* Adjust this value to match the height of your top-nav */
+    /* Removed padding-top from body as sticky navbar handles its own space */
 }
 .container {
     padding: 25px;
     max-width: 960px;
-    /* Changed margin-top to 0 as padding-top on body now handles spacing */
-    margin: 0 auto; /* No top margin needed here, handled by body padding */
+    margin: 30px auto; /* Reverted to original 30px top margin */
     background-color: white;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -30,7 +30,7 @@ h1 {
     padding-bottom: 10px;
     margin-bottom: 20px;
     font-size: 2.2em;
-    text-align: center;
+    /* Removed text-align: center to match original guide_j.html */
 }
 h2 {
     color: #004085;
@@ -44,15 +44,20 @@ h3 {
     margin-top: 25px;
     font-size: 1.2em;
     border-bottom: 1px solid #eee;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
+    /* Removed padding-bottom and margin-bottom to match original guide_j.html */
 }
-h4 { /* Used for "Example Calculation for..." */
+h4 {
     color: #0056b3;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-    font-weight: 600;
+    font-size: 1em; /* Reverted to 1em from 1.1em */
+    margin-top: 25px; /* Reverted to 25px from 20px */
+    /* Removed font-weight: 600 to match original guide_j.html */
+}
+
+/* --- Subtitle Style (from guide_j.html) --- */
+.subtitle {
+    color: #444;
+    font-size: 1.2em;
+    margin-bottom: 25px;
 }
 
 /* --- Code and Pre Styles --- */
@@ -68,6 +73,8 @@ pre {
     padding: 10px;
     border-radius: 5px;
     overflow-x: auto;
+    white-space: pre-wrap; /* Added back for proper wrapping */
+    word-wrap: break-word; /* Added back for proper wrapping */
     font-family: "Courier New", Courier, monospace;
     color: #333;
     border: 1px solid #ddd;
@@ -93,6 +100,42 @@ th {
     font-weight: bold;
 }
 
+/* --- List Styles (from guide_j.html) --- */
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+ol {
+    list-style-type: decimal;
+    margin-left: 20px;
+}
+
+/* --- Specific Content Box Styles (from guide_j.html) --- */
+.reflection-question {
+    background-color: #f0f8ff;
+    border-left: 5px solid #add8e6;
+    padding: 10px 15px;
+    margin: 15px 0;
+}
+.write-up-template {
+    background-color: #e9f5e9;
+    border-left: 5px solid #4CAF50;
+    padding: 15px;
+    margin: 20px 0;
+}
+.write-up-template p {
+    margin-bottom: 10px;
+}
+.solution-section {
+    background-color: #f0fff0;
+    border-left: 5px solid #6b8e23;
+    padding: 10px 15px;
+    margin: 15px 0;
+}
+.solution-section h4 {
+    color: #6b8e23;
+}
+
 /* --- Top Navigation Styles --- */
 .top-nav {
     display: flex;
@@ -104,13 +147,11 @@ th {
     border-bottom-right-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     align-items: center;
-    /* Changed to fixed positioning */
-    position: fixed; /* Ensures it stays in place relative to the viewport */
-    top: 0;          /* Aligns to the top of the viewport */
-    left: 0;         /* Aligns to the left of the viewport */
-    width: 100%;     /* Spans the full width of the viewport */
-    z-index: 1000;   /* Ensures it stays on top of other content */
-    flex-wrap: wrap;
+    position: sticky; /* Reverted to sticky */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    flex-wrap: wrap; /* Allow items to wrap */
 }
 .top-nav span {
     color: white;
@@ -125,7 +166,7 @@ th {
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
     white-space: nowrap;
-    background-color: rgba(255, 255, 255, 0.2); /* Default background for guide links */
+    background-color: rgba(255, 255, 255, 0.2);
 }
 .top-nav a:hover {
     background-color: rgba(255, 255, 255, 0.4);
@@ -154,7 +195,7 @@ th {
     background-color: black;
 }
 
-/* --- Button Group Styles --- */
+/* --- Button Group Styles (from index.html, kept for consistency) --- */
 .button-group {
     display: flex;
     flex-wrap: nowrap;
@@ -190,7 +231,7 @@ hr {
     margin: 40px 0;
 }
 
-/* --- General Paragraph Style --- */
+/* --- General Paragraph Style (from index.html, kept for consistency) --- */
 p {
     margin-top: 20px;
     text-align: left;
@@ -199,7 +240,7 @@ p {
     margin-bottom: 20px;
 }
 
-/* --- Specific Styles for Glossary Content --- */
+/* --- Specific Styles for Glossary Content (kept for consistency) --- */
 .glossary-item {
     margin-bottom: 20px;
     padding-bottom: 20px;
@@ -220,19 +261,18 @@ p {
     margin-left: 20px;
     color: #444;
 }
-/* Example text styling - no box, just clear text */
 .example-line {
     margin-left: 40px;
     margin-bottom: 5px;
     line-height: 1.5;
     color: #333;
 }
-.definition ul {
+.definition ul { /* This was already in my style.css, but user's snippet also had it, so ensuring it's here */
     margin-left: 20px;
     padding-left: 0;
     list-style-type: disc;
 }
-.definition ul li {
+.definition ul li { /* This was already in my style.css, but user's snippet also had it, so ensuring it's here */
     margin-bottom: 5px;
 }
 .chart-image {
@@ -244,7 +284,7 @@ p {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Styles for horizontal histogram images */
+/* Styles for horizontal histogram images (from glossary.html, kept for consistency) */
 .histogram-row {
     display: flex;
     flex-wrap: wrap;
@@ -269,7 +309,7 @@ p {
     font-weight: 500;
 }
 
-/* New styles for Table of Contents */
+/* New styles for Table of Contents (from glossary.html, kept for consistency) */
 .table-of-contents {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -287,7 +327,7 @@ p {
     font-size: 1.4em;
 }
 .table-of-contents ul {
-    list-style: none;
+    list-style: none; /* Override default list style */
     padding: 0;
     margin: 0;
 }
@@ -303,29 +343,4 @@ p {
 .table-of-contents ul li a:hover {
     color: #004085;
     text-decoration: underline;
-}
-
-.reflection-question {
-            background-color: #f0f8ff;
-            border-left: 5px solid #add8e6;
-            padding: 10px 15px;
-            margin: 15px 0;
-}
-.write-up-template {
-            background-color: #e9f5e9;
-            border-left: 5px solid #4CAF50;
-            padding: 15px;
-            margin: 20px 0;
-}
-.write-up-template p {
-            margin-bottom: 10px;
-}
-.solution-section {
-            background-color: #f0fff0;
-            border-left: 5px solid #6b8e23;
-            padding: 10px 15px;
-            margin: 15px 0;
-}
-.solution-section h4 {
-            color: #6b8e23;
 }
