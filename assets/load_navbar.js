@@ -1,17 +1,22 @@
 // load_navbar.js
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('navbar.html') // Fetch the content of navbar.html
+    // IMPORTANT: Replace '[YOUR_REPO_NAME]' with the actual name of your GitHub repository
+    // (e.g., 'my_project_folder' if your repo is named that).
+    // If your site is a User/Organization page (e.g., 'your-username.github.io' directly),
+    // then remove '/[YOUR_REPO_NAME]' entirely, leaving just '/assets/navbar.html'.
+    const navbarPath = '/statistics.workshops/assets/navbar.html'; // Absolute path from site root
+
+    fetch(navbarPath)
         .then(response => {
             if (!response.ok) {
-                // If the response was not OK (e.g., 404 Not Found), throw an error
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.text(); // Parse the response as plain text
+            return response.text();
         })
         .then(html => {
             const navbarPlaceholder = document.getElementById('navbar-placeholder');
             if (navbarPlaceholder) {
-                navbarPlaceholder.innerHTML = html; // Insert the fetched HTML into the placeholder
+                navbarPlaceholder.innerHTML = html;
             } else {
                 console.error('Navbar placeholder not found. Ensure an element with id="navbar-placeholder" exists in your HTML.');
             }
